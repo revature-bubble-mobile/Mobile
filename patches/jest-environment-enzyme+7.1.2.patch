@@ -1,0 +1,13 @@
+diff --git a/node_modules/jest-environment-enzyme/lib/setup.js b/node_modules/jest-environment-enzyme/lib/setup.js
+index b4811bb..565f0f0 100644
+--- a/node_modules/jest-environment-enzyme/lib/setup.js
++++ b/node_modules/jest-environment-enzyme/lib/setup.js
+@@ -29,7 +29,7 @@ const exposeGlobals = () => {
+ 
+     case 'react16':
+     default:
+-      dep = 'enzyme-adapter-react-16';
++      dep = '@wojtekmaj/enzyme-adapter-react-17';
+   }
+ 
+   let Adapter;
