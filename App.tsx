@@ -1,25 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import 'react-native-gesture-handler';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'react-native-elements';
+import LoginView from './components/login/login-view';
+import HomeView from './components/home/home-view';
+import ProfileView from './components/profile/profile-view';
 
 const Drawer = createDrawerNavigator();
 
+const verification = false;
+
 export default function App() {
-  return (
+  return (<>
+    {verification ? <LoginView /> :
     <SafeAreaProvider>
       <ThemeProvider>
         <Drawer.Navigator>
-          <View style={styles.container}>
-            <Text>Open up App.tsx to start working on your app!</Text>
-            <StatusBar style="auto" />
-          </View>
+          <Drawer.Screen name="Home" component={HomeView}/>
+          <Drawer.Screen name="Profile" component={ProfileView}/>
+          <StatusBar style="auto" />
         </Drawer.Navigator>
       </ThemeProvider>
     </SafeAreaProvider>
-  );
+    }
+    </>);
 }
 
 const styles = StyleSheet.create({
