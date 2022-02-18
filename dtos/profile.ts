@@ -5,6 +5,8 @@ export default interface Profile {
     passkey: string;
     email: string;
     username: string;
+    following: string[];
+    followers: string[];
     imgurl?: string;
     verification?: boolean;
 }
