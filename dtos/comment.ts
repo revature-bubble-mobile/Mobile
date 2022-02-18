@@ -1,8 +1,8 @@
 export default interface Comment {
-    cid: number;
-    pid: number;
-    psid: number;
+    cid: string;
+    pid: string;
+    psid: string;
     message: string;
     dateCreated: Date;
-    parentComment?: number;
+    parentcid?: number;
 }

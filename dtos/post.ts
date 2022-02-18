@@ -1,7 +1,8 @@
 export default interface Post {
-    psid: number;
-    pid: number;
+    psid: string;
+    pid: string;
     body: string;
     datePosted: Date;
+    cids: string[];
     imgURL?: string;
 }
