@@ -1,5 +1,5 @@
 export default interface Profile {
-    pid: number;
+    pid: string;
     firstName: string;
     lastName:string;
     passkey: string;
