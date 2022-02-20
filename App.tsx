@@ -12,11 +12,11 @@ import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import { store, actions } from './store';
 import { Provider, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import Profile from './dtos/profile';
 
 const Drawer = createDrawerNavigator();
 
-const verification = false;
-
+let verification = false;
 
 export default function App() {
   const dispatch = useDispatch();
@@ -24,9 +24,10 @@ export default function App() {
     (async () => {
       const user = await AsyncStorageLib.getItem("user");
       if (user) {
-        const profile = JSON.parse(user);
+        const profile:Profile = JSON.parse(user);
         const setUser = actions.setUser(profile);
         dispatch(setUser);
+        verification = profile.verification ?? false;
       }
     })();
   }, [dispatch]);
