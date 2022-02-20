@@ -1,8 +1,10 @@
 export default interface Post {
-    psid: string;
-    pid: string;
+    /**Unique ID of the Post */
+    psid: number;
+    /**ID number of a profile */
+    pid: number;
+    /**Text entered when creating the Post */
     body: string;
     datePosted: Date;
-    cids: string[];
     imgURL?: string;
 }
