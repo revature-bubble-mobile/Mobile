@@ -1,38 +1,45 @@
-import { useState } from "react";
-import { Text, TextInput, Pressable, Alert, View, LogBox, Image, Modal, Linking } from "react-native";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Text, TextInput, Pressable, View, Image, Linking, ScrollView } from "react-native";
+import Profile from "../../dtos/profile";
 import styles from "./registration-style";
+import SubmitButton from "./submit-button";
 
-export interface User{
-    email: String
-    firstName: String
-    following: String[]
-    groups: String[]
-    imgurl: String
-    incomplete: Boolean
-    lastName: String
-    passkey: String
-    username: String
-    verification: Boolean
-}
+
 
 export default function RegistrationForm(){
-    
-
-
-    const [user, setUser] = useState({
-        email: "",
+    const [profileToRegister, setProfileToRegister] = useState({
+        pid: "",
         firstName: "",
-        following: [],
-        groups: [],
-        imgurl: "",
-        incomplete: true,
         lastName: "",
         passkey: "",
+        email: "",
         username: "",
-        verification: false})
+        following: [],
+        followers: [],
+        imgurl: "",
+        verification: false                
+    })
+
+//sends a POST request containing the new user to be processed
+function Register(profileFragment:Profile){
+    const respone = axios.get(`https://bubble-app-82a5a-default-rtdb.firebaseio.com/profile/${profileFragment.pid}.json`)
+        .then((response) => {
+            
+        })
+        .catch((error) => {
+            console.error("User submission rejected by backend")
+        })
+    }
+
+    useEffect(()=>{
+        Register(profileToRegister)
+
+    }, [profileToRegister])
+
 
     return(<>
-    <View style={styles.regPageWholeView}>
+    <ScrollView style={styles.regPageWholeView}>
 
         <View>
             <Image style={styles.regPageLogo} source={{uri:"http://ec2-44-197-172-46.compute-1.amazonaws.com:3000/assets/images/bubble-logo.png"}}/>
@@ -51,47 +58,47 @@ export default function RegistrationForm(){
         <View style={styles.regInputView}>
             <View>
                 <Text style={styles.regPageBasicFont}>First Name:<Text style={styles.regPageAsterisk}>*</Text></Text>
-                <TextInput style={styles.regPageNameInput} placeholder="Enter First Name" onChangeText={t => {setUser({...user, firstName:t})}}/>
+                <TextInput style={styles.regPageNameInput} placeholder="Enter First Name" onChangeText={t => {setProfileToRegister({...profileToRegister, firstName:t})}}/>
             </View>
         </View>
 
         <View style={styles.regInputView}>
             <View>
                 <Text style={styles.regPageBasicFont}>Last Name:<Text style={styles.regPageAsterisk}>*</Text></Text>
-                <TextInput style={styles.regPageNameInput} placeholder="Enter Last Name" onChangeText={t => {setUser({...user, lastName:t})}}/>
+                <TextInput style={styles.regPageNameInput} placeholder="Enter Last Name" onChangeText={t => {setProfileToRegister({...profileToRegister, lastName:t})}}/>
             </View>
         </View>
 
         <View style={styles.regInputView}>
             <View>
                 <Text style={styles.regPageBasicFont}>Username:<Text style={styles.regPageAsterisk}>*</Text></Text> 
-                <TextInput style={styles.regPageUsernameInput} placeholder="Enter Username" onChangeText={t => {setUser({...user, username:t})}}/>
+                <TextInput style={styles.regPageUsernameInput} placeholder="Enter Username" onChangeText={t => {setProfileToRegister({...profileToRegister, username:t})}}/>
             </View>
         </View>
         
         <View style={styles.regInputView}>
             <View>
                 <Text style={styles.regPageBasicFont}>Email:<Text style={styles.regPageAsterisk}>*</Text></Text> 
-                <TextInput style={styles.regPageEmailInput} placeholder="Enter Email" onChangeText={t => {setUser({...user, email:t})}}/>
+                <TextInput style={styles.regPageEmailInput} placeholder="Enter Email" onChangeText={t => {setProfileToRegister({...profileToRegister, email:t})}}/>
             </View>
         </View>
 
         <View style={styles.regInputView}>
             <View>
                 <Text style={styles.regPageBasicFont}>Password:<Text style={styles.regPageAsterisk}>*</Text></Text>
-                <TextInput style={styles.regPagePasswordInput} placeholder="Enter Password" onChangeText={t => {setUser({...user, passkey:t})}}/>
+                <TextInput style={styles.regPagePasswordInput} placeholder="Enter Password" onChangeText={t => {setProfileToRegister({...profileToRegister, passkey:t})}}/>
             </View>
         </View>
 
         <View style={styles.regInputView}>
             <View>
                 <Text style={styles.regPageBasicFont}>Confirm Password:<Text style={styles.regPageAsterisk}>*</Text></Text>
-                <TextInput style={styles.regPagePasswordInput} placeholder="Repeat Password" onChangeText={t => {if(t != user.passkey) {setUser({...user, passkey:""}); alert("Passwords did not match.");} }}/>
+                <TextInput style={styles.regPagePasswordInput} placeholder="Repeat Password" onChangeText={t => {if(t != profileToRegister.passkey) {setProfileToRegister({...profileToRegister, passkey:""});} }}/>
             </View>
         </View>
 
         <View style={styles.regPageButtonUnderline}>
-            <SubmitButton user={user} updateUser={setUser}/>
+            <SubmitButton profile={profileToRegister} setProfile={setProfileToRegister}/>
         </View>
 
         <View>
@@ -102,28 +109,6 @@ export default function RegistrationForm(){
             <Text style={styles.regPageInstruction}>Already have an account? <Text style={styles.regPageLinkText} onPress={() => Linking.openURL('http://google.com')}>Sign in</Text></Text>
         </View>
 
-    </View>
+    </ScrollView>
     </>)
-}
-
-export function SubmitButton(props:{user:User, updateUser:Function}){
-    return(<Pressable 
-        onPress={() => {props.updateUser({
-                email: props.user.email,
-                firstName: props.user.firstName,
-                following: [],
-                groups: [],
-                imgurl: "",
-                incomplete: true,
-                lastName: props.user.lastName,
-                passkey: props.user.passkey,
-                username: props.user.username,
-                verification: false
-            });
-            console.log(props.user);
-        }}
-            style={{backgroundColor:'#474C55'}}
-            >
-                {true && <Text>Register</Text>}
-            </Pressable>)
 }

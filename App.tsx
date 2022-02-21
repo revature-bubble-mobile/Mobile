@@ -8,6 +8,7 @@ import LoginView from './components/login/login-view';
 import HomeView from './components/home/home-view';
 import ProfileView from './components/profile/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
+import RegistrationForm from './components/registration/registration-form';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,8 +21,9 @@ export default function App() {
       <ThemeProvider>
         <NavigationContainer>
           <Drawer.Navigator>
-            <Drawer.Screen name="Home" component={HomeView}/>
+            <Drawer.Screen name="Home" component={RegistrationForm}/>
             <Drawer.Screen name="Profile" component={ProfileView}/>
+            <Drawer.Screen name="Registration" component={HomeView}/>
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />

@@ -4,32 +4,32 @@ const styles = StyleSheet.create({
 
     regPageWholeView:{
         alignContent: 'center',
-        alignItems: 'center',
+        alignSelf: 'center',
         maxWidth: "100%",
         maxHeight: "100%",
     },
 
     regPageLogo:{
-        height: 144,
-        width: 320,
+        height: 103,
+        width: 230,
         alignSelf: 'center',
-        padding: 15,
     },
 
     regPageInstruction:{
-        fontSize: 18,
-        padding: 10,
+        fontSize: 13,
+        padding: 5,
         textAlign: 'center',
     },
 
     regInputView:{
         flexDirection: 'row',
         alignContent: 'space-between',
-        padding: 5,
+        padding: 1,
+        paddingLeft: 25
     },
 
     regPageAsterisk:{
-        fontSize: 20,
+        fontSize: 16,
         color: '#f26925',
     },
 
@@ -40,20 +40,19 @@ const styles = StyleSheet.create({
     },
 
     regPageMissingFieldAlert:{
-        fontSize: 18,
+        fontSize: 16,
         color: '#721c24',
         backgroundColor: '#f8d7da',
         height: 40,
         width: 300,
-        alignSelf: 'center',
-        padding: 10,
-        paddingLeft: 20,
+        textAlign: 'center',
+        padding: 5,
+        paddingLeft: 0,
     },
 
     regPageUnderline:{
         borderBottomWidth: 1,
         borderColor: '#B9B9BA',
-        padding: 10,
         marginBottom: 10,
         width: 300,
     },
@@ -96,7 +95,16 @@ const styles = StyleSheet.create({
     },
 
     regPageSubmitButton:{
-        color: '#474C55',
+        color: '#FFFFFF',
+        height: 30,
+        width: 75,
+        alignSelf:'center',
+        padding:3,
+        paddingLeft: 12,
+        borderWidth: 2,
+        borderColor: '#252525',
+        borderRadius:8,
+        backgroundColor: '#474C55'
     },
 
     regPageButtonUnderline:{
@@ -110,8 +118,6 @@ const styles = StyleSheet.create({
     regPageLinkText:{
         color: '#F26925',
     },
-
-
 })
 
 export default styles
