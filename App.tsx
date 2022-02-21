@@ -20,8 +20,8 @@ export default function App() {
         <ThemeProvider>
           <NavigationContainer>
             <Drawer.Navigator>
-              <Drawer.Screen name="Home" component={HomeView} />
-              <Drawer.Screen name="Profile" component={ProfileView} />
+              {/* <Drawer.Screen name="Home" component={HomeView} />
+              <Drawer.Screen name="Profile" component={ProfileView} /> */}
               <Drawer.Screen name="CreatePost" component={CreatePost} />
             </Drawer.Navigator>
           </NavigationContainer>
