@@ -1,6 +1,6 @@
 export default interface Profile {
-    /**Profile ID number */
-    pid: number;
+    /**Profile ID string */
+    pid: string;
     firstName: string;
     lastName: string;
     /**Hashed value obtained from an existing JWT */
