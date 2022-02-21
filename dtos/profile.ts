@@ -9,4 +9,6 @@ export default interface Profile {
     username: string;
     imgurl?: string;
     verification?: boolean;
+    followers: string[];
+    following: string[];
 }
