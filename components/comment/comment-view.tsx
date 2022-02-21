@@ -6,6 +6,7 @@ import CommentItem from "./comment-item";
 import Comment from "../../dtos/comment";
 import { Pressable } from "react-native";
 import { Text } from "react-native-elements";
+import { ListItem } from "react-native-elements/dist/list/ListItem";
 
 export default function CommentView(props: {post: Post, updatePost: Function}){
 
@@ -30,8 +31,9 @@ export default function CommentView(props: {post: Post, updatePost: Function}){
        {comments[0] &&
             <FlatList
                 data={comments}
-                renderItem={({item})=><CommentItem {...item}/>}
-                keyExtractor={item => item.cid}/>
+                renderItem={({item})=><CommentItem {...item} replies={comments.filter((c) => c.parentComment === item.cid)}/>}
+                keyExtractor={item => item.cid}
+            />
        }
        <TextInput placeholder={"Add comment..."} onChangeText={t => setNewComment(t)}/>
        <Pressable onPress={postComment}><Text>Post</Text></Pressable>
