@@ -8,12 +8,26 @@ import LoginView from './components/login/login-view';
 import HomeView from './components/home/home-view';
 import ProfileView from './components/profile/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
-import { store } from './store';
+import { actions, store } from './store';
 import { Provider } from 'react-redux';
+import { useEffect } from 'react';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
+import Profile from './dtos/profile';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+
+  useEffect(() => {
+    (async () => {
+      const storedProfile = await AsyncStorageLib.getItem("profile");
+      if (storedProfile) {
+        const profile:Profile = JSON.parse(storedProfile);
+        const setUser = actions.setUser(profile);
+        store.dispatch(setUser);
+      }
+    })();
+  }, [store]);
 
 return (<Provider store={store}>
   <ThemeProvider>
