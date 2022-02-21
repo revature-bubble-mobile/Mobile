@@ -50,7 +50,7 @@ export function GetTextInput(props: { setInputTextClicked: Function, inputTextCl
                 let numLinesY = Math.ceil(yval / 10);
 
                 const numLine = noLines + numLinesY;
-                if (noLines + numLinesY > 1)
+                if (numLine > 1)
                     setNoLines(numLine);
                 else
                     setNoLines(1);
