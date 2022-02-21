@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { actions, store, User } from "../store"
 
 describe("Testing redux store", () => {
