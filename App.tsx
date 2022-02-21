@@ -22,7 +22,6 @@ export default function App() {
             <Drawer.Navigator>
               <Drawer.Screen name="Home" component={HomeView} />
               <Drawer.Screen name="Profile" component={ProfileView} />
-              <Drawer.Screen name="CreatePost" component={CreatePost} />
             </Drawer.Navigator>
           </NavigationContainer>
           <StatusBar style="auto" />
