@@ -22,9 +22,9 @@ export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      const user = await AsyncStorageLib.getItem("user");
-      if (user) {
-        const profile:Profile = JSON.parse(user);
+      const storedProfile = await AsyncStorageLib.getItem("profile");
+      if (storedProfile) {
+        const profile:Profile = JSON.parse(storedProfile);
         const setUser = actions.setUser(profile);
         dispatch(setUser);
         verification = profile.verification ?? false;

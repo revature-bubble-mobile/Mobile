@@ -1,4 +1,4 @@
-import { actions, store, User } from "../store"
+import { actions, store, User } from "./store"
 
 describe("Testing redux store", () => {
 

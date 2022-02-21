@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction, configureStore } from "@reduxjs/toolkit";
 import Profile from "./dtos/profile";
 
+
 export interface User {
+    /**User profile information. See {@link Profile} */
     profile: Profile
 }
+
 
 const initialState: User = {
     profile: {
