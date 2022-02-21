@@ -6,8 +6,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'react-native-elements';
 import LoginView from './components/login/login-view';
 import HomeView from './components/home/home-view';
-import ProfileView from './components/profile/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
+import ViewProfilePage from './components/profile/views/ViewProfilePage';
 
 const Drawer = createDrawerNavigator();
 
@@ -21,7 +21,7 @@ export default function App() {
         <NavigationContainer>
           <Drawer.Navigator>
             <Drawer.Screen name="Home" component={HomeView}/>
-            <Drawer.Screen name="Profile" component={ProfileView}/>
+            <Drawer.Screen name="Profile" component={ViewProfilePage}/>
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />
