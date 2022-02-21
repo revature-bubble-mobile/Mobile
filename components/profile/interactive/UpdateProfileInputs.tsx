@@ -1,8 +1,11 @@
 import React, { useRef } from "react"
 import { Pressable, TextInput, Text } from "react-native"
+import ViewSaveNewProfileButtons from "../views/ViewSaveNewProfileButtons"
 
 
-export default function UpdateProfileInputs(){
+export default function UpdateProfileInputs(props:{setShowModal: Function, setShowParent: Function}){
+    const {setShowModal, setShowParent} = props
+
 
     const firstName = useRef<any>()
     const lastName = useRef<any>()
@@ -19,7 +22,7 @@ export default function UpdateProfileInputs(){
             <TextInput ref={firstName} placeholder={'First Name'}></TextInput>
             <TextInput ref={lastName} placeholder={'Last Name'}></TextInput>
             <TextInput ref={email} placeholder={'Email'}></TextInput>
-            <Pressable style={{backgroundColor:"dimgrey", borderRadius:10}} onPress={UpdateReduxProfile}><Text style={{padding:15, color:'white'}}>Update Profile</Text></Pressable>
+            <ViewSaveNewProfileButtons updateReduxProfile={UpdateReduxProfile} setShowModal={setShowModal} setShowParent={setShowParent}/>
         </>
 
     )

@@ -8,12 +8,12 @@ export default function ViewProfilePage(){
     return(<>
 
         {/* TOP HALF */}
-        <View style={{flex:0.5,backgroundColor:'white', padding:10, borderRadius:10}}>
+        <View style={{flex:0.5,backgroundColor:'white', padding:10}}>
             
             <View style={{flex:0.5,backgroundColor:'lightgrey', borderTopLeftRadius:10, borderTopRightRadius:10}}>
                 
-                <View style={{flex:0.5,backgroundColor:'lightgrey', flexDirection:'row', justifyContent:'space-between', borderTopLeftRadius:10, borderTopRightRadius:10}}>
-                    <Text style={{margin:10}}>NAV</Text><Text style={{margin:10}}>SEARCH</Text>
+                <View style={{flex:0.5,backgroundColor:'lightgrey', flexDirection:'row', justifyContent:'flex-end', borderTopLeftRadius:10, borderTopRightRadius:10}}>
+                    <Text style={{margin:10}}>SEARCH</Text>
                 </View>
                 
             </View>
@@ -36,7 +36,7 @@ export default function ViewProfilePage(){
         </View>
         
         {/* BOTTOM HALF */}
-        <View style={{flex:0.5, backgroundColor:'white', padding:10, borderRadius:10}}>   
+        <View style={{flex:0.5, backgroundColor:'white', padding:10}}>   
             <ViewPostsOrFollowers/>        
         </View>
     </>)

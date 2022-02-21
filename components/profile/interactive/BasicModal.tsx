@@ -1,8 +1,9 @@
 import { Children, useState } from "react";
 import { View, Text, Image, Dimensions, Modal, Pressable } from "react-native";
+import ViewUpdateProfile from "../views/ViewUpdateProfile";
 
-export default function BasicModal(props:{child: JSX.Element, setShowParent: Function}){
-    const {child, setShowParent} = props
+export default function BasicModal(props:{setShowParent: Function}){
+    const {setShowParent} = props
     const [showModal, setShowModal] = useState<boolean>(true)
 
     return(<>
@@ -13,12 +14,9 @@ export default function BasicModal(props:{child: JSX.Element, setShowParent: Fun
             onRequestClose={() => {            
             }}>
 
-            {child}
+            <ViewUpdateProfile setShowParent={setShowParent} setShowModal={setShowModal} />
 
-            <Pressable
-              onPress={() => { setShowModal(!showModal) ; setTimeout(()=>setShowParent(true),200) }}
-            ><Text style={{textAlign:'center', color:"black"}}>Cancel</Text>
-            </Pressable>
+            
         </Modal>
     </>)
 }

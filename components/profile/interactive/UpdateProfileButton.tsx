@@ -12,7 +12,7 @@ export default function UpdateProfileButton(){
         
         return(
             <BasicModal 
-                child={<ViewUpdateProfile/>} 
+                // child={<ViewUpdateProfile setShowModal={setShowModal}/>} 
                 setShowParent={setShowButton} 
             ></BasicModal>
         )
