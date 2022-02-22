@@ -15,7 +15,7 @@ const verification = false;
 
 export default function App() {
   return (<>
-    {verification ? <LoginView /> :
+    {!verification ? <LoginView /> :
     <SafeAreaProvider>
       <ThemeProvider>
         <NavigationContainer>

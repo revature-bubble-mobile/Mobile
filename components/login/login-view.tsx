@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, Image, StyleSheet, Dimensions, Linking,TextInput, Alert } from "react-native";
 import { Button, Text } from "react-native-elements";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Profile from "../../dtos/profile";
 
-export default function LoginPage() {
+export default function LoginView() {
   const [username,setUsername] = useState("");
   const [password,setPassword] = useState("");
 
@@ -33,26 +34,30 @@ export default function LoginPage() {
 
   //  } 
 
+/*   
+  await AsyncStorage.setItem("username", profile.username);
+  await AsyncStorage.setItem("isAuthorized", profile.passKey);
+ */
+
   function userLogin(){
     if(tempUser.username === username && tempUser.passkey===password){
       Alert.alert("Welcome Associate!");
     } else
       Alert.alert("Interloper identified!");
-
-
   }
 
   return (
+    <SafeAreaView>
     <View>
       <View style={styles.container}>
         <Image
           style={styles.stretch}
-          source={require("../assets/bubblelogo.png")}
+          source={require("../../assets/images/bubble-logo.png")}
         />
       </View>
       <View style={styles.container2}>
-        <TextInput style={styles.inputstyle} autoCapitalize={"none"} onChangeText={setUsername} placeholder="Enter Username" />
-        <TextInput style={styles.inputstyle} autoCapitalize={"none"} onChangeText={setPassword} secureTextEntry={true} placeholder="Enter Password" />
+        <TextInput style={styles.inputstyle} testID={"username"} autoCapitalize={"none"} onChangeText={setUsername} placeholder="Enter Username" />
+        <TextInput style={styles.inputstyle} testID={"password"} autoCapitalize={"none"} onChangeText={setPassword} secureTextEntry={true} placeholder="Enter Password" />
 
         <Text style={styles.textstyle}>
         <Text style={styles.link} onPress={() => {Linking.openURL('https://www.google.com')}}>
@@ -85,6 +90,7 @@ export default function LoginPage() {
         </Text>
       </View>
     </View>
+    </SafeAreaView>
   );
 }
 
