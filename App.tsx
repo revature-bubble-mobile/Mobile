@@ -10,44 +10,41 @@ import ProfileView from './components/profile/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import { store, actions } from './store';
-import { Provider, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import Profile from './dtos/profile';
+import CommentView from './components/comment/comment-view';
+import Comment from './dtos/comment';
+import Post from './dtos/post';
 
 const Drawer = createDrawerNavigator();
 
 let verification = false;
 
+const testPost: Post = {psid: "test-post", pid: "test-profile", body: "Test Message", datePosted: new Date()}
+const testComments: Comment[] = [
+    {cid: "123", pid: "test-profile", psid: "test-post", message: "Test Comment 1", dateCreated: new Date()},
+    {cid: "456", pid: "test-profile", psid: "test-post", message: "Test Comment 2", dateCreated: new Date()},
+    {cid: "789", pid: "test-profile", psid: "test-post", message: "Test Reply 1", dateCreated: new Date(), parentComment: "123"},
+    {cid: "222", pid: "test-profile", psid: "test-post", message: "Test Reply 2", dateCreated: new Date(), parentComment: "123"}
+]
+
 export default function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      const storedProfile = await AsyncStorageLib.getItem("profile");
-      if (storedProfile) {
-        const profile:Profile = JSON.parse(storedProfile);
-        const setUser = actions.setUser(profile);
-        dispatch(setUser);
-        verification = profile.verification ?? false;
-      }
-    })();
-  }, [dispatch]);
-  return (<>
-    {!verification ? <LoginView /> :
-      <SafeAreaProvider>
-        <ThemeProvider>
-          <Provider store={store}>
-            <NavigationContainer>
-              <Drawer.Navigator>
-                <Drawer.Screen name="Home" component={HomeView} />
-                <Drawer.Screen name="Profile" component={ProfileView} />
-              </Drawer.Navigator>
-            </NavigationContainer>
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   (async () => {
+  //     const storedProfile = await AsyncStorageLib.getItem("profile");
+  //     if (storedProfile) {
+  //       const profile:Profile = JSON.parse(storedProfile);
+  //       const setUser = actions.setUser(profile);
+  //       dispatch(setUser);
+  //       verification = profile.verification ?? false;
+  //     }
+  //   })();
+  // }, [dispatch]);
+  return (<View style={styles.container}>
+            <CommentView post={testPost} updatePost={()=>{}}/>
             <StatusBar style="auto" />
-          </Provider>
-        </ThemeProvider>
-      </SafeAreaProvider>
-    }
-  </>);
+  </View>);
 }
 
 const styles = StyleSheet.create({
@@ -56,5 +53,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    alignContent: 'center'
   },
 });
