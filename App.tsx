@@ -16,38 +16,45 @@ import Profile from './dtos/profile';
 
 const Drawer = createDrawerNavigator();
 
-let verification = false;
+let verification = true;
 
 export default function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      const storedProfile = await AsyncStorageLib.getItem("profile");
-      if (storedProfile) {
-        const profile:Profile = JSON.parse(storedProfile);
-        const setUser = actions.setUser(profile);
-        dispatch(setUser);
-        verification = profile.verification ?? false;
-      }
-    })();
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   (async () => {
+  //     const storedProfile = await AsyncStorageLib.getItem("profile");
+  //     if (storedProfile) {
+  //       const profile:Profile = JSON.parse(storedProfile);
+  //       const setUser = actions.setUser(profile);
+  //       dispatch(setUser);
+  //       verification = profile.verification ?? false;
+  //     }
+  //   })();
+  // }, [dispatch]);
   return (<>
     {!verification ? <LoginView /> :
       <SafeAreaProvider>
         <ThemeProvider>
           <Provider store={store}>
-            <NavigationContainer>
-              <Drawer.Navigator>
-                <Drawer.Screen name="Home" component={HomeView} />
-                <Drawer.Screen name="Profile" component={ProfileView} />
-              </Drawer.Navigator>
-            </NavigationContainer>
-            <StatusBar style="auto" />
+            <AppWrapper/>
           </Provider>
         </ThemeProvider>
       </SafeAreaProvider>
     }
   </>);
+}
+
+export function AppWrapper(){
+
+  return(<>
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={HomeView} />
+        <Drawer.Screen name="Profile" component={ProfileView} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+    <StatusBar style="auto" />
+  </>)
 }
 
 const styles = StyleSheet.create({
