@@ -10,13 +10,15 @@ import ProfileView from './components/profile/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { actions, store } from './store';
 import { Provider } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+
+  const [verification, setVerification] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -25,13 +27,15 @@ export default function App() {
         const profile:Profile = JSON.parse(storedProfile);
         const setUser = actions.setUser(profile);
         store.dispatch(setUser);
+        setVerification(profile.verification ?? false);
       }
+      setVerification(true);
     })();
-  }, [store]);
+  }, [verification]);
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {!store.getState().profile.verification ? <LoginView /> :
+    {!verification ? <LoginView /> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator>
