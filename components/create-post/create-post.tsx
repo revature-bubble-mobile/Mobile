@@ -4,18 +4,19 @@ import { Card } from "react-native-elements";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export function CreatePost() {
+    const inputTxt = useRef("");
+    const pan = useRef(new Animated.ValueXY()).current;
 
     function post() {
         alert('Pressed POST');
     }
 
-    const pan = useRef(new Animated.ValueXY()).current;
     const [inputTextClicked, setInputTextClicked] = useState(false);
 
     return (<Card containerStyle={styles.container} wrapperStyle={styles.wrapperContainer}>
         <View style={{ alignItems: 'center' }}>
             <View style={[styles.inputContainer, { borderWidth: inputTextClicked ? 1 : 0 }]}>
-                <GetTextInput setInputTextClicked={setInputTextClicked} inputTextClicked={inputTextClicked} pan={pan} />
+                <GetTextInput inputTxt={inputTxt} setInputTextClicked={setInputTextClicked} inputTextClicked={inputTextClicked} pan={pan} />
             </View>
         </View>
         <View style={{ alignItems: 'flex-end', marginRight: "2%", marginTop: '2%' }}>
@@ -24,8 +25,8 @@ export function CreatePost() {
     </Card>);
 }
 
-export function GetTextInput(props: { setInputTextClicked: Function, inputTextClicked: boolean, pan: Animated.ValueXY }) {
-    const { inputTextClicked, setInputTextClicked, pan } = props;
+export function GetTextInput(props: { inputTxt: any, setInputTextClicked: Function, inputTextClicked: boolean, pan: Animated.ValueXY }) {
+    const { inputTxt, inputTextClicked, setInputTextClicked, pan } = props;
     const [noLines, setNoLines] = useState(3);
 
     const panResponder = useRef(
@@ -64,6 +65,7 @@ export function GetTextInput(props: { setInputTextClicked: Function, inputTextCl
         style={{ textAlignVertical: 'top', padding: 2 }}
         onPressIn={_ => setInputTextClicked(true)}
         onEndEditing={_ => setInputTextClicked(false)}
+        ref={inputTxt}
         placeholder="What's Poppin'?" />
 
         {inputTextClicked ? <Animated.View style={{
