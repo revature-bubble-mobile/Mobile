@@ -22,13 +22,13 @@ global.fetch = jest.fn(() =>
 describe("Comment tests", ()=>{
 
     it("Should display comment", ()=>{
-        const wrapper = mount(<CommentView post={testPost} updatePost={()=>{}}/>);
+        const wrapper = mount(<CommentView postId={testPost.psid} setNumComments={()=>{}} setUserCommented={()=>{}}/>);
         const component = wrapper.find(CommentItem).first();
         expect(component.prop('cid')).toBe('123');
     })
 
     it("Should display reply", ()=>{
-        const wrapper = mount(<CommentView post={testPost} updatePost={()=>{}}/>);
+        const wrapper = mount(<CommentView postId={testPost.psid} setNumComments={()=>{}} setUserCommented={()=>{}}/>);
         const component = wrapper.find(CommentItem).first();
         expect(component.text()).toContain("Test Reply 1");
         expect(component.text()).toContain("Test Reply 2");

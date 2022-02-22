@@ -2,11 +2,11 @@ export default interface Comment {
     /**Comment ID string */
     cid: string;
     /**ID string of a profile */
-    pid: string;
+    writer: string;
     /**ID string of a post */
-    psid: string;
+    post: string;
     /**Text entered when creating the Comment */
     message: string;
     dateCreated: Date;
-    parentComment?: string;
+    previous?: string;
 }

@@ -6,7 +6,7 @@ import CommentItem from "./comment-item";
 import Comment from "../../dtos/comment";
 import { Pressable, Text } from "react-native";
 
-export default function CommentView(props: {post: Post, updatePost: Function}){
+export default function CommentView(props: {postId: string, setNumComments: Function, setUserCommented: Function}){
 
     const [comments, setComments] = useState<Comment[]>([]);
     const [replies, setReplies] = useState<Comment[]>([]);
