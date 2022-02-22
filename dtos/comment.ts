@@ -8,5 +8,5 @@ export default interface Comment {
     /**Text entered when creating the Comment */
     message: string;
     dateCreated: Date;
-    parentComment?: string;
+    previous?: string;
 }
