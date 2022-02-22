@@ -43,7 +43,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[], index:num
                     style={styles.pressableIcon}>
                     {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                     : 
-                    <Icon name={"comment-o"} type={"font-awesome"} color={"black"}/>}
+                    <Icon name={"comment-o"} type={"font-awesome"} color={"#007bff"}/>}
                     
                 </Pressable>
                 <Text style={styles.commentNumber}>{numOfComments}</Text>
