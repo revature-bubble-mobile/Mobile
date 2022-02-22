@@ -1,95 +1,112 @@
 import React, { useState } from "react";
-import { View, Image, StyleSheet, Dimensions, Linking,TextInput, Alert } from "react-native";
+import { View, Image, StyleSheet, Dimensions, Linking, TextInput, Alert } from "react-native";
 import { Button, Text } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Profile from "../../dtos/profile";
+import AsyncStorageLib from "@react-native-async-storage/async-storage";
+import azureEndpoint from "../../endpoints";
+import axios from "axios"
+import { User } from "../../store";
 
-export default function LoginView() {
-  const [username,setUsername] = useState("");
-  const [password,setPassword] = useState("");
+export default function LoginView(props:any) {
+  const [username, setUsername] = useState("");
+  const [passkey, setPasskey] = useState("");
 
-  const tempUser:Profile={
-      username: "borats",
-      passkey: "wordpass",
-      pid: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      following: [],
-      followers: []
+  const loginEndpoint = azureEndpoint;
+
+  async function storageSetter(data: any[]) {
+    // await AsyncStorage.setItem("@username", String(data.username));
+    // await AsyncStorage.setItem("@passkey", String(data.passkey));
+    // await AsyncStorage.setItem("@pid", String(data.pid));
+    // await AsyncStorage.setItem("@firstName", String(data.firstName));
+    // await AsyncStorage.setItem("@lastName", String(data.lastName));
+    // await AsyncStorage.setItem("@email", String(data.email));
+    // await AsyncStorage.setItem("@following", String(data.following));
+    // await AsyncStorage.setItem("@followers", String(data.followers));
+    const keys:string[] = ["@username","@passkey","@pid","@firstName","@lastName","@email","@following","@followers"];
+    await AsyncStorageLib.multiSet([keys,data], () => {
+      
+  });
+  
+
   }
 
-  const loginPayload = {
-    username: username,
-    password: password,
-  };
 
-  // const response = await fetch(""),{ 
-  //   method: "POST",
-  //   body: JSON.stringify(loginPayload),
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json"
-  //   },
 
-  //  } 
+  async function userLogin() {
+    if (!username || !passkey) {
+      return Alert.alert("Enter a username and passkey.");
+    } else {
+      try {
 
-/*   
-  await AsyncStorage.setItem("username", profile.username);
-  await AsyncStorage.setItem("isAuthorized", profile.passKey);
- */
 
-  function userLogin(){
-    if(tempUser.username === username && tempUser.passkey===password){
-      Alert.alert("Welcome Associate!");
-    } else
-      Alert.alert("Interloper identified!");
+        const response = await axios.patch(`${loginEndpoint}/login`, { username: username, passkey: passkey })
+        const user: User = response.data
+        console.log(user);
+        if (Boolean(user)) {
+          const profile = user.profile;
+          const data = [profile.username, profile.passkey, profile.pid, profile.firstName, profile.lastName, profile.email, profile.following, profile.followers];
+          // await storageSetter(data);
+          //props.setVerification(true);
+          Alert.alert("Welcome Associate!");
+        } else {
+
+          Alert.alert("Enter valid credentials please.");
+        }
+
+      } catch (error) {
+        Alert.alert(`${error}`)
+      }
+
+
+    }
+    
   }
 
   return (
     <SafeAreaView>
-    <View>
-      <View style={styles.container}>
-        <Image
-          style={styles.stretch}
-          source={require("../../assets/images/bubble-logo.png")}
-        />
+      <View>
+        <View style={styles.container}>
+          <Image
+            style={styles.stretch}
+            source={require("../../assets/images/bubble-logo.png")}
+          />
+        </View>
+        <View style={styles.container2}>
+          <TextInput style={styles.inputstyle} testID={"username"} autoCapitalize={"none"} onChangeText={setUsername} placeholder="Enter Username" />
+          <TextInput style={styles.inputstyle} testID={"passkey"} autoCapitalize={"none"} onChangeText={setPasskey} secureTextEntry={true} placeholder="Enter Passkey" />
+
+          <Text style={styles.textstyle}>
+            <Text style={styles.link} onPress={() => { Linking.openURL('https://www.google.com') }}>
+              Forgot Passkey?
+            </Text>
+
+          </Text>
+
+          <Button
+            title="Login"
+            buttonStyle={{
+              backgroundColor: "#00a680",
+              borderWidth: 2,
+              borderColor: "#00a680",
+              borderRadius: 30,
+            }}
+            containerStyle={{
+              width: 100,
+              marginHorizontal: "60%",
+              marginVertical: 10,
+            }}
+            titleStyle={{ fontSize: 12 }}
+            onPress={userLogin}
+          />
+
+          <Text style={styles.textstyle2}>Not a user yet?{" "}
+            <Text style={styles.link} onPress={() => { Linking.openURL('https://www.google.com') }}>
+              Register Now!
+            </Text>
+          </Text>
+        </View>
       </View>
-      <View style={styles.container2}>
-        <TextInput style={styles.inputstyle} testID={"username"} autoCapitalize={"none"} onChangeText={setUsername} placeholder="Enter Username" />
-        <TextInput style={styles.inputstyle} testID={"password"} autoCapitalize={"none"} onChangeText={setPassword} secureTextEntry={true} placeholder="Enter Password" />
-
-        <Text style={styles.textstyle}>
-        <Text style={styles.link} onPress={() => {Linking.openURL('https://www.google.com')}}>
-          Forgot Password?
-        </Text>
-        
-        </Text>
-
-        <Button
-          title="Login"
-          buttonStyle={{
-            backgroundColor: "#00a680",
-            borderWidth: 2,
-            borderColor: "#00a680",
-            borderRadius: 30,
-          }}
-          containerStyle={{
-            width: 100,
-            marginHorizontal: "60%",
-            marginVertical: 10,
-          }}
-          titleStyle={{ fontSize: 12 }}
-          onPress={userLogin}
-        />
-
-        <Text style={styles.textstyle2}>Not a user yet?{" "}
-        <Text style={styles.link} onPress={() => {Linking.openURL('https://www.google.com')}}>
-        Register Now!
-        </Text>
-        </Text>
-      </View>
-    </View>
     </SafeAreaView>
   );
 }
@@ -133,7 +150,7 @@ const styles = StyleSheet.create({
     marginTop: "20%",
     alignSelf: "center",
   },
-  link:{
+  link: {
     color: "#fd7e14"
 
   }

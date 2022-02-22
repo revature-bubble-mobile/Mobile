@@ -35,7 +35,7 @@ export default function App() {
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {!verification ? <LoginView /> :
+    {verification ? <LoginView verified = {setVerification}/> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator>
