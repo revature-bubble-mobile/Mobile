@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Icon, ThemeProvider } from 'react-native-elements';
+import { ThemeProvider } from 'react-native-elements';
 import LoginView from './components/login/login-view';
 import HomeView from './components/home/home-view';
 import ProfileView from './components/profile/profile-view';
