@@ -49,8 +49,8 @@ return (<Provider store={store}>
               <DrawerFooter />
             </DrawerContentScrollView>
           )}}>
-            <Drawer.Screen options={{drawerIcon:()=>{return(<FontAwesome name="home" size={30}/>)}}} name="Home" component={HomeView} />
-            <Drawer.Screen options={{drawerIcon:()=>{return(<FontAwesome name="drivers-license-o" size={30}/>)}}} name="Profile" component={ProfileView} />
+            <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="home" size={30}/>}} name="Home" component={HomeView} />
+            <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="drivers-license-o" size={30}/>}} name="Profile" component={ProfileView} />
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />
