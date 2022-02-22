@@ -5,12 +5,13 @@
 
     To use the new API backend, import the 'endpoint' variable from the 'endpoint.ts' file into the component(s) your are developing.
 
+    When relying on the 'POST' or login route use the 'azureEndpoint'.
 
 ## API routes
 
 ### Profile ingestion
 
-- **POST** /profile.json
+- **POST** /profile  --use azureEndpoint
 - **GET** /profile/{pid}.json
 - **GET** /profile/{pid}/following.json
 - **GET** /profile/{pid}/followers.json
@@ -20,11 +21,14 @@
 
 ### Post ingestion
 
-- **POST** /post.json
+- **POST** /post --use azureEndpoint
 - **GET** /post.json
 
 
 ### Comment ingestion
 
-- **POST** /{psid}/comment.json
+- **POST** /comment --use azureEndpoint
 - **GET** /{psid}.json
+
+### Login
+- **PATCH** /login --use azureEndpoint
