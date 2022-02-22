@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import { useEffect, useState } from 'react';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
+import ViewProfilePage from './components/profile/views/ViewProfilePage';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +40,7 @@ return (<Provider store={store}>
         <NavigationContainer>
           <Drawer.Navigator>
             <Drawer.Screen name="Home" component={HomeView} />
-            <Drawer.Screen name="Profile" component={ProfileView} />
+            <Drawer.Screen name="Profile" component={ViewProfilePage} />
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />
