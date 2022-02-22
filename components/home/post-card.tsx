@@ -6,13 +6,26 @@ import Post from "../../dtos/post";
 import Profile from "../../dtos/profile";
 
 
-export default function PostCard(props:{post:Post, profiles:Profile[], index:number}){
+export default function PostCard(props:{post:Post, profiles:Profile[]}){
 
-    const {post, profiles, index} = props;
-    const [userComment, setUserComment] = useState<boolean>(false);
-    const [numOfComments, setNumOfComments] = useState<number>(0);
+    const {post, profiles} = props;
+    const [userComment, setUserCommented] = useState<boolean>(false);
+    const [numOfComments, setNumComments] = useState<number>(0);
 
     const currentProfile = profiles.find(p => post.pid === p.pid);
+
+    function commentPressed(){
+        
+        if (userComment) {
+            setUserCommented(false)
+            setNumComments(0);
+        }
+        else {
+            setUserCommented(true);
+            setNumComments(1);
+        }
+    }
+
 
     return(<View>
         <Card containerStyle={styles.card}>
@@ -30,16 +43,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[], index:num
                 </Text>
             </View>
             <View style={styles.iconArea}>
-                <Pressable onPress={()=>{
-                    if (userComment) {
-                        setUserComment(false)
-                        setNumOfComments(0);
-                    }
-                    else {
-                        setUserComment(true);
-                        setNumOfComments(1);
-                    }
-                    }} 
+                <Pressable onPress={()=>{ commentPressed() }} 
                     style={styles.pressableIcon}>
                     {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                     : 
@@ -79,6 +83,7 @@ const styles = StyleSheet.create({
         color:"darkgray",
         fontSize:12,
         marginTop:3,
+        marginLeft:5,
     },
     postBody:{
         marginVertical:20,

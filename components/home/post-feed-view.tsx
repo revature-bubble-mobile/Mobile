@@ -72,7 +72,7 @@ export default function PostFeedView(){
         refreshing={refreshing}
         onRefresh={refresh}
         renderItem={({item, index}) => (
-            <PostCard post={item} profiles={profiles} index={index}/>
+            <PostCard post={item} profiles={profiles}/>
         )}
         />
         
