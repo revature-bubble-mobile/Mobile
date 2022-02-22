@@ -17,12 +17,6 @@ import Profile from './dtos/profile';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-<<<<<<< HEAD
-  return (<>
-    {!verification ? <LoginView /> :
-    <SafeAreaProvider>
-      <ThemeProvider>
-=======
 
   const [verification, setVerification] = useState<boolean>(false);
 
@@ -43,7 +37,6 @@ return (<Provider store={store}>
   <ThemeProvider>
     {!verification ? <LoginView /> :
       <SafeAreaProvider>
->>>>>>> origin/dev
         <NavigationContainer>
           <Drawer.Navigator>
             <Drawer.Screen name="Home" component={HomeView} />
