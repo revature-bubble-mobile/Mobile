@@ -31,7 +31,6 @@ export default function PostCard(props:{post:Post, profiles:Profile[], index:num
             </View>
             <View style={styles.iconArea}>
                 <Pressable onPress={()=>{
-                    alert("Pressed");
                     if (userComment) {
                         setUserComment(false)
                         setNumOfComments(0);
@@ -42,9 +41,9 @@ export default function PostCard(props:{post:Post, profiles:Profile[], index:num
                     }
                     }} 
                     style={styles.pressableIcon}>
-                    {userComment ? <Icon name={"comment"} color={"#f36a26"}/>
+                    {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                     : 
-                    <Icon name={"add-comment"} color={"black"}/>}
+                    <Icon name={"comment-o"} type={"font-awesome"} color={"black"}/>}
                     
                 </Pressable>
                 <Text style={styles.commentNumber}>{numOfComments}</Text>

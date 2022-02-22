@@ -31,7 +31,7 @@ export default function App() {
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {!store.getState().profile.verification ? <LoginView /> :
+    {store.getState().profile.verification ? <LoginView /> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator>
