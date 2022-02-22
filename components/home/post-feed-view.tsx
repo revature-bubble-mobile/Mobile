@@ -1,6 +1,6 @@
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Post from "../../dtos/post";
-import endpoint from "../../endpoint";
+import firebaseEndpoint from "../../endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card, CardProps } from "react-native-elements/dist/card/Card";
@@ -23,7 +23,7 @@ export default function PostFeedView(){
     
     useEffect(()=>{
         (async ()=>{
-            const profileResponse = await axios.get(`${endpoint}/profile.json`)
+            const profileResponse = await axios.get(`${firebaseEndpoint}/profile.json`)
             .then((r) => r.data)
             .catch((error)=>{console.log(error)});
             
@@ -39,17 +39,22 @@ export default function PostFeedView(){
             setProfiles(newProfiles);
     
 
-            const postResponse = await axios.get(`${endpoint}/post.json`)
+            const postResponse = await axios.get(`${firebaseEndpoint}/post.json`)
             .then((r) => r.data)
             .catch((error)=>{console.log(error)});
 
-            const newPosts = [];
+            const newPosts: Post[] = [];
 
             for (const id in postResponse){
                 postResponse[id].uniqueId = id;
                 newPosts.push(postResponse[id]);
                 // console.log(postResponse[id])
             }
+            newPosts.sort((a, b)=>{
+                const date1 = new Date(a.datePosted).valueOf();
+                const date2 = new Date(b.datePosted).valueOf();
+                return date2 - date1;
+            });
             setPosts(newPosts);
             
         })();

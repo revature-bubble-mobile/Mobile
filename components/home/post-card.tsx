@@ -12,7 +12,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
     const [userComment, setUserCommented] = useState<boolean>(false);
     const [numOfComments, setNumComments] = useState<number>(0);
 
-    const currentProfile = profiles.find(p => post.pid === p.pid);
+    const currentProfile = profiles.find(p => post.creator === p.pid);
 
     function commentPressed(){
         
