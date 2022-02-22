@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import { View, Image, StyleSheet, Dimensions, Linking, TextInput, Alert } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Dimensions,
+  Linking,
+  TextInput,
+  Alert,
+} from "react-native";
 import { Button, Text } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Profile from "../../dtos/profile";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
-import azureEndpoint from "../../endpoints";
-import axios from "axios"
+import axios from "axios";
 import { User } from "../../store";
+import { azureEndpoint } from "../../endpoints";
 
-export default function LoginView(props:any) {
+export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
   const [passkey, setPasskey] = useState("");
 
-  const loginEndpoint = azureEndpoint;
 
   async function storageSetter(data: any[]) {
     // await AsyncStorage.setItem("@username", String(data.username));
@@ -23,43 +30,49 @@ export default function LoginView(props:any) {
     // await AsyncStorage.setItem("@email", String(data.email));
     // await AsyncStorage.setItem("@following", String(data.following));
     // await AsyncStorage.setItem("@followers", String(data.followers));
-    const keys:string[] = ["@username","@passkey","@pid","@firstName","@lastName","@email","@following","@followers"];
-    await AsyncStorageLib.multiSet([keys,data], () => {
-      
-  });
-  
-
+    const keys: string[] = [
+      "@username",
+      "@passkey",
+      "@pid",
+      "@firstName",
+      "@lastName",
+      "@email",
+      "@following",
+      "@followers",
+    ];
+    await AsyncStorageLib.multiSet([keys, data], () => {});
   }
 
-
-
   async function userLogin() {
-    if (!username || !passkey) {
-      return Alert.alert("Enter a username and passkey.");
-    } else {
-      try {
+        
+      const response = await axios.patch(`${azureEndpoint}/login`, {
+          username: username,
+          passkey: passkey,
+        }
+        );
+        
+        Alert.alert(response.toString());
 
-
-        const response = await axios.patch(`${loginEndpoint}/login`, { username: username, passkey: passkey })
-        const user: User = response.data
-        console.log(user);
+        const user: User = response.data;
         if (Boolean(user)) {
+          props.verified(true);
           const profile = user.profile;
-          const data = [profile.username, profile.passkey, profile.pid, profile.firstName, profile.lastName, profile.email, profile.following, profile.followers];
-          // await storageSetter(data);
-          //props.setVerification(true);
+          const data = [
+            profile.username,
+            profile.passkey,
+            profile.pid,
+            profile.firstName,
+            profile.lastName,
+            profile.email,
+            profile.following,
+            profile.followers,
+          ];
+          await storageSetter(data);
+
           Alert.alert("Welcome Associate!");
         } else {
-
           Alert.alert("Enter valid credentials please.");
-        }
-
-      } catch (error) {
-        Alert.alert(`${error}`)
-      }
-
-
-    }
+        } 
     
   }
 
@@ -73,14 +86,31 @@ export default function LoginView(props:any) {
           />
         </View>
         <View style={styles.container2}>
-          <TextInput style={styles.inputstyle} testID={"username"} autoCapitalize={"none"} onChangeText={setUsername} placeholder="Enter Username" />
-          <TextInput style={styles.inputstyle} testID={"passkey"} autoCapitalize={"none"} onChangeText={setPasskey} secureTextEntry={true} placeholder="Enter Passkey" />
+          <TextInput
+            style={styles.inputstyle}
+            testID={"username"}
+            autoCapitalize={"none"}
+            onChangeText={setUsername}
+            placeholder="Enter Username"
+          />
+          <TextInput
+            style={styles.inputstyle}
+            testID={"passkey"}
+            autoCapitalize={"none"}
+            onChangeText={setPasskey}
+            secureTextEntry={false}
+            placeholder="Enter Passkey"
+          />
 
           <Text style={styles.textstyle}>
-            <Text style={styles.link} onPress={() => { Linking.openURL('https://www.google.com') }}>
+            <Text
+              style={styles.link}
+              onPress={() => {
+                Linking.openURL("https://www.google.com");
+              }}
+            >
               Forgot Passkey?
             </Text>
-
           </Text>
 
           <Button
@@ -100,8 +130,14 @@ export default function LoginView(props:any) {
             onPress={userLogin}
           />
 
-          <Text style={styles.textstyle2}>Not a user yet?{" "}
-            <Text style={styles.link} onPress={() => { Linking.openURL('https://www.google.com') }}>
+          <Text style={styles.textstyle2}>
+            Not a user yet?{" "}
+            <Text
+              style={styles.link}
+              onPress={() => {
+                Linking.openURL("https://www.google.com");
+              }}
+            >
               Register Now!
             </Text>
           </Text>
@@ -110,8 +146,6 @@ export default function LoginView(props:any) {
     </SafeAreaView>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -151,7 +185,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   link: {
-    color: "#fd7e14"
-
-  }
+    color: "#fd7e14",
+  },
 });

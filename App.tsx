@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -20,7 +20,7 @@ export default function App() {
 
   const [verification, setVerification] = useState<boolean>(false);
 
-  useEffect(() => {
+/*   useEffect(() => {
     (async () => {
       const storedProfile = await AsyncStorageLib.getItem("profile");
       if (storedProfile) {
@@ -29,13 +29,13 @@ export default function App() {
         store.dispatch(setUser);
         setVerification(profile.verification ?? false);
       }
-      setVerification(true);
+       setVerification(true);
     })();
-  }, [verification]);
+  }, [verification]);  */
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {verification ? <LoginView verified = {setVerification}/> :
+    {!verification ? <LoginView verified = {setVerification}/> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator>
