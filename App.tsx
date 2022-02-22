@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -14,6 +14,9 @@ import { useEffect, useState } from 'react';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
 import { FontAwesome } from '@expo/vector-icons';
+import DrawerHeader from './components/drawer/drawer-header';
+import DrawerLogout from './components/drawer/drawer-logout';
+import DrawerFooter from './components/drawer/drawer-footer';
 
 const Drawer = createDrawerNavigator();
 
@@ -35,26 +38,15 @@ export default function App() {
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {!verification ? <LoginView /> :
+    {verification ? <LoginView /> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator initialRouteName='Home' drawerContent={props => {return(
             <DrawerContentScrollView {...props}>
+              <DrawerHeader />
               <DrawerItemList {...props}/>
-              <DrawerItem label="Logout" icon={()=>{return(<Icon name='logout' size={30}/>)}} onPress={()=>{
-                store.dispatch(actions.setUser({
-                  pid: "",
-                  firstName: "",
-                  lastName: "",
-                  passkey: "",
-                  email: "",
-                  username: "",
-                  following: [],
-                  followers: [] }));
-                  AsyncStorageLib.removeItem("profile");
-                  setVerification(false);
-                }
-              }/>
+              <DrawerLogout setVerification={setVerification} />
+              <DrawerFooter />
             </DrawerContentScrollView>
           )}}>
             <Drawer.Screen options={{drawerIcon:()=>{return(<FontAwesome name="home" size={30}/>)}}} name="Home" component={HomeView} />
