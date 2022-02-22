@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { FlatList, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Post from "../../dtos/post";
-import endpoint from "../../endpoint";
+import endpoint, { azureEndpoint } from "../../endpoint";
 import CommentItem from "./comment-item";
 import Comment from "../../dtos/comment";
 import { Pressable, Text } from "react-native";
+import { useSelector } from "react-redux";
+import { User } from "../../store";
 
 export default function CommentView(props: {postId: string, setNumComments: Function, setUserCommented: Function}){
 
@@ -12,35 +14,61 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     const [replies, setReplies] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState<string>("");
 
-    const testComments: Comment[] = [
-        {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()},
-        {cid: "456", writer: "test-profile", post: "test-post", message: "Test Comment 2", dateCreated: new Date()},
-    ]
-    const testReplies: Comment[] = [
-        {cid: "789", writer: "test-profile", post: "test-post", message: "Test Reply 1", dateCreated: new Date(), previous: "123"},
-        {cid: "222", writer: "test-profile", post: "test-post", message: "Test Reply 2", dateCreated: new Date(), previous: "123"},
-        {cid: "333", writer: "test-profile", post: "test-post", message: "Test Reply 3", dateCreated: new Date(), previous: "456"}
-    ]
+    // const testComments: Comment[] = [
+    //     {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()},
+    //     {cid: "456", writer: "test-profile", post: "test-post", message: "Test Comment 2", dateCreated: new Date()},
+    // ]
+    // const testReplies: Comment[] = [
+    //     {cid: "789", writer: "test-profile", post: "test-post", message: "Test Reply 1", dateCreated: new Date(), previous: "123"},
+    //     {cid: "222", writer: "test-profile", post: "test-post", message: "Test Reply 2", dateCreated: new Date(), previous: "123"},
+    //     {cid: "333", writer: "test-profile", post: "test-post", message: "Test Reply 3", dateCreated: new Date(), previous: "456"}
+    // ]
 
 
-    // useEffect(()=>{
-    //     (async ()=>{
-    //         const response = await fetch(`${endpoint}/${props.post.post}.json`);
-    //         const currentComments: Comment[] = await response.json();
-    //         setComments(currentComments);
-    //     })()
-    // },[])
+    useEffect(()=>{
+        (async ()=>{
+            const response = await fetch(`${endpoint}/${props.postId}.json`);
+            const data: Comment[] = await response.json();
+            setComments(data.filter(d => !d.previous));
+            setReplies(data.filter(d => d.previous));
+            props.setNumComments(comments.length);
+        })()
+    },[])
 
-    function postComment(){
-        
+    async function postComment(){
+        if(!newComment) {
+            alert("Comment field cannot be empty...")
+        } else {
+            const comment = {
+                cid: "",
+                writer: useSelector((state: User) => state.profile.pid),
+                post: props.postId,
+                message: newComment,
+                dateCreated: new Date()
+            }
+
+            const response = await fetch(`${azureEndpoint}/comment`, {
+                method: 'POST',
+                body: JSON.stringify(comment),
+                headers: {
+                    'content-type':"application/json"
+                }
+            })
+
+            comments.push(comment);
+            setComments([...comments]);
+
+            props.setNumComments(comments.length);
+            props.setUserCommented(true);
+        }
     }
 
 
     return(<View>
-       {testComments &&
+       {comments &&
             <FlatList
-                data={testComments}
-                renderItem={({item})=><CommentItem {...item} replies={testReplies.filter((c) => c.previous === item.cid)}/>}
+                data={comments}
+                renderItem={({item})=><CommentItem {...item} replies={replies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
                 keyExtractor={item => item.cid}
                 style={styles.replyList}
             />

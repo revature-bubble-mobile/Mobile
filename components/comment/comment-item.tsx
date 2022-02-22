@@ -1,38 +1,69 @@
 import { useEffect, useState } from "react";
 import { FlatList, Text, Pressable, StyleSheet,View, Image } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
 import Comment from "../../dtos/comment"
 import Profile from "../../dtos/profile"
-import endpoint from "../../endpoint";
+import endpoint, { azureEndpoint } from "../../endpoint";
+import { User } from "../../store";
 
-export default function CommentItem(props: Comment & {replies: Comment[]}){
+export default function CommentItem(props: Comment & {replies: Comment[], setReplies: Function}){
 
     const [userProfile, setUserProfile] = useState<Profile>();
+    const [isReplyPressed, setIsReplyPressed] = useState(false);
+    const [newReply, setReply] = useState("");
 
-    const testProfile = {
-        pid: "test-profile",
-        firstName: "test",
-        lastName: "profile",
-        passkey: "xxxxx",
-        email: "none@email.com",
-        username: "tprofile",
-        imgurl: "",
-        verification: true,
-        followers: [],
-        following: []}
+    // const testProfile = {
+    //     pid: "test-profile",
+    //     firstName: "test",
+    //     lastName: "profile",
+    //     passkey: "xxxxx",
+    //     email: "none@email.com",
+    //     username: "tprofile",
+    //     imgurl: "",
+    //     verification: true,
+    //     followers: [],
+    //     following: []}
 
     useEffect(()=>{
-        // (async ()=>{
-        //     const response = await fetch(`${endpoint}/profile/${props.pid}.json`);
-        //     const commentProfile: Profile = await response.json();
-        //     setUserProfile(commentProfile);
-        // })()
-        setUserProfile(testProfile);
+        (async ()=>{
+            const response = await fetch(`${endpoint}/profile/${props.writer}.json`);
+            const commentProfile: Profile = await response.json();
+            setUserProfile(commentProfile);
+        })()
+        //setUserProfile(testProfile);
     },[])
 
     async function getReplyProfile(pid: string){
         const response = await fetch(`${endpoint}/profile/${pid}.json`);
         const replyProfile: Profile = await response.json();
         return replyProfile.username;
+    }
+
+    async function postReply(){
+        if(!newReply) {
+            alert("Reply field cannot be empty...")
+        } else {
+            const reply = {
+                cid: "",
+                writer: useSelector((state: User) => state.profile.pid),
+                post: props.post,
+                message: newReply,
+                dateCreated: new Date(),
+                previous: props.cid
+            }
+
+            const response = await fetch(`${azureEndpoint}/comment`, {
+                method: 'POST',
+                body: JSON.stringify(reply),
+                headers: {
+                    'content-type':"application/json"
+                }
+            })
+
+            props.replies.push(reply);
+            props.setReplies([...props.replies]);
+        }
     }
 
 
@@ -44,7 +75,13 @@ export default function CommentItem(props: Comment & {replies: Comment[]}){
         <Text style={styles.date}>{props.dateCreated.toLocaleString()}</Text>
         <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
         <Text style={styles.comment}>{props.message}</Text>
-        <Pressable><Text style={styles.replyButton}>Reply</Text></Pressable>
+        <Pressable onPress={() => setIsReplyPressed(!isReplyPressed)}><Text style={styles.replyButton}>Reply</Text></Pressable>
+        {isReplyPressed &&
+        <View>
+            <TextInput placeholder={"Add reply..."} onChangeText={t => setReply(t)}/>
+            <Pressable onPress={postReply}><Text>Post</Text></Pressable>
+        </View>
+        }
         {props.replies[0] &&
             <FlatList
             data={props.replies}
