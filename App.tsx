@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -8,41 +8,42 @@ import LoginView from './components/login/login-view';
 import HomeView from './components/home/home-view';
 import ProfileView from './components/profile/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
-import AsyncStorageLib from '@react-native-async-storage/async-storage';
-import { store, actions } from './store';
-import { Provider, useDispatch } from 'react-redux';
+import { actions, store } from './store';
+import { Provider } from 'react-redux';
 import { useEffect } from 'react';
+import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
 
 const Drawer = createDrawerNavigator();
 
-let verification = true;
-
 export default function App() {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   (async () => {
-  //     const storedProfile = await AsyncStorageLib.getItem("profile");
-  //     if (storedProfile) {
-  //       const profile:Profile = JSON.parse(storedProfile);
-  //       const setUser = actions.setUser(profile);
-  //       dispatch(setUser);
-  //       verification = profile.verification ?? false;
-  //     }
-  //   })();
-  // }, [dispatch]);
-  return (<>
-    {!verification ? <LoginView /> :
+
+  useEffect(() => {
+    (async () => {
+      const storedProfile = await AsyncStorageLib.getItem("profile");
+      if (storedProfile) {
+        const profile:Profile = JSON.parse(storedProfile);
+        const setUser = actions.setUser(profile);
+        store.dispatch(setUser);
+      }
+    })();
+  }, [store]);
+
+return (<Provider store={store}>
+  <ThemeProvider>
+    {!store.getState().profile.verification ? <LoginView /> :
       <SafeAreaProvider>
-        <ThemeProvider>
-          <Provider store={store}>
-            <AppWrapper/>
-          </Provider>
-        </ThemeProvider>
+        <NavigationContainer>
+          <Drawer.Navigator>
+            <Drawer.Screen name="Home" component={HomeView} />
+            <Drawer.Screen name="Profile" component={ProfileView} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+        <StatusBar style="auto" />
       </SafeAreaProvider>
     }
-  </>);
-}
+  </ThemeProvider>
+</Provider>)}
 
 export function AppWrapper(){
 
