@@ -1,29 +1,56 @@
-import React, { useRef } from "react"
-import { Pressable, TextInput, Text } from "react-native"
-import ViewSaveNewProfileButtons from "../views/ViewSaveNewProfileButtons"
+import axios, { AxiosResponse } from 'axios';
+import React, { useRef, useState } from 'react';
+import { Pressable, TextInput, Text, Alert } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import endpoint from '../../../endpoint';
+import { User } from '../../../store';
+import ViewSaveNewProfileButtons from '../views/ViewSaveNewProfileButtons';
 
+export default function UpdateProfileInputs(props: {
+    setShowModal: Function;
+    setShowParent: Function;
+}) {
+    const { setShowModal, setShowParent } = props;
 
-export default function UpdateProfileInputs(props:{setShowModal: Function, setShowParent: Function}){
-    const {setShowModal, setShowParent} = props
+    const currentUser: User = useSelector((state: User) => state);
 
+    const [fName, setFName] = useState<string>('');
+    const [lName, setLName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
 
-    const firstName = useRef<any>()
-    const lastName = useRef<any>()
-    const email = useRef<any>()
+    const dispatch = useDispatch();
 
-    function UpdateReduxProfile(){
-        console.log('firstName',firstName.current.value)
-        console.log(lastName.current.value)
-        console.log(email.current.value)
+    async function updateProfile() {
+        try {
+            const response: AxiosResponse = await axios.patch(
+                `${endpoint}profile/${currentUser.profile.pid}`,
+                { firstname: fName, lastname: lName, email: email }
+            );
+            dispatch({ type: 'user', payload: response.data });
+        } catch (error) {
+            Alert.alert(`Error: ${error}`);
+        }
     }
 
-    return(
+    return (
         <>
-            <TextInput ref={firstName} placeholder={'First Name'}></TextInput>
-            <TextInput ref={lastName} placeholder={'Last Name'}></TextInput>
-            <TextInput ref={email} placeholder={'Email'}></TextInput>
-            <ViewSaveNewProfileButtons updateReduxProfile={UpdateReduxProfile} setShowModal={setShowModal} setShowParent={setShowParent}/>
+            <TextInput
+                value={fName}
+                onChangeText={setFName}
+                placeholder={'First Name'}></TextInput>
+            <TextInput
+                value={lName}
+                onChangeText={setLName}
+                placeholder={'Last Name'}></TextInput>
+            <TextInput
+                value={email}
+                onChangeText={setEmail}
+                placeholder={'Email'}></TextInput>
+            <ViewSaveNewProfileButtons
+                updateProfile={updateProfile}
+                setShowModal={setShowModal}
+                setShowParent={setShowParent}
+            />
         </>
-
-    )
+    );
 }
