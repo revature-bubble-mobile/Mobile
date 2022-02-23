@@ -11,7 +11,7 @@
 
 ### Profile ingestion
 
-- **POST** /profile.json  --use azureEndpoint
+- **POST** /profile  --use azureEndpoint
 - **GET** /profile/{pid}.json
 - **GET** /profile/{pid}/following.json
 - **GET** /profile/{pid}/followers.json
@@ -21,13 +21,13 @@
 
 ### Post ingestion
 
-- **POST** /post.json --use azureEndpoint
+- **POST** /post --use azureEndpoint
 - **GET** /post.json
 
 
 ### Comment ingestion
 
-- **POST** /{psid}/comment.json --use azureEndpoint
+- **POST** /{psid}/comment --use azureEndpoint
 - **GET** /{psid}.json
 
 ### Login

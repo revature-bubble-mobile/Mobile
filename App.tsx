@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import { useEffect, useState } from 'react';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
+import { CreatePost } from './components/create-post/create-post';
+import { azureEndpoint } from './endpoint';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +41,7 @@ export default function App() {
         <SafeAreaProvider>
           <NavigationContainer>
             <Drawer.Navigator>
-              <Drawer.Screen name="Home" component={HomeView} />
+              <Drawer.Screen name="Home" component={CreatePost} />
               <Drawer.Screen name="Profile" component={ProfileView} />
             </Drawer.Navigator>
           </NavigationContainer>
