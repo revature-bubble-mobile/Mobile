@@ -26,6 +26,10 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
         }
     }
 
+    const postDate = new Date(post.datePosted)
+    const amPm = (postDate.getHours() / 12 >= 1) ? "PM" : "AM";
+    const postDateString = `${postDate.toLocaleDateString()} ${postDate.getHours() > 12 ? postDate.getHours() - 12 : postDate.getHours()}:${postDate.getMinutes()}`;
+
 
     return(<View>
         <Card containerStyle={styles.card}>
@@ -36,7 +40,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
                 />
                 <Text style={styles.profileName}>{currentProfile?.username ?? "not found"}</Text>
             </View>
-            <Text style={styles.dateText}>{post.datePosted ? new Date(post.datePosted).toLocaleDateString() : "(invalid date)"}</Text>
+            <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
             <View style={styles.postBody}>
                 <Text
                 >{post.body ? post.body : "<failed to load>"}
