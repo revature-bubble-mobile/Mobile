@@ -1,18 +1,22 @@
 import { shallow } from "enzyme";
 import { Button } from "react-native-elements";
-import { TextInput } from "react-native";
+import { Platform, TextInput } from "react-native";
 import { CreatePost, GetTextInput } from "./create-post";
 import React from 'React';
 import { azureEndpoint } from "../../endpoints";
 
 describe("Testing Create Post Feature", () => {
     it("Should throw an Alert", () => {
-        global.alert = jest.fn();
-        const component = shallow(<CreatePost />);
-        component.find(Button).first().simulate('press');
-        expect(global.alert).toHaveBeenCalledWith('Gotta type something before you post Bruh!');
-        jest.clearAllMocks();
+
+        if (Platform.OS === 'ios') {
+            global.alert = jest.fn();
+            const component = shallow(<CreatePost />);
+            component.find(Button).first().simulate('press');
+            expect(global.alert).toHaveBeenCalledWith('Gotta type something before you post Bruh!');
+            jest.clearAllMocks();
+        }
     });
+
 
     it("Should input some text onto inputText and change inputTxt State", () => {
         let inputTxt = '';
