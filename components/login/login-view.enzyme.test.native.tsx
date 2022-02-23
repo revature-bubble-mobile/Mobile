@@ -1,5 +1,5 @@
 import { mount } from "enzyme";
-import LoginView  from "./login-view";
+import LoginView from "./login-view";
 import Profile from "../../dtos/profile";
 //@ts-ignore
 import mockAsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
