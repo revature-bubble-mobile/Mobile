@@ -1,16 +1,18 @@
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, TouchableOpacity } from "react-native";
 import Profile from "../../dtos/profile"
 import styles from "./registration-style";
 
 export default function SubmitButton(props:{profile:Profile, setProfile:Function}){
-    return(<Pressable
+    return(<TouchableOpacity
         onPress={() => {props.setProfile({
-                pid: Math.random() * (9999 - 1000) + 1000,
+                pid: "",
                 firstName: props.profile.firstName,
                 lastName: props.profile.lastName,
                 passkey: props.profile.passkey,
                 email: props.profile.email,
                 username: props.profile.username,
+                following:[],
+                followers:[],
                 imgurl: "",
                 verification: false                
             });
@@ -19,6 +21,6 @@ export default function SubmitButton(props:{profile:Profile, setProfile:Function
             style={styles.regPageSubmitButton}
             
             >
-                {true && <Text>Register</Text>}
-            </Pressable>)
+                {true && <Text style={styles.regPageSubmitButtonText}>Register</Text>}
+            </TouchableOpacity>)
 }

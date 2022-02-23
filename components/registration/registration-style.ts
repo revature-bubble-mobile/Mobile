@@ -96,17 +96,22 @@ const styles = StyleSheet.create({
 
     regPageSubmitButton:{
         color: '#FFFFFF',
-        height: 30,
-        width: 75,
+        height: 35,
+        width: 120,
         alignSelf:'center',
         padding:3,
         paddingLeft: 12,
         borderWidth: 2,
         borderColor: '#252525',
         borderRadius:8,
-        backgroundColor: '#474C55'
+        backgroundColor: '#474C55',
     },
+    regPageSubmitButtonText:{
+        color:'#FFFFFF',
+        padding:2,
+        paddingLeft:20
 
+    },
     regPageButtonUnderline:{
         borderBottomWidth: 1,
         borderColor: '#B9B9BA',
@@ -117,7 +122,18 @@ const styles = StyleSheet.create({
 
     regPageLinkText:{
         color: '#F26925',
+        fontSize:12
     },
+
+    regPageTermsView:{
+        padding:15, 
+        backgroundColor:'rgba(50,50,50,.15)'
+    },
+    regPageTermsViewTitle:{
+        color:'#72A4C2',
+        fontSize:24,
+        textAlign:'center'
+    }  
 })
 
 export default styles
