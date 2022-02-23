@@ -3,7 +3,7 @@ import LoginView  from "./login-view";
 import Profile from "../../dtos/profile";
 //@ts-ignore
 import mockAsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
-
+import AsyncStorageLib from "@react-native-async-storage/async-storage";
 
 describe("Test login form", function() {
 

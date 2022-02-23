@@ -13,7 +13,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Profile from "../../dtos/profile";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { User } from "../../store";
 import { azureEndpoint } from "../../endpoints";
 
 export default function LoginView(props: any) {
@@ -21,59 +20,23 @@ export default function LoginView(props: any) {
   const [passkey, setPasskey] = useState("");
 
 
-  async function storageSetter(data: any[]) {
-    // await AsyncStorage.setItem("@username", String(data.username));
-    // await AsyncStorage.setItem("@passkey", String(data.passkey));
-    // await AsyncStorage.setItem("@pid", String(data.pid));
-    // await AsyncStorage.setItem("@firstName", String(data.firstName));
-    // await AsyncStorage.setItem("@lastName", String(data.lastName));
-    // await AsyncStorage.setItem("@email", String(data.email));
-    // await AsyncStorage.setItem("@following", String(data.following));
-    // await AsyncStorage.setItem("@followers", String(data.followers));
-    const keys: string[] = [
-      "@username",
-      "@passkey",
-      "@pid",
-      "@firstName",
-      "@lastName",
-      "@email",
-      "@following",
-      "@followers",
-    ];
-    await AsyncStorageLib.multiSet([keys, data], () => {});
-  }
-
   async function userLogin() {
-        
-      const response = await axios.patch(`${azureEndpoint}/login`, {
-          username: username,
-          passkey: passkey,
-        }
-        );
-        
-        Alert.alert(response.toString());
 
-        const user: User = response.data;
-        if (Boolean(user)) {
-          props.verified(true);
-          const profile = user.profile;
-          const data = [
-            profile.username,
-            profile.passkey,
-            profile.pid,
-            profile.firstName,
-            profile.lastName,
-            profile.email,
-            profile.following,
-            profile.followers,
-          ];
-          await storageSetter(data);
-
-          Alert.alert("Welcome Associate!");
-        } else {
-          Alert.alert("Enter valid credentials please.");
-        } 
+    const response = await axios.patch(`${azureEndpoint}/login`, {
+      username: username,
+      passkey: passkey,
+    });
     
+    let profile: Profile = response.data;
+
+    if (Boolean(profile)) {
+      
+      await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
+      Alert.alert("Welcome Associate!");      
+      props.verified(true);
+    } else {
+      Alert.alert("Enter valid credentials please.");
+    }
   }
 
   return (
