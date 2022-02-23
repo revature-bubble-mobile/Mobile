@@ -11,8 +11,12 @@
 
 <br>
 
+### <u>Profile ingestion</u>
 
+#### Using **azureEndpoint**:
 - **POST** /profile  --use azureEndpoint
+
+#### Using **firebaseEndpoint**:
 - **GET** /profile/{pid}.json
 - **GET** /profile/{pid}/following.json
 - **GET** /profile/{pid}/followers.json
@@ -23,14 +27,20 @@
 
 ### <u>Post ingestion</u>
 
-- **POST** /post --use azureEndpoint
+#### Using **azureEndpoint**:
+- **POST** /post  --use azureEndpoint
+
+#### Using **firebaseEndpoint**:
 - **GET** /post.json
 
 <br>
 
 ### <u>Comment ingestion</u>
 
-- **POST** /{psid}/comment --use azureEndpoint
+#### Using **azureEndpoint**:
+- **POST** /comment
+
+#### Using **firebaseEndpoint**:
 - **GET** /{psid}.json
 
 <br>
