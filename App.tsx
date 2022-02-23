@@ -13,8 +13,6 @@ import { Provider } from 'react-redux';
 import { useEffect, useState } from 'react';
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
-import { CreatePost } from './components/create-post/create-post';
-import { azureEndpoint } from './endpoint';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +24,7 @@ export default function App() {
     (async () => {
       const storedProfile = await AsyncStorageLib.getItem("profile");
       if (storedProfile) {
-        const profile: Profile = JSON.parse(storedProfile);
+        const profile:Profile = JSON.parse(storedProfile);
         const setUser = actions.setUser(profile);
         store.dispatch(setUser);
         setVerification(profile.verification ?? false);
@@ -35,20 +33,27 @@ export default function App() {
     })();
   }, [verification]);
 
-  return (<Provider store={store}>
-    <ThemeProvider>
-      {!verification ? <LoginView /> :
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <Drawer.Navigator>
-              <Drawer.Screen name="Home" component={CreatePost} />
-              <Drawer.Screen name="Profile" component={ProfileView} />
-            </Drawer.Navigator>
-          </NavigationContainer>
-          <StatusBar style="auto" />
-        </SafeAreaProvider>
-      }
-    </ThemeProvider>
-  </Provider>)
-}
+return (<Provider store={store}>
+  <ThemeProvider>
+    {!verification ? <LoginView /> :
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Drawer.Navigator>
+            <Drawer.Screen name="Home" component={HomeView} />
+            <Drawer.Screen name="Profile" component={ProfileView} />
+          </Drawer.Navigator>
+        </NavigationContainer>
+        <StatusBar style="auto" />
+      </SafeAreaProvider>
+    }
+  </ThemeProvider>
+</Provider>)}
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
