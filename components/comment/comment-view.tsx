@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Post from "../../dtos/post";
 import endpoint, { azureEndpoint } from "../../endpoint";
 import CommentItem from "./comment-item";
@@ -14,26 +14,26 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     const [replies, setReplies] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState<string>("");
 
-    // const testComments: Comment[] = [
-    //     {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()},
-    //     {cid: "456", writer: "test-profile", post: "test-post", message: "Test Comment 2", dateCreated: new Date()},
-    // ]
-    // const testReplies: Comment[] = [
-    //     {cid: "789", writer: "test-profile", post: "test-post", message: "Test Reply 1", dateCreated: new Date(), previous: "123"},
-    //     {cid: "222", writer: "test-profile", post: "test-post", message: "Test Reply 2", dateCreated: new Date(), previous: "123"},
-    //     {cid: "333", writer: "test-profile", post: "test-post", message: "Test Reply 3", dateCreated: new Date(), previous: "456"}
-    // ]
+    const testComments: Comment[] = [
+        {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()},
+        {cid: "456", writer: "test-profile", post: "test-post", message: "Test Comment 2", dateCreated: new Date()},
+    ]
+    const testReplies: Comment[] = [
+        {cid: "789", writer: "test-profile", post: "test-post", message: "Test Reply 1", dateCreated: new Date(), previous: "123"},
+        {cid: "222", writer: "test-profile", post: "test-post", message: "Test Reply 2", dateCreated: new Date(), previous: "123"},
+        {cid: "333", writer: "test-profile", post: "test-post", message: "Test Reply 3", dateCreated: new Date(), previous: "456"}
+    ]
 
 
-    useEffect(()=>{
-        (async ()=>{
-            const response = await fetch(`${endpoint}/${props.postId}.json`);
-            const data: Comment[] = await response.json();
-            setComments(data.filter(d => !d.previous));
-            setReplies(data.filter(d => d.previous));
-            props.setNumComments(comments.length);
-        })()
-    },[])
+    // useEffect(()=>{
+    //     (async ()=>{
+    //         const response = await fetch(`${endpoint}/${props.postId}.json`)
+    //         const data: Comment[] = await response.json();
+    //         setComments(data.filter(d => !d.previous));
+    //         setReplies(data.filter(d => d.previous));
+    //         props.setNumComments(comments.length);
+    //     })()
+    // },[])
 
     async function postComment(){
         if(!newComment) {
@@ -67,25 +67,29 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     return(<View>
        {comments &&
             <FlatList
-                data={comments}
-                renderItem={({item})=><CommentItem {...item} replies={replies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
+                data={testComments}
+                renderItem={({item})=><CommentItem {...item} replies={testReplies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
                 keyExtractor={item => item.cid}
                 style={styles.replyList}
             />
        }
-       <View style={styles.commentView}>
-       <Text>Enter your comment:</Text>
-       <TextInput placeholder={"Add comment..."} onChangeText={t => setNewComment(t)}/>
-       <Pressable onPress={postComment} style={styles.postButton}><Text>Post</Text></Pressable>
-       </View>
+        <View style={styles.commentView}>
+            <Text style={styles.enterCommentLabel}>Enter your comment:</Text>
+            <View style={{flexDirection:"row"}}>
+                <Image style={styles.repliesImage} source={require("../../assets/favicon.png")} />
+                <TextInput placeholder={"Add comment..."} onChangeText={t => setNewComment(t)}/>
+            </View>
+            <Pressable onPress={postComment} style={styles.postButton}><Text style={styles.postButtonText}>Post</Text></Pressable>
+        </View>
     </View>)
 }
 const styles = StyleSheet.create({
+    
     replyList: {
         marginBottom: 25
     },
     commentView: {
-        marginLeft:20
+        marginLeft:20,
     },
     postButton: {
         backgroundColor: "#474C55",
@@ -95,7 +99,22 @@ const styles = StyleSheet.create({
         width:"20%",
         height:30,
         alignSelf:"flex-end",
-        marginRight:10
-      }
-   
+        marginRight:10,
+        justifyContent:"center",
+        alignItems:"center"
+      },
+    postButtonText: {
+        color:'#fff',
+        fontWeight:"bold"
+    },
+    enterCommentLabel: {
+        fontWeight:"600",
+        marginBottom:4
+    },
+    repliesImage: {
+        height:40,
+        width:40,
+        borderRadius:100,
+        marginRight:4
+    },
 })
