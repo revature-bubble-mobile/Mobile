@@ -98,7 +98,7 @@ export default function LoginView(props: any) {
             testID={"passkey"}
             autoCapitalize={"none"}
             onChangeText={setPasskey}
-            secureTextEntry={false}
+            secureTextEntry={true}
             placeholder="Enter Passkey"
           />
 
