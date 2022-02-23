@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import React, { useRef, useState } from 'react';
 import { Pressable, TextInput, Text, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import endpoint from '../../../endpoint';
+import firebaseEndpoint from '../../../endpoints';
 import { User } from '../../../store';
 import ViewSaveNewProfileButtons from '../views/ViewSaveNewProfileButtons';
 
@@ -23,11 +23,11 @@ export default function UpdateProfileInputs(props: {
     async function updateProfile() {
         try {
             let response: AxiosResponse = await axios.patch(
-                `${endpoint}profile/${currentUser.profile.pid}.json`,
+                `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
                 { firstname: fName, lastname: lName, email: email }
             );
             const id = response.data;
-            response = await axios.get(`${endpoint}profile/${id}.json`);
+            response = await axios.get(`${firebaseEndpoint}profile/${id}.json`);
             dispatch({ type: 'user', payload: response.data });
         } catch (error) {
             Alert.alert(`Error: ${error}`);
