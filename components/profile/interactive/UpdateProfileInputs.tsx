@@ -22,10 +22,12 @@ export default function UpdateProfileInputs(props: {
 
     async function updateProfile() {
         try {
-            const response: AxiosResponse = await axios.patch(
+            let response: AxiosResponse = await axios.patch(
                 `${endpoint}profile/${currentUser.profile.pid}`,
                 { firstname: fName, lastname: lName, email: email }
             );
+            const id = response.data;
+            response = await axios.get(`${endpoint}profile/${id}`);
             dispatch({ type: 'user', payload: response.data });
         } catch (error) {
             Alert.alert(`Error: ${error}`);
