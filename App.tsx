@@ -40,7 +40,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        {!verification ? (
+        {verification ? (
           <LoginView />
         ) : (
           <SafeAreaProvider>
