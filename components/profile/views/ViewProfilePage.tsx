@@ -44,7 +44,10 @@ export default function ViewProfilePage() {
                         style={{
                             color: 'white',
                         }}>{`${currentUser.profile.firstName} ${currentUser.profile.lastName}`}</Text>
-                    <Text style={{ color: 'white' }}>My Email Address</Text>
+                    <Text
+                        style={{
+                            color: 'white',
+                        }}>{`${currentUser.profile.email}}`}</Text>
                     <Image
                         resizeMode='center'
                         style={{
