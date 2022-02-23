@@ -11,6 +11,7 @@ import {
 import Profile from "../../dtos/profile";
 import styles from "./registration-style";
 import SubmitButton from "./submit-button";
+import TermsAndServices from "./terms-and-services";
 
 export default function RegistrationForm() {
   const [profileToRegister, setProfileToRegister] = useState({
@@ -37,7 +38,6 @@ export default function RegistrationForm() {
         console.error("User submission rejected by backend");
       });
   }
-
 
   const [firstnameActive, setFirstnameActive] = useState(false);
   const [lastnameActive, setLastnameActive] = useState(false);
@@ -225,18 +225,9 @@ export default function RegistrationForm() {
               confirmPword={confirmPword}
             />
           </View>
-
           <View>
             <Text style={styles.regPageInstruction}>
-              By creating an account you agree to our
-              <Text
-                style={styles.regPageLinkText}
-                onPress={() => Linking.openURL("http://google.com")}
-              >
-                {" "}
-                Terms & Privacy
-              </Text>
-              .
+              By creating an account you agree to our <TermsAndServices />.
             </Text>
           </View>
 

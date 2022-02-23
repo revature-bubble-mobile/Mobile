@@ -1,6 +1,5 @@
 import { Alert, Pressable, Text } from "react-native";
 import Profile from "../../dtos/profile";
-import ProfileView from "../profile/profile-view";
 import styles from "./registration-style";
 import { emailFormat } from "./constants/constants";
 

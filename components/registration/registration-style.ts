@@ -110,6 +110,13 @@ const styles = StyleSheet.create({
         paddingTop: 7,
     },
 
+    regPageSubmitButtonText:{
+        color:'#FFFFFF',
+        padding:2,
+        paddingLeft:20
+
+    },
+
     regPageButtonUnderline:{
         borderBottomWidth: 1,
         borderColor: '#B9B9BA',
@@ -120,12 +127,29 @@ const styles = StyleSheet.create({
 
     regPageLinkText:{
         color: '#F26925',
+        fontSize:12
+    },
+
+    regPageTermsView:{
+        padding:15, 
+        backgroundColor:'rgba(50,50,50,.15)'
+    },
+    
+    regPageTermsViewTitle:{
+        color:'#72A4C2',
+        fontSize:24,
+        textAlign:'center'
     },
 
     regPageHiddenAlert:{
         display: 'none',
     },
 
+    regPageTermsViewSection:{
+        fontSize:15, 
+        fontWeight:'bold', 
+        color: '#72A4C2'
+    }
 })
 
 export default styles
