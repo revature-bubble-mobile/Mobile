@@ -68,31 +68,44 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
 
 
     return(<View style={styles.container}>
-    <View>
-        <Image style={styles.image} source={require("../../assets/favicon.png")} />
+        <View>
+            <Image style={styles.image} source={require("../../assets/favicon.png")} />
         </View>
         <View>
-        <Text style={styles.date}>{props.dateCreated.toLocaleString()}</Text>
-        <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
-        <Text style={styles.comment}>{props.message}</Text>
-        <Pressable onPress={() => setIsReplyPressed(!isReplyPressed)}><Text style={styles.replyButton}>Reply</Text></Pressable>
-        {isReplyPressed &&
-        <View>
-            <TextInput placeholder={"Add reply..."} onChangeText={t => setReply(t)}/>
-            <Pressable onPress={postReply}><Text>Post</Text></Pressable>
-        </View>
-        }
-        {props.replies[0] &&
+            <Text style={styles.date}>{props.dateCreated.toLocaleString()}</Text>
+            <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
+            <Text style={styles.comment}>{props.message}</Text>
+            <Pressable onPress={() => setIsReplyPressed(!isReplyPressed)}><Text style={styles.replyButton}>Reply</Text></Pressable>
+            {isReplyPressed &&
+            <View style={styles.replyInputContainer}>
+                <TextInput multiline    style={styles.replyInput} placeholder={"Add reply..."} onChangeText={t => setReply(t)}/>
+                <Pressable style={styles.postReplyButton} onPress={postReply}><Text style={styles.postReplyButtonText}>Post</Text></Pressable>
+            </View>
+            }
+            {props.replies[0] &&
             <FlatList
             data={props.replies}
-            renderItem={({item})=><><Text>{item.dateCreated.toLocaleString()}</Text><Text>{`${()=>getReplyProfile(item.writer)} says: \n${item.message}`}</Text></>}
+            renderItem={({item})=>
+            <View style={styles.repliesListContainer}>
+                <View>
+                    <Image style={styles.repliesImage} source={require("../../assets/favicon.png")} />
+                </View>
+                <View>
+                    <Text style={styles.date}>{item.dateCreated.toLocaleString()}</Text>
+                    <Text style={styles.username}>discogirl33 says:</Text>
+                    <Text style={styles.comment}>{item.message}</Text>
+                </View>
+            </View>
+                
+            }
             keyExtractor={item => item.cid}
             />
-        }
+            }
         </View>
     </View>)
 }
 const styles = StyleSheet.create({
+    
     container: {
         flex:1,
         flexDirection:"row",
@@ -107,7 +120,6 @@ const styles = StyleSheet.create({
     },
     date: {
         color:'rgba(72, 76, 86,0.7)'
-
     },
     username: {
         fontWeight:"bold",
@@ -122,6 +134,32 @@ const styles = StyleSheet.create({
         fontWeight:"500",
         marginLeft:12,
         marginBottom:14
-       
+    },
+    repliesListContainer: {
+        flex:1,
+        flexDirection:"row"
+    },
+    repliesImage: {
+        height:40,
+        width:40,
+        borderRadius:100,
+        marginRight:4
+    },
+    replyInputContainer: {
+         marginBottom:20,
+    },
+    replyInput: {
+        borderRadius:2,
+        borderBottomWidth:1,
+        borderColor:"#B9B9BA",
+        width:280
+    },
+    postReplyButton: {
+       marginLeft:200,
+        marginTop:4,
+    },
+    postReplyButtonText: {
+        color:"#F26925",
+        fontWeight:"500",
     }
 })

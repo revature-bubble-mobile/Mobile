@@ -5,7 +5,7 @@ import Post from "../../dtos/post";
 export default function HomeView() {
 
     return(<View>
-        <CommentView post={null} updatePost={()=>{}}/>
+        <CommentView postId="" setNumComments={()=>{}} setUserCommented={()=>{}}/>
 
     </View>)
 }
