@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View, Modal } from "react-native";
 import { Icon } from "react-native-elements";
 import { Card } from "react-native-elements/dist/card/Card";
 import Post from "../../dtos/post";
@@ -11,10 +11,13 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
     const {post, profiles} = props;
     const [userComment, setUserCommented] = useState<boolean>(false);
     const [numOfComments, setNumComments] = useState<number>(0);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const currentProfile = profiles.find(p => post.creator === p.pid);
 
     function commentPressed(){
+
+        setModalVisible(!modalVisible);
         
         if (userComment) {
             setUserCommented(false)
@@ -46,6 +49,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
                 >{post.body ? post.body : "<failed to load>"}
                 </Text>
             </View>
+
             <View style={styles.iconArea}>
                 <Pressable onPress={()=>{ commentPressed() }} 
                     style={styles.pressableIcon}>
@@ -58,6 +62,33 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
             </View>
 
         </Card>
+        <Modal 
+            animationType="slide"
+            transparent={false}
+            visible={modalVisible}
+            style = {styles.modalView}>
+            
+            <View style={styles.profileArea}>
+                <Image
+                source={require('../../assets/favicon.png')}
+                style={styles.profileIcon}
+                />
+                <Text style={styles.profileName}>{currentProfile?.username ?? "not found"}</Text>
+            </View>
+            <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
+            <View style={styles.postBody}>
+                <Text
+                >{post.body ? post.body : "<failed to load>"}
+                </Text>
+            </View>
+            <Pressable onPress={()=>setModalVisible(!modalVisible)}
+            style={styles.pressableIcon}>
+                <Text> Close </Text>
+            
+            {/* ADD COMMENT FUNCTIONALITY HERE */}
+
+            </Pressable>
+        </Modal>
     </View>)
 }
 
@@ -104,4 +135,19 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginHorizontal:5
     },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
 })
