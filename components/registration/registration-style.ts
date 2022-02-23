@@ -4,32 +4,33 @@ const styles = StyleSheet.create({
 
     regPageWholeView:{
         alignContent: 'center',
-        alignSelf: 'center',
+        alignItems: 'center',
         maxWidth: "100%",
         maxHeight: "100%",
     },
 
     regPageLogo:{
-        height: 103,
-        width: 230,
+        height: 135,
+        width: 300,
+        resizeMode: 'contain',
         alignSelf: 'center',
+        margin: 1,
     },
 
     regPageInstruction:{
-        fontSize: 13,
-        padding: 5,
+        fontSize: 16,
+        padding: 10,
         textAlign: 'center',
     },
 
     regInputView:{
         flexDirection: 'row',
         alignContent: 'space-between',
-        padding: 1,
-        paddingLeft: 25
+        padding: 5,
     },
 
     regPageAsterisk:{
-        fontSize: 16,
+        fontSize: 20,
         color: '#f26925',
     },
 
@@ -39,25 +40,42 @@ const styles = StyleSheet.create({
         color: '#474C55'
     },
 
+    regPageRequireFont:{
+        fontSize: 14,
+        color: '#474C55'
+    },
+
     regPageMissingFieldAlert:{
-        fontSize: 16,
+        fontSize: 18,
         color: '#721c24',
         backgroundColor: '#f8d7da',
-        height: 40,
+        height: 45,
         width: 300,
-        textAlign: 'center',
-        padding: 5,
-        paddingLeft: 0,
+        alignSelf: 'center',
+        padding: 10,
+        paddingLeft: 20,
+    },
+
+    regPagePasswordMatchAlert:{
+        fontSize: 18,
+        color: '#721c24',
+        backgroundColor: '#f8d7da',
+        height: 45,
+        width: 300,
+        alignSelf: 'center',
+        padding: 10,
+        paddingLeft: 20,
     },
 
     regPageUnderline:{
         borderBottomWidth: 1,
         borderColor: '#B9B9BA',
+        padding: 10,
         marginBottom: 10,
         width: 300,
     },
 
-    regPageNameInput:{
+    regPageTextboxInput:{
         borderWidth: 2,
         borderColor: '#252525',
         borderRadius: 8,
@@ -66,45 +84,30 @@ const styles = StyleSheet.create({
         width: 250,
     },
 
-    regPageUsernameInput:{
+    regPageTextboxInputAlt:{
         borderWidth: 2,
-        borderColor: '#252525',
+        borderColor: '#72A4C2',
         borderRadius: 8,
         height: 35,
         paddingLeft: 15,
         width: 250,
-    },
-
-    regPagePasswordInput:{
-        borderWidth: 2,
-        borderColor: '#252525',
-        borderRadius: 8,
-        height: 35,
-        paddingLeft: 15,
-        width: 250,
-    },
-
-    regPageEmailInput:{
-        borderWidth: 2,
-        borderColor: '#252525',
-        borderRadius: 8,
-        height: 35,
-        paddingLeft: 15,
-        width: 250,
-        
     },
 
     regPageSubmitButton:{
-        color: '#FFFFFF',
-        height: 30,
-        width: 75,
-        alignSelf:'center',
-        padding:3,
-        paddingLeft: 12,
         borderWidth: 2,
-        borderColor: '#252525',
-        borderRadius:8,
-        backgroundColor: '#474C55'
+        borderRadius: 8,
+        backgroundColor: "#474C55",
+        alignSelf: 'center',
+        width: 90,
+        height: 40,
+    },
+
+    regPageButtonText:{
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+        paddingTop: 7,
     },
 
     regPageButtonUnderline:{
@@ -118,6 +121,11 @@ const styles = StyleSheet.create({
     regPageLinkText:{
         color: '#F26925',
     },
+
+    regPageHiddenAlert:{
+        display: 'none',
+    },
+
 })
 
 export default styles
