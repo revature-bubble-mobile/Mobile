@@ -3,7 +3,7 @@ import { Button } from "react-native-elements";
 import { TextInput } from "react-native";
 import { CreatePost, GetTextInput } from "./create-post";
 import React from 'React';
-import { azureEndpoint } from "../../endpoint";
+import { azureEndpoint } from "../../endpoints";
 
 describe("Testing Create Post Feature", () => {
     it("Should throw an Alert", () => {

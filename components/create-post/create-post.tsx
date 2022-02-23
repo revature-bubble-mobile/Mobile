@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput, PanResponder, Animated, ToastAndroid, Plat
 import { Card, Button } from "react-native-elements";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Post from "../../dtos/post";
-import { azureEndpoint } from "../../endpoint";
+import { azureEndpoint } from "../../endpoints";
 
 export function CreatePost() {
     const [inputTxt, setInputTxt] = useState('');
