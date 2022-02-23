@@ -1,20 +1,15 @@
-import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import Post from "../../dtos/post";
 import firebaseEndpoint from "../../endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Card, CardProps } from "react-native-elements/dist/card/Card";
-import { Divider } from "react-native-elements/dist/divider/Divider";
 import Profile from "../../dtos/profile";
-import { Icon } from "react-native-elements/dist/icons/Icon";
 import PostCard from "./post-card";
 
 
 
 export default function PostFeedView(){
 
-    const pid = "-MwDDfSFxbE7KDt9aWY4";
-    const psid = "-MwS6gcwhPPVKGAkoM7P";
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [posts, setPosts] = useState<Post[]>([]);
@@ -33,7 +28,6 @@ export default function PostFeedView(){
                 profileResponse[id].uniqueId = id;
                 
                 newProfiles.push(profileResponse[id]);
-                // console.log(profileResponse[id]);
                 
             }
             setProfiles(newProfiles);
@@ -48,7 +42,6 @@ export default function PostFeedView(){
             for (const id in postResponse){
                 postResponse[id].uniqueId = id;
                 newPosts.push(postResponse[id]);
-                // console.log(postResponse[id])
             }
             newPosts.sort((a, b)=>{
                 const date1 = new Date(a.datePosted).valueOf();
@@ -76,7 +69,7 @@ export default function PostFeedView(){
         data={posts}
         refreshing={refreshing}
         onRefresh={refresh}
-        renderItem={({item, index}) => (
+        renderItem={({item}) => (
             <PostCard post={item} profiles={profiles}/>
         )}
         />
