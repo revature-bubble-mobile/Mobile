@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View, Modal } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Overlay } from "react-native-elements";
 import { Card } from "react-native-elements/dist/card/Card";
 import Post from "../../dtos/post";
 import Profile from "../../dtos/profile";
@@ -62,33 +62,33 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
             </View>
 
         </Card>
-        <Modal 
-            animationType="slide"
-            transparent={false}
-            visible={modalVisible}
-            style = {styles.modalView}>
-            
-            <View style={styles.profileArea}>
-                <Image
-                source={require('../../assets/favicon.png')}
-                style={styles.profileIcon}
-                />
-                <Text style={styles.profileName}>{currentProfile?.username ?? "not found"}</Text>
+            <Overlay 
+                onBackdropPress = {()=>setModalVisible(!modalVisible)}
+                isVisible={modalVisible}
+                overlayStyle = {styles.modalView}>
+                
+            <View style = {styles.modalView} >
+                <Pressable onPress={()=>setModalVisible(!modalVisible)}
+                style={styles.closeButton}>
+                    <Text style = {styles.closeText}> x </Text>
+                </Pressable>
+                <View style = {styles.profileArea}>
+                    <Image
+                    source={require('../../assets/favicon.png')}
+                    style={styles.profileIcon}
+                    />
+                    <Text style={styles.profileName}>{currentProfile?.username ?? "not found"}</Text>
+                </View>
+                <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
+                <View style={styles.postBody}>
+                    <Text
+                    >{post.body ? post.body : "<failed to load>"}
+                    </Text>
+                </View>
+                
+                {/* ADD COMMENT FUNCTIONALITY HERE */}
             </View>
-            <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
-            <View style={styles.postBody}>
-                <Text
-                >{post.body ? post.body : "<failed to load>"}
-                </Text>
-            </View>
-            <Pressable onPress={()=>setModalVisible(!modalVisible)}
-            style={styles.pressableIcon}>
-                <Text> Close </Text>
-            
-            {/* ADD COMMENT FUNCTIONALITY HERE */}
-
-            </Pressable>
-        </Modal>
+            </Overlay>
     </View>)
 }
 
@@ -136,18 +136,18 @@ const styles = StyleSheet.create({
         marginHorizontal:5
     },
     modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
+        elevation: 1,
+        marginLeft: 20,
+        padding: 1,
+        height:"75%",
+        width:"75%"
+
       },
+    closeButton: {
+        alignSelf:"flex-end",
+    },
+    closeText: {
+        fontSize:20,
+        fontWeight:"bold",
+    }
 })
