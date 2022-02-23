@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FlatList, Text, Pressable, StyleSheet,View, Image } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native";
 import { useSelector } from "react-redux";
 import Comment from "../../dtos/comment"
 import Profile from "../../dtos/profile"
