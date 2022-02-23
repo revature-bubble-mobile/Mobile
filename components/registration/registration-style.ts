@@ -133,7 +133,12 @@ const styles = StyleSheet.create({
         color:'#72A4C2',
         fontSize:24,
         textAlign:'center'
-    }  
+    },
+    regPageTermsViewSection:{
+        fontSize:15, 
+        fontWeight:'bold', 
+        color: '#72A4C2'
+    }
 })
 
 export default styles

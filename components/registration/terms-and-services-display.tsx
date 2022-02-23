@@ -59,7 +59,7 @@ export default function TermsAndServicesContent(){
 
     return(<ScrollView style={styles.regPageTermsView}>
         { terms.map((item, key)=>(
-            <Text key={key}> <Text style={{fontSize:15}}>{(item.title !== 'nothing') && item.title+"\n    "}</Text> {item.desc[0]+"\n    "}{!!item.desc[1] && item.desc[1]+"\n    "}{!!item.desc[2] && item.desc[2] +"\n"} </Text>
+            <Text key={key}> <Text style={styles.regPageTermsViewSection}>{(item.title !== 'nothing') && item.title+"\n    "}</Text> {item.desc[0]+"\n    "}{!!item.desc[1] && item.desc[1]+"\n    "}{!!item.desc[2] && item.desc[2] +"\n"} </Text>
         ))}
 
     </ScrollView>    
