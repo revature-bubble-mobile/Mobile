@@ -33,7 +33,7 @@ export default function LoginView(props: any) {
       
       await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
       Alert.alert("Welcome Associate!");      
-      props.verified(true);
+      props.setVerification(true);
     } else {
       Alert.alert("Enter valid credentials please.");
     }

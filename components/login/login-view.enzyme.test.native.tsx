@@ -1,39 +1,52 @@
-import { mount } from "enzyme";
-import LoginView  from "./login-view";
-import Profile from "../../dtos/profile";
-//@ts-ignore
 import mockAsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
-import AsyncStorageLib from "@react-native-async-storage/async-storage";
+import {shallow } from "enzyme";
+import LoginView  from "./login-view";
+import { Button } from "react-native-elements";
 
-describe("Test login form", function() {
+jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage );
 
-  it("The user name was created correctly", () => {
+const runAllPromises = () => new Promise(resolve => setImmediate(resolve));
+
+describe("Test login form", async () => {
+
+  it('checks if Async Storage is used', async () => {
+    const wrapper = shallow(<LoginView setVerification={() => {} }/>);
+    const button = wrapper.find(Button).first();
+    wrapper.find("TextInput").at(0).simulate("changeText", "mbuble");
+    wrapper.find("TextInput").at(1).simulate("changeText", "test");
+    button.simulate("press");
+    await runAllPromises();
+    expect(mockAsyncStorage.setItem).toHaveBeenCalled();
+  });
+
+
+/*   it("The user name was created correctly", () => {
     const wrapper = mount(<LoginView/>);
     
      wrapper.find('TextInput[type="text"]').simulate("change", {
-      target: { testId:"username", value: "world" }
+      target: { testId:"username", value: "mbuble" }
     });
-    expect(wrapper.state("username")).toEqual("world");
+    expect(wrapper.state("username")).toEqual("mbuble");
   });
 
   it("The password was created correctly", ()=> {
     const wrapper = mount(<LoginView/>);
     wrapper.find('TextInput[type="text"]').simulate("change", {
-      target: { testId: "password", value: "123" }
+      target: { testId: "password", value: "test" }
     });
-    expect(wrapper.state("password")).toEqual("123");
+    expect(wrapper.state("password")).toEqual("test");
   });
 
   it("login check with right data", () => {
     const wrapper = mount(<LoginView/>);
     wrapper
       .find('TextInput[type="text"]')
-      .simulate("change", { target: { testId: "username", value: "world" } });
+      .simulate("change", { target: { testId: "username", value: "mbuble" } });
     wrapper
       .find('TextInput[type="password"]')
-      .simulate("change", { target: { testId: "password", value: "123" } });
+      .simulate("change", { target: { testId: "password", value: "test" } });
     wrapper.find("button").simulate("press");
     expect(wrapper.state("loggedIn")).toBe(true);
-  });
+  }); */
 
 });
