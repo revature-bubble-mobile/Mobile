@@ -4,7 +4,7 @@ import { User } from '../../../store';
 import UpdateProfileButton from '../interactive/UpdateProfileButton';
 import ViewPostsOrFollowers from './ViewPostsOrFollowers';
 
-export default function ViewProfilePage() {
+export default function ProfileView() {
   const currentUser: User = useSelector((state: User) => state);
 
   return (
@@ -61,7 +61,7 @@ export default function ViewProfilePage() {
               position: 'absolute',
               top: -Dimensions.get('window').height / 8,
             }}
-            source={require('./circle.jpg')}></Image>
+            source={require("../../.././assets/favicon.png")}></Image>
 
           <View
             style={{
