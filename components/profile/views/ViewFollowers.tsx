@@ -1,4 +1,4 @@
-import { View, Text, Image, Dimensions, FlatList } from "react-native";
+import { View, Dimensions, FlatList } from "react-native";
 
 export default function ViewFollowers(){
 

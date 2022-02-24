@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Pressable, Text } from "react-native";
-import ViewUpdateProfile from "../views/ViewUpdateProfile";
 import BasicModal from "./BasicModal";
 
 export default function UpdateProfileButton(){
