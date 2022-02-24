@@ -14,26 +14,26 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     const [replies, setReplies] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState<string>("");
 
-    const testComments: Comment[] = [
-        {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()},
-        {cid: "456", writer: "test-profile", post: "test-post", message: "Test Comment 2", dateCreated: new Date()},
-    ]
-    const testReplies: Comment[] = [
-        {cid: "789", writer: "test-profile", post: "test-post", message: "Test Reply 1", dateCreated: new Date(), previous: "123"},
-        {cid: "222", writer: "test-profile", post: "test-post", message: "Test Reply 2", dateCreated: new Date(), previous: "123"},
-        {cid: "333", writer: "test-profile", post: "test-post", message: "Test Reply 3", dateCreated: new Date(), previous: "456"}
-    ]
+    // const testComments: Comment[] = [
+    //     {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()},
+    //     {cid: "456", writer: "test-profile", post: "test-post", message: "Test Comment 2", dateCreated: new Date()},
+    // ]
+    // const testReplies: Comment[] = [
+    //     {cid: "789", writer: "test-profile", post: "test-post", message: "Test Reply 1", dateCreated: new Date(), previous: "123"},
+    //     {cid: "222", writer: "test-profile", post: "test-post", message: "Test Reply 2", dateCreated: new Date(), previous: "123"},
+    //     {cid: "333", writer: "test-profile", post: "test-post", message: "Test Reply 3", dateCreated: new Date(), previous: "456"}
+    // ]
 
 
-    // useEffect(()=>{
-    //     (async ()=>{
-    //         const response = await fetch(`${endpoint}/${props.postId}.json`)
-    //         const data: Comment[] = await response.json();
-    //         setComments(data.filter(d => !d.previous));
-    //         setReplies(data.filter(d => d.previous));
-    //         props.setNumComments(comments.length);
-    //     })()
-    // },[])
+    useEffect(()=>{
+        (async ()=>{
+            const response = await fetch(`${endpoint}/${props.postId}.json`)
+            const data: Comment[] = await response.json();
+            setComments(data.filter(d => !d.previous));
+            setReplies(data.filter(d => d.previous));
+            props.setNumComments(comments.length);
+        })()
+    },[])
 
     async function postComment(){
         if(!newComment) {
@@ -57,7 +57,6 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 
             comments.push(comment);
             setComments([...comments]);
-
             props.setNumComments(comments.length);
             props.setUserCommented(true);
         }
@@ -67,8 +66,8 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     return(<View>
        {comments &&
             <FlatList
-                data={testComments}
-                renderItem={({item})=><CommentItem {...item} replies={testReplies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
+                data={comments}
+                renderItem={({item})=><CommentItem {...item} replies={replies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
                 keyExtractor={item => item.cid}
                 style={styles.replyList}
             />

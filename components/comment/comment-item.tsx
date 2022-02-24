@@ -13,25 +13,12 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [newReply, setReply] = useState("");
 
-    // const testProfile = {
-    //     pid: "test-profile",
-    //     firstName: "test",
-    //     lastName: "profile",
-    //     passkey: "xxxxx",
-    //     email: "none@email.com",
-    //     username: "tprofile",
-    //     imgurl: "",
-    //     verification: true,
-    //     followers: [],
-    //     following: []}
-
     useEffect(()=>{
         (async ()=>{
             const response = await fetch(`${endpoint}/profile/${props.writer}.json`);
             const commentProfile: Profile = await response.json();
             setUserProfile(commentProfile);
         })()
-        //setUserProfile(testProfile);
     },[])
 
     async function getReplyProfile(pid: string){
@@ -92,7 +79,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                 </View>
                 <View>
                     <Text style={styles.date}>{item.dateCreated.toLocaleString()}</Text>
-                    <Text style={styles.username}>discogirl33 says:</Text>
+                    <Text style={styles.username}>{`${()=>getReplyProfile(item.writer)} says: `}</Text>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
