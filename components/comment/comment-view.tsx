@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, Image, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Post from "../../dtos/post";
-import endpoint, { azureEndpoint } from "../../endpoint";
+import endpoint, { azureEndpoint } from "../../endpoints";
 import CommentItem from "./comment-item";
 import Comment from "../../dtos/comment";
 import { Pressable, Text } from "react-native";

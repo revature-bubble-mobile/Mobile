@@ -4,7 +4,7 @@ import { TextInput } from "react-native";
 import { useSelector } from "react-redux";
 import Comment from "../../dtos/comment"
 import Profile from "../../dtos/profile"
-import endpoint, { azureEndpoint } from "../../endpoint";
+import endpoint, { azureEndpoint } from "../../endpoints";
 import { User } from "../../store";
 
 export default function CommentItem(props: Comment & {replies: Comment[], setReplies: Function}){
