@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import React, { useRef, useState } from 'react';
-import { Pressable, TextInput, Text, Alert } from 'react-native';
+import React, {  useState } from 'react';
+import { TextInput,  Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Profile from '../../../dtos/profile';
 import firebaseEndpoint from '../../../endpoints';
@@ -23,7 +23,7 @@ export default function UpdateProfileInputs(props: {
 
   async function updateProfile() {
     try {
-      let response: AxiosResponse = await axios.patch(
+      const response: AxiosResponse = await axios.patch(
         `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
         { firstname: fName, lastname: lName, email: email }
       );

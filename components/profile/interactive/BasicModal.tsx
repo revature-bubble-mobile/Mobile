@@ -1,5 +1,5 @@
-import { Children, useState } from "react";
-import { View, Text, Image, Dimensions, Modal, Pressable } from "react-native";
+import { useState } from "react";
+import {  Modal } from "react-native";
 import ViewUpdateProfile from "../views/ViewUpdateProfile";
 
 export default function BasicModal(props:{setShowParent: Function}){

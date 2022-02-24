@@ -1,12 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import {createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Icon, ThemeProvider } from 'react-native-elements';
 import LoginView from './components/login/login-view';
@@ -46,15 +41,15 @@ export default function App() {
           <SafeAreaProvider>
             <NavigationContainer>
               <Drawer.Navigator
-                initialRouteName='Home'
+                initialRouteName="Home"
                 drawerContent={(props) => {
                   return (
                     <DrawerContentScrollView {...props}>
                       <DrawerItemList {...props} />
                       <DrawerItem
-                        label='Logout'
+                        label="Logout"
                         icon={() => {
-                          return <Icon name='logout' size={30} />;
+                          return <Icon name="logout" size={30} />;
                         }}
                         onPress={() => {
                           store.dispatch(
@@ -79,24 +74,24 @@ export default function App() {
                 <Drawer.Screen
                   options={{
                     drawerIcon: () => {
-                      return <FontAwesome name='home' size={30} />;
+                      return <FontAwesome name="home" size={30} />;
                     },
                   }}
-                  name='Home'
+                  name="Home"
                   component={HomeView}
                 />
                 <Drawer.Screen
                   options={{
                     drawerIcon: () => {
-                      return <FontAwesome name='drivers-license-o' size={30} />;
+                      return <FontAwesome name="drivers-license-o" size={30} />;
                     },
                   }}
-                  name='Profile'
+                  name="Profile"
                   component={ViewProfilePage}
                 />
               </Drawer.Navigator>
             </NavigationContainer>
-            <StatusBar style='auto' />
+            <StatusBar style="auto" />
           </SafeAreaProvider>
         )}
       </ThemeProvider>
