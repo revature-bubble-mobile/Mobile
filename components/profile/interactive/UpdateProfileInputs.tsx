@@ -2,57 +2,60 @@ import axios, { AxiosResponse } from 'axios';
 import React, { useRef, useState } from 'react';
 import { Pressable, TextInput, Text, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import Profile from '../../../dtos/profile';
 import firebaseEndpoint from '../../../endpoints';
 import { User } from '../../../store';
 import ViewSaveNewProfileButtons from '../views/ViewSaveNewProfileButtons';
 
 export default function UpdateProfileInputs(props: {
-    setShowModal: Function;
-    setShowParent: Function;
+  setShowModal: Function;
+  setShowParent: Function;
 }) {
-    const { setShowModal, setShowParent } = props;
+  const { setShowModal, setShowParent } = props;
 
-    const currentUser: User = useSelector((state: User) => state);
+  const currentUser: User = useSelector((state: User) => state);
 
-    const [fName, setFName] = useState<string>('');
-    const [lName, setLName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
+  const [fName, setFName] = useState<string>('');
+  const [lName, setLName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    async function updateProfile() {
-        try {
-            let response: AxiosResponse = await axios.patch(
-                `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
-                { firstname: fName, lastname: lName, email: email }
-            );
-            const id = response.data;
-            response = await axios.get(`${firebaseEndpoint}profile/${id}.json`);
-            dispatch({ type: 'user', payload: response.data });
-        } catch (error) {
-            Alert.alert(`Error: ${error}`);
-        }
+  async function updateProfile() {
+    try {
+      let response: AxiosResponse = await axios.patch(
+        `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
+        { firstname: fName, lastname: lName, email: email }
+      );
+      const profile: Profile = response.data;
+      dispatch({ type: 'user', payload: profile });
+    } catch (error) {
+      Alert.alert(`Error: ${error}`);
     }
+  }
 
-    return (
-        <>
-            <TextInput
-                value={fName}
-                onChangeText={setFName}
-                placeholder={'First Name'}></TextInput>
-            <TextInput
-                value={lName}
-                onChangeText={setLName}
-                placeholder={'Last Name'}></TextInput>
-            <TextInput
-                value={email}
-                onChangeText={setEmail}
-                placeholder={'Email'}></TextInput>
-            <ViewSaveNewProfileButtons
-                updateProfile={updateProfile}
-                setShowModal={setShowModal}
-                setShowParent={setShowParent}
-            />
-        </>
-    );
+  return (
+    <>
+      <TextInput
+        testID='fname-textinput'
+        value={fName}
+        onChangeText={setFName}
+        placeholder={'First Name'}></TextInput>
+      <TextInput
+        testID='lname-textinput'
+        value={lName}
+        onChangeText={setLName}
+        placeholder={'Last Name'}></TextInput>
+      <TextInput
+        testID='email-textinput'
+        value={email}
+        onChangeText={setEmail}
+        placeholder={'Email'}></TextInput>
+      <ViewSaveNewProfileButtons
+        updateProfile={updateProfile}
+        setShowModal={setShowModal}
+        setShowParent={setShowParent}
+      />
+    </>
+  );
 }

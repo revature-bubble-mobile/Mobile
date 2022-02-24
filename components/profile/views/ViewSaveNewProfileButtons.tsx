@@ -1,37 +1,37 @@
 import { Pressable, View, Text } from 'react-native';
 
 export default function ViewSaveNewProfileButtons(props: {
-    updateProfile: Function;
-    setShowModal: Function;
-    setShowParent: Function;
+  updateProfile: Function;
+  setShowModal: Function;
+  setShowParent: Function;
 }) {
-    const { setShowModal, setShowParent, updateProfile } = props;
+  const { setShowModal, setShowParent, updateProfile } = props;
 
-    return (
-        <View style={{ flexDirection: 'row' }}>
-            <Pressable
-                style={{
-                    backgroundColor: 'dimgrey',
-                    borderRadius: 10,
-                    marginRight: 10,
-                }}
-                onPress={() => {
-                    setShowModal(false);
-                    setTimeout(() => setShowParent(true), 200);
-                }}>
-                <Text style={{ padding: 15, color: 'white' }}>Cancel</Text>
-            </Pressable>
-            <Pressable
-                style={{
-                    backgroundColor: 'dimgrey',
-                    borderRadius: 10,
-                    marginLeft: 10,
-                }}
-                onPress={() => updateProfile()}>
-                <Text style={{ padding: 15, color: 'white' }}>
-                    Update Profile
-                </Text>
-            </Pressable>
-        </View>
-    );
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      <Pressable
+        testID='cancel-btn'
+        style={{
+          backgroundColor: 'dimgrey',
+          borderRadius: 10,
+          marginRight: 10,
+        }}
+        onPress={() => {
+          setShowModal(false);
+          setTimeout(() => setShowParent(true), 200);
+        }}>
+        <Text style={{ padding: 15, color: 'white' }}>Cancel</Text>
+      </Pressable>
+      <Pressable
+        testID='update-btn'
+        style={{
+          backgroundColor: 'dimgrey',
+          borderRadius: 10,
+          marginLeft: 10,
+        }}
+        onPress={() => updateProfile()}>
+        <Text style={{ padding: 15, color: 'white' }}>Update Profile</Text>
+      </Pressable>
+    </View>
+  );
 }
