@@ -50,7 +50,7 @@ To get this to work, two different endpoints were used. One for Firebase and one
 - Azure: https://wk-revature-bubble-mobile.azurewebsites.net/api
 - Firebase: https://bubble-app-82a5a-default-rtdb.firebaseio.com
 
-**For Future Reworking** The easiest way to have no changes made to the frontend and have it compatible with a different backend would be the following:
+**For Future Reworking:** These backend will not be provide long term because of cost. Any future utilization of the front end will need to have a new backend created for communication.The easiest way to have no changes made to the frontend and have it compatible with a different backend would be the following:
 
 1. All HTTP calls reference one of these endpoints within the _endpoints.ts_ file. Simple change these endpoints as desired to the endpoint of another backend.
 2. To ensure consistent behavior, it would be recommended to map all endpoints to an Azure Function (or equivalent service) as _"glue code."_ From here this function can interact with the database or other API as needed that could filter and manipulate the functionality of the Firebase-Azure backend.
