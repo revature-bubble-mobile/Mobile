@@ -3,16 +3,14 @@
 
 ## Instructions
 
-    To use the new API backend, import the 'endpoint' variable from the 'endpoint.ts' file into the component(s) your are developing.
     Import the 'firebaseEndpoint' variable (a default export) from the 'endpoints.ts' file into the component(s) needing to make any 'GET' and 'PATCH' requests (NOTE: this variable is not to be used for the Login route).
 
     Import the 'azureEndpoint' variable (a non-default export) from the 'endpoints.ts' file into the component(s) needing to make any 'POST' requests or to use the Login route.
 
 ## API routes
 
-### Profile ingestion
+<br>
 
-- **POST** /profile  --use azureEndpoint
 ### <u>Profile ingestion</u>
 
 #### Using **azureEndpoint**:
@@ -25,24 +23,26 @@
 - **PATCH** /profile/{pid}/following.json
 - **PATCH** /profile/{pid}/followers.json
 
+<br>
 
-### Post ingestion
+### <u>Post ingestion</u>
 
-- **POST** /post --use azureEndpoint
 #### Using **azureEndpoint**:
 - **POST** /post
 
 #### Using **firebaseEndpoint**:
 - **GET** /post.json
 
+<br>
 
-### Comment ingestion
+### <u>Comment ingestion</u>
 
-- **POST** /comment --use azureEndpoint
+#### Using **azureEndpoint**:
+- **POST** /comment
+
+#### Using **firebaseEndpoint**:
 - **GET** /{psid}.json
 
-### Login
-- **PATCH** /login --use azureEndpoint
 <br>
 
 ### <u>Login route</u>
