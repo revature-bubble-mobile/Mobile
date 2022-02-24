@@ -104,7 +104,6 @@ All calls that are not a Post or specific a Patch to login user the Firebase Dat
 Firebase is a NoSQL type database. All data within the database can be changed at runtime and does not need to confirm to a set data model or scheme. The base url links the main json. All other routes map to a specific property within the json similar to a tree. All data under the last route specified will be returned as one single object.
 
 ```TypeScript
-
 const url = `${firebaseUrl}/profiles/bbb`
 >/*firebaseUrl*/root:{
 >    /*Profiles*/ profiles:{
@@ -121,17 +120,17 @@ const url = `${firebaseUrl}/profiles/bbb`
                     ....
                 }
             }
-// Using the url above will return an object like this:
-const objectReturned = {pid:string, username, password, followers[],likes[]}
-// **Note: none of the data under profiles is consistent with all same the properties.
-// Ideally the same data would be saved for all entries. However checking on the front end may be useful to avoid unexpected errors.
+// Using the url above will return an object with the following properties:
+const objectReturned = {pid:string, username, password, followers[],likes[]}.
 ```
 
-Currently to interact with all data within Firebase, no matter the type, the crud operations all work the same. Not all crud opperations will
+\*\*Note: none of the data under profiles is consistent with all same the properties.
+Ideally the same data would be saved for all entries. However checking on the front end may be useful to avoid unexpected errors.
+Currently to interact with all data within Firebase, no matter the type, the crud operations all work the same. Not all crud operations will. Note All routes must have _.json_ appended to the end for Firebase to work properly.
 
 #### **get request:**
 
-Sending a get request to {Firebase Endpoint}/{data type} will return all items of that type. All data must then be filtered and manipulated from the front end.
+Sending a get request to {Firebase Endpoint}/{key1}/{key2}/{key3}/.../keyN.json will return an object with all properties under that key. All data must then be filtered and manipulated from the front end.
 
 ```TypeScript
 const route:string = `https://bubble-app-82a5a-default-rtdb.firebaseio.com/profiles.json`
@@ -143,75 +142,46 @@ Adding an ID (specific the ID setup by the Azure function), it will retrieve ite
 ```TypeScript
 const id:string = 'uuid here'
 const route:string = `https://bubble-app-82a5a-default-rtdb.firebaseio.com/profiles/${id}.json`
-// this will return an object that has the sam key found on the main json object.
+// this will return an object that has the same key found on the main json object.
 //The key here is the id passed and should be the same that the Azure function created.
+const object:type = await httpCall(url)
 ```
 
-patch -> {fields} -> id
-put -> {fields} -> id
-delete -> //no implemented in app
+#### **Put and Patch request:**
 
-### **JWT**
+All updates to the database communicate directly with the Firebase Database.
 
-Currently there is no implementation for JWTs which the Web version receive from the original backend. This was not included because of time constraints.
+- any Put request will remove and replace all data under the route specified with the data given within the body of the request.
+- any Patch will added, and or replace, only properties specified within the body of the request.
+  -If the properties exist, they will be replaced.
+  -if they do not exist, they will be added.
 
-There
-
-### **Data Model Changes**
-
-**_DTO to send to Server for comments_**
+Both verbs will send back the object in the database as a json with the updated changes.
 
 ```TypeScript
-export default interface Comment {
-    /**Comment ID string */
-    cid: string;
-    /**ID string of a profile */
-    writer: string;
-    /**ID string of a post */
-    post: string;
-    /**Text entered when creating the Comment */
-    message: string;
-    dateCreated: Date;
-    previous?: string;
-}
+// this url is used as a post or patch
+const url = `${firebaseUrl}/profiles/bbb.json`
+const object:type = await httpCall(url)
+{type}/*Return Json*/
+
+
 ```
 
-**_DTO to experted from server for commends_**
+#### **Post request:**
+
+No post request should be made to the Firebase backend. All post request should go to the Azure backend.
+
+#### **Delete request:**
+
+The front end does not currently have any deleting functionality implemented.
+
+### **Data Models**
+
+The following is a list of all DTOs used within the frontend.
 
 ```TypeScript
-{
-    ID:"Example" // uuid like string
-}
-```
-
-**_DTO to send to Server for Post_**
-
-```TypeScript
-export default interface Post {
-    /**Unique ID of the Post */
-    psid: string;
-    /**ID string of a profile */
-    creator: string;
-    /**Text entered when creating the Post */
-    body: string;
-    datePosted: Date;
-    imgURL?: string;
-}
-```
-
-**_DTO to experted from server for Post_**
-
-```TypeScript
-{
-    ID:"Example" // uuid like string
-}
-```
-
-**_DTO to send to Server for Profile_**
-
-```TypeScript
-export default interface Profile {
-    /**Profile ID string */
+interface Profile {
+    /**Profile ID string, used when trying to map the route with the appropriate key on Firebase*/
     pid: string;
     firstName: string;
     lastName: string;
@@ -224,15 +194,96 @@ export default interface Profile {
     followers: string[];
     following: string[];
 }
-```
-
-**_DTO to experted from server for Profile_**
-
-```TypeScript
-{
-    ID:"Example" // uuid like string
+interface Comment {
+    /**Comment ID string, used when trying to map the route with the appropriate key on Firebase */
+    cid: string;
+    /**ID string of a profile that created the comment */
+    writer: string;
+    /**ID string of a post */
+    post: string;
+    /**Text entered when creating the Comment */
+    message: string;
+    dateCreated: Date;
+    previous?: string;
+}
+interface Post {
+    /**Unique ID of the Post, used when trying to map the route with the appropriate key on Firebase */
+    psid: string;
+    /**ID string of a profile that created the post */
+    creator: string;
+    /**Text entered when creating the Post */
+    body: string;
+    datePosted: Date;
+    imgURL?: string;
 }
 ```
+
+When using the Patch with the login route to Azure, the following should be sent to the server:
+
+```TypeScript
+//Json sent
+const body = {username:string,password:string}
+const response = await axios.patch(url,body)
+const loginProfile = response.data
+```
+
+When using the Post-> /{dataType} route with Azure, the following should be sent to the server:
+
+When using any firebase route, it is expected that the type send will be the same as the type requested using the corresponding id.
+
+```TypeScript
+const url:string = pid|cid|psid; // only one should be used, but any of the three are valid
+// if using a put the full data model should be added as a body
+1. pid     =>const body = {Profile}     // if put, include body
+2. cid     =>const body =  {Comment}    // if put, include body
+3. psid    =>const body = {Post}        // if put, include body
+
+// if using a Patch, only include the data you want to update
+// then make a call as needed, the following ids will map as followed
+const response = axios.verb(url,body)
+                // pid     | cid   | psid
+const loginProfile:Profile |Comment|Post = response.data
+```
+
+Example get all profiles
+
+```TypeScript
+const url = `${firebaseUrl}/Profile`
+const profileArray:Profile[]= await axois.get(url)
+```
+
+Example get single profile by ID
+
+```TypeScript
+const profile; // local profile in app from the redux store
+const url = `${firebaseUrl}/Profile/${profile.pid}`
+const profileArray:Profile= await axios.get(url)
+```
+
+Example put single profile by ID
+
+```TypeScript
+const profile; // local profile in app from the redux store
+const body:Profile= {/*All profile properties*/}
+const url = `${firebaseUrl}/Profile/${profile.pid}`
+// This profile should be a complete replacement
+const profileArray:Profile= await axios.put(url,body)
+```
+
+Example patch single profile by ID
+
+```TypeScript
+const profile; // local profile in app from the redux store
+const followers = [/*new data*/]
+const body= {followers}
+const url = `${firebaseUrl}/Profile/${profile.pid}`
+// This profile should be a new profile with the changes made
+const profileArray:Profile= await axios.patch(url,body)
+```
+
+### **JWT**
+
+Currently there is no implementation for JWTs which the Web version receive from the original backend. This was not included because of time constraints. However, in the profile data model, 'passkey' does exist that would be the JWT that the original backend should send.
 
 ## Feature Breakdown
 
