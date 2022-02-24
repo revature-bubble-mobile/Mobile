@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import Profile from "../../dtos/profile";
 import styles from "./registration-style";
-import SubmitButton from "./submit-button";
+import SubmitButton from "./submit-registration";
 import TermsAndServices from "./terms-and-services";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 export default function RegistrationForm() {
   const [profileToRegister, setProfileToRegister] = useState({
@@ -77,7 +78,10 @@ export default function RegistrationForm() {
   }, [profileToRegister]);
 
   return (
-    <>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ justifyContent: "center" }}
+    >
       <ScrollView>
         <View style={styles.regPageWholeView}>
           <View>
@@ -113,6 +117,7 @@ export default function RegistrationForm() {
                 First Name:<Text style={styles.regPageAsterisk}>*</Text>
               </Text>
               <TextInput
+                autoCapitalize="none"
                 style={firstnameStyle}
                 placeholder="Enter First Name"
                 onChangeText={(t) => {
@@ -130,6 +135,7 @@ export default function RegistrationForm() {
                 Last Name:<Text style={styles.regPageAsterisk}>*</Text>
               </Text>
               <TextInput
+                autoCapitalize="none"
                 style={lastnameStyle}
                 placeholder="Enter Last Name"
                 onChangeText={(t) => {
@@ -147,6 +153,7 @@ export default function RegistrationForm() {
                 Username:<Text style={styles.regPageAsterisk}>*</Text>
               </Text>
               <TextInput
+                autoCapitalize="none"
                 style={usernameStyle}
                 placeholder="Enter Username"
                 onChangeText={(t) => {
@@ -164,6 +171,7 @@ export default function RegistrationForm() {
                 Email:<Text style={styles.regPageAsterisk}>*</Text>
               </Text>
               <TextInput
+                autoCapitalize="none"
                 style={emailStyle}
                 placeholder="Enter Email"
                 onChangeText={(t) => {
@@ -181,7 +189,9 @@ export default function RegistrationForm() {
                 Password:<Text style={styles.regPageAsterisk}>*</Text>
               </Text>
               <TextInput
+                autoCapitalize="none"
                 style={passwordStyle}
+                secureTextEntry
                 placeholder="Enter Password"
                 onChangeText={(t) => {
                   setProfileToRegister({ ...profileToRegister, passkey: t });
@@ -198,11 +208,12 @@ export default function RegistrationForm() {
                 Confirm Password:<Text style={styles.regPageAsterisk}>*</Text>
               </Text>
               <TextInput
+                autoCapitalize="none"
                 style={repeatPasswordStyle}
+                secureTextEntry
                 placeholder="Repeat Password"
                 onChangeText={(t) => {
                   setConfirmPword(t);
-                  console.log(confirmPword);
                 }}
                 onFocus={() => setRepeatPasswordActive(true)}
                 onBlur={() => setRepeatPasswordActive(false)}
@@ -226,13 +237,13 @@ export default function RegistrationForm() {
             />
           </View>
           <View>
-            <Text style={styles.regPageInstruction}>
-              By creating an account you agree to our <TermsAndServices />.
+            <Text style={styles.regPageTNSInstruction}>
+              By creating an account you agree to our
             </Text>
           </View>
-
+          <TermsAndServices />
           <View>
-            <Text style={styles.regPageInstruction}>
+            <Text style={styles.regPageLinkInstruction}>
               Already have an account?
               <Text
                 style={styles.regPageLinkText}
@@ -245,6 +256,6 @@ export default function RegistrationForm() {
           </View>
         </View>
       </ScrollView>
-    </>
+    </KeyboardAvoidingView>
   );
 }

@@ -127,18 +127,23 @@ const styles = StyleSheet.create({
 
     regPageLinkText:{
         color: '#F26925',
-        fontSize:12
+        fontSize: 16,
     },
 
     regPageTermsView:{
-        padding:15, 
+        padding: 15, 
         backgroundColor:'rgba(50,50,50,.15)'
     },
-    
+
+    regPageLinkDiv:{
+        color: '#F26925',
+        fontSize: 16,
+    },
+
     regPageTermsViewTitle:{
         color:'#72A4C2',
         fontSize:24,
-        textAlign:'center'
+        textAlign:'center',
     },
 
     regPageHiddenAlert:{
@@ -149,7 +154,21 @@ const styles = StyleSheet.create({
         fontSize:15, 
         fontWeight:'bold', 
         color: '#72A4C2'
-    }
+    },
+
+    regPageTNSInstruction:{
+        fontSize: 16,
+        padding: 5,
+        textAlign: 'center',
+    },
+
+    regPageLinkInstruction:{
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+
+
 })
 
 export default styles

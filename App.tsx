@@ -21,9 +21,9 @@ export default function App() {
       <ThemeProvider>
         <NavigationContainer>
           <Drawer.Navigator>
-            <Drawer.Screen name="Home" component={RegistrationForm}/>
+            <Drawer.Screen name="Home" component={HomeView}/>
             <Drawer.Screen name="Profile" component={ProfileView}/>
-            <Drawer.Screen name="Registration" component={HomeView}/>
+            <Drawer.Screen name="Registration" component={RegistrationForm}/>
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />
