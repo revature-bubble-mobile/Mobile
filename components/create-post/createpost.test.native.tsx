@@ -6,6 +6,7 @@ import React from 'React';
 import { azureEndpoint } from "../../endpoints";
 
 describe("Testing Create Post Feature", () => {
+    
     it("Should throw an Alert", () => {
 
         if (Platform.OS === 'ios') {
@@ -35,6 +36,8 @@ describe("Testing Create Post Feature", () => {
         expect(inputTxt).toBe(changedText);
         jest.clearAllMocks();
     });
+
+
     it("Should upload a new Post ", async () => {
         const mocker = jest.fn();
         global.alert = mocker;
