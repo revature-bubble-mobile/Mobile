@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View, Modal } from "react-native";
 import { Icon, Overlay } from "react-native-elements";
 import { Card } from "react-native-elements/dist/card/Card";
+import { Divider } from "react-native-elements/dist/divider/Divider";
 import Post from "../../dtos/post";
 import Profile from "../../dtos/profile";
 
@@ -11,21 +12,21 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
     const {post, profiles} = props;
     const [userComment, setUserCommented] = useState<boolean>(false);
     const [numOfComments, setNumComments] = useState<number>(0);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [overlayVisible, setOverlayVisible] = useState(false);
 
     const currentProfile = profiles.find(p => post.creator === p.pid);
 
     function commentPressed(){
 
-        setModalVisible(!modalVisible);
+        setOverlayVisible(!overlayVisible);
         
         if (userComment) {
             setUserCommented(false)
-            setNumComments(0);
+            setNumComments(1);
         }
         else {
             setUserCommented(true);
-            setNumComments(1);
+            setNumComments(2);
         }
     }
 
@@ -55,21 +56,24 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
                     style={styles.pressableIcon}>
                     {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                     : 
-                    <Icon name={"comment-o"} type={"font-awesome"} color={"#007bff"}/>}
+                    numOfComments > 0 ? <Icon name={"comment"} type={"font-awesome"} color={"#009bff"}/>
+                    :
+                    <Icon name={"comment-o"} type={"font-awesome"} color={"#009bff"}/>}
                     
                 </Pressable>
                 <Text style={styles.commentNumber}>{numOfComments}</Text>
             </View>
 
         </Card>
-            <Overlay 
-                onBackdropPress = {()=>setModalVisible(!modalVisible)}
-                isVisible={modalVisible}
-                overlayStyle = {styles.modalView}>
-                
-            <View style = {styles.modalView} >
-                <Pressable onPress={()=>setModalVisible(!modalVisible)}
-                style={styles.closeButton}>
+
+        <Overlay 
+            onBackdropPress = {()=>setOverlayVisible(!overlayVisible)}
+            isVisible={overlayVisible}
+            overlayStyle = {styles.overlay}>
+            
+            <View style = {styles.overlayInside} >
+                <Pressable onPress={()=>setOverlayVisible(!overlayVisible)}
+                    style={styles.closeButton}>
                     <Text style = {styles.closeText}> x </Text>
                 </Pressable>
                 <View style = {styles.profileArea}>
@@ -85,10 +89,24 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
                     >{post.body ? post.body : "<failed to load>"}
                     </Text>
                 </View>
-                
+                <View style={styles.iconArea}>
+                    <Pressable onPress={()=>{ commentPressed() }} 
+                        style={styles.pressableIcon}>
+                        {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
+                        : 
+                        numOfComments > 0 ? <Icon name={"comment"} type={"font-awesome"} color={"#009bff"}/>
+                        : 
+                        <Icon name={"comment-o"} type={"font-awesome"} color={"#009bff"}/>}
+                        
+                    </Pressable>
+                    <Text style={styles.commentNumber}>{numOfComments}</Text>
+                </View>
+                <Divider style={{borderWidth: 2, borderColor:"lightgray", marginTop:5,}} />
+
                 {/* ADD COMMENT FUNCTIONALITY HERE */}
+
             </View>
-            </Overlay>
+        </Overlay>
     </View>)
 }
 
@@ -122,6 +140,7 @@ const styles = StyleSheet.create({
     },
     postBody:{
         marginVertical:20,
+        marginLeft:8,
     },
     iconArea:{
         flexDirection:"row",
@@ -135,16 +154,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginHorizontal:5
     },
-    modalView: {
-        elevation: 1,
-        marginLeft: 20,
-        padding: 1,
-        height:"75%",
-        width:"75%"
-
-      },
+    overlayInside: {        
+    },
+    overlay:{
+        height:"80%",
+        width:"90%",
+        borderRadius: 15,
+    },
     closeButton: {
         alignSelf:"flex-end",
+        position:"absolute"
     },
     closeText: {
         fontSize:20,
