@@ -38,7 +38,7 @@ export default function App() {
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {verification ? <LoginView /> :
+    {!verification ? <LoginView /> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator initialRouteName='Home' drawerContent={props => {return(
