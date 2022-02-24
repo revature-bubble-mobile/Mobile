@@ -1,52 +1,59 @@
 import mockAsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
-import {shallow } from "enzyme";
-import LoginView  from "./login-view";
+import { shallow } from "enzyme";
+import LoginView from "./login-view";
 import { Button } from "react-native-elements";
+import axios from "axios";
+import React from "react";
 
-jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage );
+jest.mock("@react-native-async-storage/async-storage", () => mockAsyncStorage);
 
-const runAllPromises = () => new Promise(resolve => setImmediate(resolve));
+const runAllPromises = () => new Promise((resolve) => setImmediate(resolve));
+const spy2 = jest
+  .spyOn(axios, "patch")
+  .mockImplementation(() => Promise.resolve({ data: {} }));
 
-describe("Test login form", async () => {
+describe("Test login form", () => {
+  test("See if axios successfully called", async () => {
+    const wrapper = shallow(<LoginView />);
+    wrapper.find(Button).simulate("press");
+    await runAllPromises();
+    expect(spy2).toHaveBeenCalled();
+  });
 
-  it('checks if Async Storage is used', async () => {
-    const wrapper = shallow(<LoginView setVerification={() => {} }/>);
-    const button = wrapper.find(Button).first();
-    wrapper.find("TextInput").at(0).simulate("changeText", "mbuble");
-    wrapper.find("TextInput").at(1).simulate("changeText", "test");
-    button.simulate("press");
+  test("See if AsyncStorage successfully called", async () => {
+    const wrapper = shallow(<LoginView />);
+    wrapper.find(Button).simulate("press");
     await runAllPromises();
     expect(mockAsyncStorage.setItem).toHaveBeenCalled();
   });
 
-
-/*   it("The user name was created correctly", () => {
-    const wrapper = mount(<LoginView/>);
-    
-     wrapper.find('TextInput[type="text"]').simulate("change", {
-      target: { testId:"username", value: "mbuble" }
+  test("Check Username text change", async () => {
+    let username = "";
+    const setUsername = jest.fn((value) => {
+      username = value;
     });
-    expect(wrapper.state("username")).toEqual("mbuble");
+    jest
+      .spyOn(React, "useState")
+      .mockImplementationOnce(() => [username, setUsername]);
+    const wrapper = shallow(<LoginView />);
+    wrapper.find("TextInput").at(0).simulate("changeText", "mbuble");
+    await runAllPromises();
+    expect(username).toBe("mbuble");
   });
 
-  it("The password was created correctly", ()=> {
-    const wrapper = mount(<LoginView/>);
-    wrapper.find('TextInput[type="text"]').simulate("change", {
-      target: { testId: "password", value: "test" }
+  test("Check Password text change", async () => {
+    let passkey = "";
+    const setPasskey = jest.fn((value) => {
+      passkey = value;
     });
-    expect(wrapper.state("password")).toEqual("test");
+    jest
+      .spyOn(React, "useState")
+      .mockImplementationOnce(() => ["", jest.fn])
+      .mockImplementationOnce(() => [passkey, setPasskey]);
+    const wrapper = shallow(<LoginView />);
+    wrapper.find("TextInput").at(1).simulate("changeText", "test");
+    await runAllPromises();
+    expect(passkey).toBe("test");
   });
-
-  it("login check with right data", () => {
-    const wrapper = mount(<LoginView/>);
-    wrapper
-      .find('TextInput[type="text"]')
-      .simulate("change", { target: { testId: "username", value: "mbuble" } });
-    wrapper
-      .find('TextInput[type="password"]')
-      .simulate("change", { target: { testId: "password", value: "test" } });
-    wrapper.find("button").simulate("press");
-    expect(wrapper.state("loggedIn")).toBe(true);
-  }); */
 
 });

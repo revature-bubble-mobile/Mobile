@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Image,
@@ -14,6 +14,8 @@ import Profile from "../../dtos/profile";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { azureEndpoint } from "../../endpoints";
+import { useDispatch } from "react-redux";
+import { actions } from "../../store";
 
 export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
@@ -30,8 +32,9 @@ export default function LoginView(props: any) {
     let profile: Profile = response.data;
 
     if (Boolean(profile)) {
-      
       await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
+/*       const dispatch = useDispatch();
+      dispatch(actions.setUser(profile)); */
       Alert.alert("Welcome Associate!");      
       props.setVerification(true);
     } else {
