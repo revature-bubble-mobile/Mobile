@@ -4,6 +4,7 @@ import { User } from '../../../store';
 import UpdateProfileButton from '../interactive/UpdateProfileButton';
 import ViewPostsOrFollowers from './ViewPostsOrFollowers';
 
+/** This is the primary component for the profile page. All other profile components will be nested in this component. */
 export default function ProfileView() {
   const currentUser: User = useSelector((state: User) => state);
 
