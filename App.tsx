@@ -15,7 +15,6 @@ import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import Profile from './dtos/profile';
 import { FontAwesome } from '@expo/vector-icons';
 
-
 const Drawer = createDrawerNavigator();
 
 export default function App() {
@@ -76,4 +75,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
