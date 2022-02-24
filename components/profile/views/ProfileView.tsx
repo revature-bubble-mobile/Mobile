@@ -60,6 +60,7 @@ export default function ProfileView() {
               zIndex: 10,
               position: 'absolute',
               top: -Dimensions.get('window').height / 8,
+              borderRadius: 100
             }}
             source={require("../../.././assets/favicon.png")}></Image>
 

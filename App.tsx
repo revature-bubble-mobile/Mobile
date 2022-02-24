@@ -15,6 +15,7 @@ import Profile from './dtos/profile';
 import { FontAwesome } from '@expo/vector-icons';
 import ProfileView from './components/profile/views/ProfileView';
 
+
 const Drawer = createDrawerNavigator();
 
 export default function App() {
@@ -35,7 +36,7 @@ export default function App() {
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {!verification ? <LoginView /> :
+    {verification ? <LoginView /> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator initialRouteName='Home' drawerContent={props => {return(
@@ -75,3 +76,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
