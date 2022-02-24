@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
@@ -7,6 +7,7 @@ import {
   Linking,
   TextInput,
   Alert,
+  Modal,
 } from "react-native";
 import { Button, Text } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,10 +16,13 @@ import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { azureEndpoint } from "../../endpoints";
 import { useDispatch } from "react-redux";
+import TestModal from "./test-modal";
 
 export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
   const [passkey, setPasskey] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
   const dispatch = useDispatch();
 
 
@@ -96,17 +100,9 @@ export default function LoginView(props: any) {
             onPress={userLogin}
           />
 
-          <Text style={styles.textstyle2}>
-            Not a user yet?{" "}
-            <Text
-              style={styles.link}
-              onPress={() => {
-                Linking.openURL("https://www.google.com");
-              }}
-            >
-              Register Now!
-            </Text>
-          </Text>
+          <TestModal/>
+
+          
         </View>
       </View>
     </SafeAreaView>
