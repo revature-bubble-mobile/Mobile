@@ -15,11 +15,11 @@ import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { azureEndpoint } from "../../endpoints";
 import { useDispatch } from "react-redux";
-import { actions } from "../../store";
 
 export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
   const [passkey, setPasskey] = useState("");
+  const dispatch = useDispatch();
 
 
   async function userLogin() {
@@ -33,10 +33,10 @@ export default function LoginView(props: any) {
 
     if (Boolean(profile)) {
       await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
-/*       const dispatch = useDispatch();
-      dispatch(actions.setUser(profile)); */
       Alert.alert("Welcome Associate!");      
       props.setVerification(true);
+      dispatch({ type: 'user', payload: profile });
+
     } else {
       Alert.alert("Enter valid credentials please.");
     }
