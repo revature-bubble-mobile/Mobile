@@ -21,7 +21,7 @@ import TestModal from "./test-modal";
 export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
   const [passkey, setPasskey] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  //const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   inputstyle: {
     width: Dimensions.get("window").width / 1.3,
-    height: "10%",
+    height: "12%",
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
