@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Post from "../../dtos/post";
 import endpoint, { azureEndpoint } from "../../endpoints";
 import CommentItem from "./comment-item";
@@ -29,9 +29,7 @@ export default function CommentView(props: {postId: string, setNumComments: Func
                     
                     setComments(result.filter(d => !d.previous));
                     setReplies(result.filter(d => d.previous));
-                    console.log(comments);
-                    console.log(replies);
-                    props.setNumComments(comments.length + replies.length);
+                    // props.setNumComments(comments.length + replies.length);
                 }
             } catch (error) {
                 console.log(error);
@@ -68,14 +66,15 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     }
 
 
-    return(<View>
+    return(<View >
        {comments &&
-            <FlatList
-                data={comments}
-                renderItem={({item})=><CommentItem {...item} replies={replies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
-                keyExtractor={item => item.cid}
-                style={styles.replyList}
-            />
+            <View>
+                <FlatList
+                    data={comments}
+                    renderItem={({item})=><CommentItem {...item} replies={replies.filter((r) => r.previous === item.cid)} setReplies={setReplies}/>}
+                    keyExtractor={item => item.cid}
+                />
+            </View>
        }
         <View style={styles.commentView}>
             <Text style={styles.enterCommentLabel}>Enter your comment:</Text>
@@ -88,7 +87,6 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     </View>)
 }
 const styles = StyleSheet.create({
-    
     replyList: {
         marginBottom: 25
     },

@@ -21,9 +21,10 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         })()
     },[])
 
-    async function getReplyProfile(pid: string){
-        const response = await fetch(`${endpoint}/profile/${pid}.json`);
+    async function getReplyProfile(pid: string){        
+        const response = await fetch(`${endpoint}/profile/${pid}.json`)
         const replyProfile: Profile = await response.json();
+        
         return replyProfile.username;
     }
 
@@ -33,7 +34,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         } else {
             const reply = {
                 cid: "",
-                writer: "-MwDDfSFxbE7KDt9aWY4", //useSelector((state: User) => state.profile.pid),
+                writer: "-MwdkbjuGoGXs8O247z_", //useSelector((state: User) => state.profile.pid),
                 post: props.post,
                 message: newReply,
                 dateCreated: new Date(),
@@ -53,13 +54,20 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         }
     }
 
+    function formatDate(oldDate: Date): string{
+        const newDate = new Date(oldDate);
+        const amPm = (newDate.getHours() / 12 >= 1) ? "PM" : "AM"; 
+        const date = `${newDate.toLocaleDateString()} ${newDate.getHours() > 12 ? newDate.getHours() - 12 : newDate.getHours()}:${newDate.getMinutes()} ${amPm}`;
+        return date;
+    }
+
 
     return(<View style={styles.container}>
         <View>
             <Image style={styles.image} source={require("../../assets/favicon.png")} />
         </View>
         <View>
-            <Text style={styles.date}>{props.dateCreated.toLocaleString()}</Text>
+            <Text style={styles.date}>{formatDate(props.dateCreated)}</Text>
             <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
             <Text style={styles.comment}>{props.message}</Text>
             <Pressable onPress={() => setIsReplyPressed(!isReplyPressed)}><Text style={styles.replyButton}>Reply</Text></Pressable>
@@ -78,8 +86,8 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                     <Image style={styles.repliesImage} source={require("../../assets/favicon.png")} />
                 </View>
                 <View>
-                    <Text style={styles.date}>{item.dateCreated.toLocaleString()}</Text>
-                    <Text style={styles.username}>{`${() => getReplyProfile(item.writer)} says: `}</Text>
+                    <Text style={styles.date}>{formatDate(item.dateCreated)}</Text>
+                    <Text style={styles.username}>{`${getReplyProfile(item.writer)} says: `}</Text>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
@@ -124,7 +132,7 @@ const styles = StyleSheet.create({
     },
     repliesListContainer: {
         flex:1,
-        flexDirection:"row"
+        flexDirection:"row",
     },
     repliesImage: {
         height:40,
