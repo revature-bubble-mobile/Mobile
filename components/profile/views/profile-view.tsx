@@ -1,13 +1,82 @@
+import axios, { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';
+import firebaseEndpoint from '../../../endpoints';
 import { User } from '../../../store';
 import UpdateProfileButton from '../interactive/UpdateProfileButton';
 import ViewPostsOrFollowers from './ViewPostsOrFollowers';
+import Profile from '../../../dtos/profile'
 
 /** This is the primary component for the profile page. All other profile components will be nested in this component. */
-export default function ProfileView() {
-  const currentUser: User = useSelector((state: User) => state);
+export default function ProfileView(props: {pid: string}) {
+  const tempUser: User = useSelector((state: User) => state);
+  const [currentUser, setCurrentUser] = useState<User>(tempUser);
+  function checkUser(): boolean {
+    return tempUser?.profile?.pid === props?.pid; 
+  }
+  useEffect(() => {
+    httpSetUser()
+  }, []);
 
+
+  
+  
+  async function httpSetUser() {  
+    if(checkUser()) {
+      
+      setCurrentUser(tempUser);
+      return;
+    } else {
+      try {
+        const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${props.pid}.json`);
+        const profile: Profile = response.data;
+        const user: User = {
+          profile
+        };
+        setCurrentUser(user);
+      } catch(error) {
+        
+        setCurrentUser(tempUser);
+        return;
+      }
+    }
+  }
+
+  function SelectComponent() {
+    if(checkUser()) {
+      return (
+        <View
+          style={{
+            flex: 0.33,
+            backgroundColor: 'white',
+            alignSelf: 'flex-end',
+            justifyContent: 'center',
+            margin: 10,
+            padding: 3,
+            borderRadius: 10,
+          }}>
+          <UpdateProfileButton />
+        </View>
+      )
+    } else {
+      return (
+        <View
+          style={{
+            flex: 0.33,
+            backgroundColor: 'white',
+            alignSelf: 'flex-start',
+            justifyContent: 'center',
+            margin: 10,
+            padding: 3,
+            borderRadius: 10,
+          }}>
+          <Text>Follow User</Text>
+        </View>
+      )
+    }
+
+  }
   return (
     <>
       {/* TOP HALF */}
@@ -45,12 +114,12 @@ export default function ProfileView() {
             testID='name-textbox'
             style={{
               color: 'white',
-            }}>{`${currentUser.profile.firstName} ${currentUser.profile.lastName}`}</Text>
+            }}>{`${currentUser?.profile?.firstName ?? ''} ${currentUser?.profile?.lastName ?? ''}`}</Text>
           <Text
             testID='email-textbox'
             style={{
               color: 'white',
-            }}>{`${currentUser.profile.email}`}</Text>
+            }}>{`${currentUser?.profile?.email ?? 'Profile Deleted'}`}</Text>
           <Image
             resizeMode='center'
             style={{
@@ -64,20 +133,9 @@ export default function ProfileView() {
               borderRadius: 100
             }}
             source={require("../../.././assets/favicon.png")}></Image>
-
-          <View
-            style={{
-              flex: 0.33,
-              backgroundColor: 'white',
-              alignSelf: 'flex-end',
-              justifyContent: 'center',
-              margin: 10,
-              padding: 3,
-              borderRadius: 10,
-            }}>
-            <UpdateProfileButton />
-          </View>
+            <SelectComponent/>
         </View>
+        
       </View>
 
       {/* BOTTOM HALF */}
