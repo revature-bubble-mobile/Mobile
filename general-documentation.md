@@ -4,13 +4,13 @@
 
 ---
 
-Bubbl(e) Mobile is a mobile version of the [Bubbl(e) Web-App](http://ec2-44-197-172-46.compute-1.amazonaws.com:3000/login). This mobile version was created to be a one-to-one visual and functional representation of the web version as possible. The mobile and web versions were created by two different teams. For the front end, the majority of features that could be replicated were included. Some features could not be replicated one for one because of several issues found with the backend originally created for the web version. These changes are documented within the web-app changes section.
+Bubbl(e) Mobile is a mobile version of the [Bubbl(e) Web-App](http://ec2-44-197-172-46.compute-1.amazonaws.com:3000/login). This mobile version was created to be a one-to-one visual and functional representation of the web version. The mobile and web versions were created by two different teams. For the front end, the majority of features that could be replicated were included. Some features could not be replicated one for one because of several issues found with the backend originally created for the web version. These changes are documented within the web-app changes section.
 
 ### Expo and Node Modules
 
-Bubbl(e) Mobile was created using Expo with TypeScript. Expo was used as it create a dev server and pulls together several community bode modules that are commonly used together. Expo can normally be used to emulate the application on the Web (within a browser), Android, and IOS. However, the Web emulation will not currently work and this application will only run on either a physical mobile device or a mobile emulator.
+Bubbl(e) Mobile was created using Expo with TypeScript. Expo was used because it creates a dev server and pulls together several community node modules that are commonly used together. Expo can normally be used to emulate the application on the Web (within a browser), Android, and IOS. However, the Web emulation will not currently work (due to a dependency) and this application will only run on either a physical mobile device or a mobile emulator.
 
-React Native (for mobile development) is behind in the release version from the current React (for web development). Expo is also behind React Native current release version. Because of this some features and common node modules that are commonly used may cause issues. One such example is Enzyme for testing.
+Additionally, React Native (for mobile development) is behind in the release version from the current React (for web development). Expo is also behind the React Native current release version. Because of this, some features and common node modules that are commonly used may cause issues. One such example is Enzyme for testing.
 
 Enzyme is a testing framework built off of the Jest framework. To get Enzyme to work, another module _'Enzyme for React'_ needed to be included, and a patch also runs.
 
@@ -25,39 +25,22 @@ The following is a list of node modules that were added that are _not included_ 
 7. redux
 8. react-redux
 
-The package _'react-native-reanimated'_ does not work on web. If desired to also use Expo to also package a static website version, this package will need to be uninstalled and any component dependencies will need to be re-worked.
+**The package _'react-native-reanimated'_ does not work on web. If a static browser webpage is desired, this package will need to be uninstalled and any component dependencies will need to be re-worked.
 
-## Web-App Changes
-
+## Differences Between The Mobile And Web Version
 ---
 
-### **General Changes**
-
-The first major difference between the two versions of the application is the backend used. At the start of the project, an initial API was given ([API Document](http://ec2-44-197-172-46.compute-1.amazonaws.com:5000/swagger-ui.html#/)).
-
-The endpoint needed for this API is: http://ec2-44-197-172-46.compute-1.amazonaws.com:5000/
-
-When testing the API using the web version, it was discovered that several undesirable behaviors were found. One example is when loading and creating a post, All other post and any user profile associated with each one was copied into a post object sent to the server and an update object was sent back. This nest a large amount of the database within a single post and included redundant data. Along with this, all image was stored as base 64 string and was also included. This created an issue where around 2Mb of information was sent each time a single get was called for a user post. This created long load times.
-
-The original backend was redesigned with some fixes but this was presented several days into the development of the mobile version. The decision was made early on to use Firebase and Azure for the backend. By the time the fix on the original backend was made, the decision was made to continue with Firebase and Azure.
-
-### **API Changes**
-
-Not all functionality that the original backend could be replicated one-to-one for the Firebase-Azure backend. Instead, it was decided to have all DTOs match the responses from the original backend as close as possible. Not all endpoints and behaviors could be created exactly, but the overall functional match.
-
-To get this to work, two different endpoints were used. One for Firebase and one for Azure:
-
-- Azure: https://wk-revature-bubble-mobile.azurewebsites.net/api
-- Firebase: https://bubble-app-82a5a-default-rtdb.firebaseio.com
-
-**For Future Reworking:** These backend will not be provide long term because of cost. Any future utilization of the front end will need to have a new backend created for communication.The easiest way to have no changes made to the frontend and have it compatible with a different backend would be the following:
+**Warnings For Future Teams:** 
+Firebase and Azure Functions will not be provided long term because of cost. Any future utilization of the front end will need to have a new backend created for communication.The easiest way to have no changes made to the frontend and have it stay compatible with a different backend would be the following:
 
 1. All HTTP calls reference one of these endpoints within the _endpoints.ts_ file. Simple change these endpoints as desired to the endpoint of another backend.
-2. To ensure consistent behavior, it would be recommended to map all endpoints to an Azure Function (or equivalent service) as _"glue code."_ From here this function can interact with the database or other API as needed that could filter and manipulate the functionality of the Firebase-Azure backend.
+2. To ensure consistent behavior, it would be recommended to map all endpoints to an Azure Function (or equivalent service) as _"glue code."_ From here this function can interact with the database or other API as needed to filter and manipulate the functionality of the Firebase-Azure backend.
 
-The reason for having two different backends was to easily streamline how IDs for the firebase database are created. By default, Firebase stores all information in the database as one single JSON. From there All other data is attached to this JSON as a property with a specific key.
+The reason for having two different backends was to easily streamline how IDs for the firebase database are created. By default, Firebase stores all information in the database as one single JSON. From there All other data is attached to this JSON as a property with a specific key. This allowed data requests to be more surgical and lighter.
 
 ```JavaScript
+//firebase JSON example
+
 MainObject:{
     key1:{
         pid:'ExampleID1',
@@ -71,13 +54,32 @@ MainObject:{
 }
 ```
 
-The issue found is that the key is generated by Firebase and in order to get that object associated with this key, one needs to know this key and use it to make a get request to Firebase. Using this system, there is no direct way to get a single object without having to call all data and filter. This is undesirable for security, efficiency, and latency.
+However, one issue with firebase is that a key is generated by Firebase, and in order to get that object associated with that key, one needs to know this key and use it to make a get request to Firebase. Using this system, there is no direct way to get a single object without having to call the entire JSON and filter it. Despite being an improvement for our needs, this is still undesirable for security, efficiency, and latency.
 
 The second issue came with the ability to log in. Firebase does have _"Firebase Authentication"_ which is a system that could be used. However, this information was discovered late in the development of the application. Because of the three-week window for development, it was decided that it would be easier not to include this as it would have taken a large time investment to learn how to incorporate the login information and user data as one return from a patch request.
 
-### **Azure backend**
+### **General Changes**
 
-The Azure backend was used to fix both these problems. All post requests to create any new data should be sent to the Azure endpoint. The Azure function will then create a new object and associate all needed information to make get requests easier.
+The first major difference between the two versions of the application is the backend used. At the start of the project, an initial API was given ([API Document](http://ec2-44-197-172-46.compute-1.amazonaws.com:5000/swagger-ui.html#/)).
+
+The endpoint needed for this API is: http://ec2-44-197-172-46.compute-1.amazonaws.com:5000/
+
+When testing the API using the web version, it was discovered that several undesirable behaviors were found. One example was that when loading and creating a post, all other posts and any user profile associated with each one were copied into a post object sent to the server, and an update object was then sent back. Along with this, all images were stored as base 64 strings and also included. This created an issue where around 2Mb of information was sent each time a single get was called for a user post. This nesting of a large amount of the database within a single post was a performance issue for mobile phones that could make requests slow and cumbersome.
+
+Therefore, the original backend was redesigned with some fixes, albeit later on in the sprint than desired. In this time, a decision was made to use Firebase and Azure for the backend. By the time the fix on the original backend was made, the decision was made to continue with Firebase and Azure instead.
+
+**API Changes**
+
+Not all functionality from the original backend could be replicated one-to-one for the Firebase-Azure backend. It was decided to have all DTOs match the responses from the original backend as closely as possible. Not all endpoints and behaviors could be created exactly, but the overall functionalities match.
+
+To get this to work, two different endpoints were used. One for Firebase and one for Azure Functions:
+
+- Azure Functions: https://wk-revature-bubble-mobile.azurewebsites.net/api
+- Firebase: https://bubble-app-82a5a-default-rtdb.firebaseio.com
+
+**Azure backend**
+
+The Azure backend (using Azure Functions) was used to fix the issues related to Firebase. All post requests to create any new data should be sent to the Azure endpoint. The Azure function will then create a new object and associate all needed information to make get requests easier.
 
 ```JavaScript
 mainObject:{
@@ -95,11 +97,11 @@ mainObject:{
 
 Creating the system mentioned above embeds the key within the pid property. The pid is used as the key needed by the frontend to make a call to the backend to reference the correct object within the main JSON.
 
-When trying to log in, using a patch on {AzureEndPoint}/login will search the database for a profile that has the correct username and password and returns that object found.
+As another example, when trying to log in, using a patch on {AzureEndPoint}/login will search Firebase for a profile that has the correct username and password, and return the object found.
 
 ### **Firebase backend**
 
-All calls that are not a Post or specific a Patch to login user the Firebase Database directly as a backend. This is only for testing purposes and should be changed. The reason is that any person from anywhere can run full crud operations without any security. Normally for Firebase rules are supposed to be defined to restrict what users can and cannot perform on the database. For development, this has been ignored. For future iteration, if continuing with Firebase, either setting up the Firebase rules or use an intermediate server, would be best to handle security and permissions.
+All calls that are not a Post, or specifically a Patch to login, will use the Firebase Database directly as a backend. This is only for testing purposes and should be changed. The reason is that any person from anywhere can run full crud operations without any security. Normally for Firebase rules are supposed to be defined to restrict what users can and cannot perform on the database. For development, this has been ignored. For future iteration, if continuing with Firebase, either setting up the Firebase rules or using an intermediate server would be best to handle security and permissions.
 
 Firebase is a NoSQL type database. All data within the database can be changed at runtime and does not need to conform to a set data model or scheme. The base URL links the main JSON. All other routes map to a specific property within the JSON similar to a tree. All data under the last route specified will be returned as one single object.
 
@@ -127,7 +129,7 @@ const objectReturned = {pid:string, username, password, followers[],likes[]}.
 
 \*\*Note: none of the data under profiles is consistent with all same the properties.
 Ideally, the same data would be saved for all entries. However, checking on the front end may be useful to avoid unexpected errors.
-Currently, to interact with all data within Firebase, no matter the type, the crud operations all work the same. Not all crud operations will. Note All routes must have _.json_ appended to the end for Firebase to work properly.
+Currently, to interact with all data within Firebase, no matter the type, the crud operations all work the same. *Note: All routes must have _.json_ appended to the end for Firebase to work properly!*
 
 #### **get request:**
 
@@ -152,10 +154,11 @@ const object:type = await axios.verb(url)
 
 All updates to the database communicate directly with the Firebase Database.
 
-- any Put request will remove and replace all data under the route specified with the data given within the body of the request.
+- any Put request will remove and replace all data under the route specified with the data given within the body of the request. (non-specified values will be removed). If the resource does not exist it will be created.
 - any Patch will add, and or replace, only properties specified within the body of the request.
   -If the properties exist, they will be replaced.
-  -if they do not exist, they will be added.
+  -if they do not exist, they will be added
+
 
 Both verbs will send back the object in the database as a JSON with the updated changes.
 
@@ -235,15 +238,15 @@ When using any firebase route, it is expected that the type sent will be the sam
 ```TypeScript
 const url:string = pid|cid|psid; // only one should be used, but any of the three are valid
 // if using a put the full data model should be added as a body
-1. pid     =>const body = {Profile}     // if put, include body
-2. cid     =>const body =  {Comment}    // if put, include body
-3. psid    =>const body = {Post}        // if put, include body
+1. pid  => const body = {Profile}     // if put, include body
+2. cid  => const body =  {Comment}    // if put, include body
+3. psid => const body = {Post}        // if put, include body
 
 // if using a Patch, only include the data you want to update
 // then make a call as needed, the following ids will map as followed
 const response = axios.verb(url,body)
                 // pid     | cid   | psid
-const loginProfile:Profile |Comment|Post = response.data
+const loginProfile: Profile | Comment| Post = response.data
 ```
 
 Example get all profiles
@@ -284,7 +287,7 @@ const profileArray:Profile= await axios.patch(url,body)
 
 ### **JWT**
 
-Currently, there is no implementation for JWTs which the Web version received from the original backend. This was not included because of time constraints. However, in the profile data model, 'passkey' does exist that would be the JWT that the original backend should send.
+Currently, there is no implementation for JWTs which the Web version received from the original backend. This was not included because of time constraints. However, in the profile data model, 'passkey' does exist and that would be the JWT that the original backend would send.
 
 ## Feature Breakdown
 
