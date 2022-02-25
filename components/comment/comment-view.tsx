@@ -18,9 +18,11 @@ export default function CommentView(props: {postId: string, setNumComments: Func
         (async ()=>{
             const response = await fetch(`${endpoint}/${props.postId}.json`)
             const data: Comment[] = await response.json();
-            setComments(data.filter(d => !d.previous));
-            setReplies(data.filter(d => d.previous));
-            props.setNumComments(comments.length);
+            if(data){
+                setComments(data.filter(d => !d.previous));
+                setReplies(data.filter(d => d.previous));
+                props.setNumComments(comments.length);
+            }
         })()
     },[])
 
