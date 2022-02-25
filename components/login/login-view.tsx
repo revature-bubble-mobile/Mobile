@@ -7,7 +7,6 @@ import {
   Linking,
   TextInput,
   Alert,
-  Modal,
 } from "react-native";
 import { Button, Text } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,7 +15,7 @@ import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { azureEndpoint } from "../../endpoints";
 import { useDispatch } from "react-redux";
-import TestModal from "./test-modal";
+import RegistrationModal from "./registration-modal";
 
 export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
@@ -48,7 +47,6 @@ export default function LoginView(props: any) {
 
   return (
     <SafeAreaView>
-      <View>
         <View style={styles.container}>
           <Image
             style={styles.stretch}
@@ -86,25 +84,26 @@ export default function LoginView(props: any) {
           <Button
             title="Login"
             buttonStyle={{
-              backgroundColor: "#00a680",
+              backgroundColor: "#474C55",
               borderWidth: 2,
-              borderColor: "#00a680",
+              borderColor: "#474C55",
               borderRadius: 30,
+              marginBottom: 20
             }}
             containerStyle={{
               width: 100,
               marginHorizontal: "60%",
               marginVertical: 10,
+              
             }}
-            titleStyle={{ fontSize: 12 }}
+            titleStyle={{ fontSize: 16 }}
             onPress={userLogin}
           />
 
-          <TestModal/>
-
+          <RegistrationModal/>
+            
           
         </View>
-      </View>
     </SafeAreaView>
   );
 }
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
   },
   container2: {
-    paddingTop: "30%",
+    paddingTop: "10%",
   },
   stretch: {
     width: Dimensions.get("window").width / 2,
@@ -126,8 +125,8 @@ const styles = StyleSheet.create({
   inputstyle: {
     width: Dimensions.get("window").width / 1.3,
     height: "12%",
-    borderColor: "gray",
-    borderWidth: 1,
+    borderColor: "#474C55",
+    borderWidth: 2,
     borderRadius: 10,
     padding: 10,
     marginHorizontal: "10%",

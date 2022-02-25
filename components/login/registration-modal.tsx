@@ -1,4 +1,3 @@
-import { padding } from "@mui/system";
 import { useState } from "react";
 import {
   View,
@@ -6,14 +5,14 @@ import {
   StyleSheet,
   Pressable,
   Modal,
-  TouchableOpacity,
-  Dimensions,
 } from "react-native";
+import RegistrationForm from "../registration/registration-form";
+//import styles from "../registration/registration-style";
 
-export default function TestModal() {
+export default function RegistrationModal() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={styles.centeredView}>
+    <>
       <Modal
         animationType="slide"
         transparent={true}
@@ -21,42 +20,42 @@ export default function TestModal() {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
+        style={{width:'100%'}}
       >
-        <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>here's the registration page, wow</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+            <RegistrationForm/>
+            <View>
+              <Text style={{}}>
+                Already have an account?
+                <Text
+                  style={{color:'#fd7e14'}}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  {" "}
+                  Sign in
+                </Text>
+              </Text>
+            </View>
           </View>
-        </View>
+        
       </Modal>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
+      <Pressable onPress={() => setModalVisible(true)}>
         <Text style={styles.textStyle2}>
           Not a user yet? <Text style={styles.textStyle}>Register Now</Text>
         </Text>
-      </TouchableOpacity>
-    </View>
+      </Pressable>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
+  
   modalView: {
-    margin: "20%",
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    justifyContent:'center',
+    width:'100%',
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    paddingTop:20,
+    paddingBottom: 45,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
