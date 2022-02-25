@@ -1,9 +1,9 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import Post from "../../dtos/post";
-import firebaseEndpoint from "../../endpoints";
+import Post from "../../../dtos/post";
+import firebaseEndpoint from "../../../endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Profile from "../../dtos/profile";
+import Profile from "../../../dtos/profile";
 import PostCard from "./post-card";
 
 

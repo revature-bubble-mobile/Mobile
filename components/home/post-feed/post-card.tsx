@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View, Modal } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View} from "react-native";
 import { Icon, Overlay } from "react-native-elements";
 import { Card } from "react-native-elements/dist/card/Card";
 import { Divider } from "react-native-elements/dist/divider/Divider";
-import Post from "../../dtos/post";
-import Profile from "../../dtos/profile";
+import Post from "../../../dtos/post";
+import Profile from "../../../dtos/profile";
 
 
 export default function PostCard(props:{post:Post, profiles:Profile[]}){
@@ -14,7 +14,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
     const [numOfComments, setNumComments] = useState<number>(0);
     const [overlayVisible, setOverlayVisible] = useState(false);
 
-    const currentProfile = profiles.find(p => post.creator === p.pid);
+    const authorProfile = profiles.find(p => post.creator === p.pid);
 
     function commentPressed(){
 
@@ -39,10 +39,10 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
         <Card containerStyle={styles.card}>
             <View style={styles.profileArea}>
                 <Image
-                source={require('../../assets/favicon.png')}
+                source={require('../../../assets/favicon.png')}
                 style={styles.profileIcon}
                 />
-                <Text style={styles.profileName}>{currentProfile?.username ?? "not found"}</Text>
+                <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
             </View>
             <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
             <View style={styles.postBody}>
@@ -52,7 +52,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
             </View>
 
             <View style={styles.iconArea}>
-                <Pressable onPress={()=>{ commentPressed() }} 
+                <Pressable onPress={()=>{ commentPressed() } } 
                     style={styles.pressableIcon}>
                     {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                     : 
@@ -71,17 +71,17 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
             isVisible={overlayVisible}
             overlayStyle = {styles.overlay}>
             
-            <View style = {styles.overlayInside} >
+            <View style = {styles.overlayInsideView} >
                 <Pressable onPress={()=>setOverlayVisible(!overlayVisible)}
                     style={styles.closeButton}>
-                    <Text style = {styles.closeText}> x </Text>
+                    <Text style = {styles.closeText}> X </Text>
                 </Pressable>
                 <View style = {styles.profileArea}>
                     <Image
-                    source={require('../../assets/favicon.png')}
+                    source={require('../../../assets/favicon.png')}
                     style={styles.profileIcon}
                     />
-                    <Text style={styles.profileName}>{currentProfile?.username ?? "not found"}</Text>
+                    <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
                 </View>
                 <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
                 <View style={styles.postBody}>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginHorizontal:5
     },
-    overlayInside: {        
+    overlayInsideView: {        
     },
     overlay:{
         height:"80%",
