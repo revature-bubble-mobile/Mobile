@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Icon, ThemeProvider } from 'react-native-elements';
 import LoginView from './components/login/login-view';
 import HomeView from './components/home/home-view';
-import ProfileView from './components/profile/profile-view';
+import ProfileView from './components/profile/views/profile-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { actions, store } from './store';
 import { Provider } from 'react-redux';
