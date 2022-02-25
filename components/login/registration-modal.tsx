@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { createContext } from "react";
+import { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -23,7 +24,9 @@ export default function RegistrationModal() {
         style={{width:'100%'}}
       >
           <View style={styles.modalView}>
-            <RegistrationForm/>
+            <modalContext.Provider value={{modalVisible, setModalVisible}}>
+              <RegistrationForm />
+            </modalContext.Provider>
             <View>
               <Text style={{}}>
                 Already have an account?
@@ -91,3 +94,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+function doesSomething(som:any){
+  alert('This is never called');
+};
+export const modalContext = createContext({modalVisible:false, setModalVisible:doesSomething });

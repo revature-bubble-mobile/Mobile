@@ -1,8 +1,10 @@
 import { Alert, Pressable, Text } from "react-native";
 import Profile from "../../dtos/profile";
 import styles from "./registration-style";
+import { useContext } from "react";
 import { emailFormat } from "./constants/constants";
 import registerService from "../../services/register-service";
+import { modalContext } from "../login/registration-modal";
 
 export default function SubmitRegistration(props: {
   profile: Profile;
@@ -11,6 +13,7 @@ export default function SubmitRegistration(props: {
   confirmPword: string;
   setPasswordAlertVisible: Function;
 }) {
+  const { setModalVisible } = useContext(modalContext);
   function checkEmail() {
     props.setAlertVisible(false);
     props.setPasswordAlertVisible(false);
@@ -18,8 +21,7 @@ export default function SubmitRegistration(props: {
       ? fieldValidationCheck()
       : Alert.alert(
         "Valid email address was not entered",
-        "Please enter a correct email address",
-        [{ text: "OK", onPress: () => { } }]
+        "Please enter a correct email address"
       );
   }
   async function fieldValidationCheck() {
@@ -46,13 +48,11 @@ export default function SubmitRegistration(props: {
           Alert.alert(
             "You have successfully created a profile",
             "Returning to login page, please sign in",
-            [{ text: "OK", onPress: () => { } }]
+            [{ text: "OK", onPress: () => { setModalVisible(false) } }]
           );
 
         } catch (error) {
-          Alert.alert("There was an error creating a profile", `${error}`, [
-            { text: "OK", onPress: () => { } },
-          ]);
+          Alert.alert("There was an error creating a profile", `${error}`);
         }
       } else {
         props.setAlertVisible(true);
@@ -68,3 +68,4 @@ export default function SubmitRegistration(props: {
     </Pressable>
   );
 }
+
