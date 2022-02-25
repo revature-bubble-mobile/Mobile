@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -41,16 +41,19 @@ return (<Provider store={store}>
     {!verification ? <LoginView /> :
       <SafeAreaProvider>
         <NavigationContainer>
-          <Drawer.Navigator initialRouteName='Home' drawerContent={props => {return(
-            <DrawerContentScrollView {...props}>
-              <DrawerHeader />
-              <DrawerItemList {...props}/>
+          <Drawer.Navigator screenOptions={{drawerItemStyle:{flex:1, justifyContent:"center"}}} initialRouteName='Home' drawerContent={props => {return(
+
+            <DrawerContentScrollView contentContainerStyle={styles.container} {...props}>
+              <DrawerHeader  />
+              <View style={{flex:1, marginHorizontal:"10%"}}>
+              <DrawerItemList  {...props}/>
               <DrawerLogout setVerification={setVerification} />
-              <DrawerFooter />
+              </View>
+              <DrawerFooter/>
             </DrawerContentScrollView>
           )}}>
             <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="home" size={30}/>}} name="Home" component={HomeView} />
-            <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="drivers-license-o" size={30}/>}} name="Profile" component={ProfileView} />
+            <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="drivers-license-o" size={25}/>}} name="Profile" component={ProfileView} />
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />
@@ -63,7 +66,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
 });

@@ -10,7 +10,7 @@ export default function DrawerLogout(props:{setVerification:Function}) {
     const dispatch = useDispatch();
 
     return(
-        <DrawerItem label="Logout" icon={()=><Icon name='logout' size={30}/>} onPress={()=>{
+        <DrawerItem style={{flex:1, justifyContent:"center"}} label="Logout" icon={()=><Icon name='logout' size={30}/>} onPress={()=>{
             dispatch(actions.setUser({
               pid: "",
               firstName: "",

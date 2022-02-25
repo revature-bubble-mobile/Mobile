@@ -11,8 +11,8 @@ export interface User {
 const initialState: User = {
     profile: {
         pid: "",
-        firstName: "Steve",
-        lastName: "Yrkel",
+        firstName: "",
+        lastName: "",
         passkey: "",
         email: "",
         username: "",
