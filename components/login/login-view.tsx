@@ -20,90 +20,93 @@ import RegistrationModal from "./registration-modal";
 export default function LoginView(props: any) {
   const [username, setUsername] = useState("");
   const [passkey, setPasskey] = useState("");
-  //const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
+  async function userLogin() { 
+    let response:any
 
-  async function userLogin() {
-
-    const response = await axios.patch(`${azureEndpoint}/login`, {
+    try {
+    response = await axios.patch(`${azureEndpoint}/login`, {
       username: username,
       passkey: passkey,
     });
-    
+
     let profile: Profile = response.data;
 
-    if (Boolean(profile)) {
-      await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
-      Alert.alert("Welcome Associate!");      
-      props.setVerification(true);
-      dispatch({ type: 'user', payload: profile });
-
+    if (username && passkey) {
+        await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
+        Alert.alert("Welcome Associate!");
+        props.setVerification(true);
+        dispatch({ type: "user", payload: profile });
     } else {
       Alert.alert("Enter valid credentials please.");
     }
+    
+    } catch (error) {
+      Alert.alert("Enter valid credentials please.");
+    }
+
+
+
   }
 
   return (
     <SafeAreaView>
-        <View style={styles.container}>
-          <Image
-            style={styles.stretch}
-            source={require("../../assets/images/bubble-logo.png")}
-          />
-        </View>
-        <View style={styles.container2}>
-          <TextInput
-            style={styles.inputstyle}
-            testID={"username"}
-            autoCapitalize={"none"}
-            onChangeText={setUsername}
-            placeholder="Enter Username"
-          />
-          <TextInput
-            style={styles.inputstyle}
-            testID={"passkey"}
-            autoCapitalize={"none"}
-            onChangeText={setPasskey}
-            secureTextEntry={true}
-            placeholder="Enter Passkey"
-          />
+      <View style={styles.container}>
+        <Image
+          style={styles.stretch}
+          source={require("../../assets/images/bubble-logo.png")}
+        />
+      </View>
+      <View style={styles.container2}>
+        <TextInput
+          style={styles.inputstyle}
+          testID={"username"}
+          autoCapitalize={"none"}
+          onChangeText={setUsername}
+          placeholder="Enter Username"
+        />
+        <TextInput
+          style={styles.inputstyle}
+          testID={"passkey"}
+          autoCapitalize={"none"}
+          onChangeText={setPasskey}
+          secureTextEntry={true}
+          placeholder="Enter Passkey"
+        />
 
-          <Text style={styles.textstyle}>
-            <Text
-              style={styles.link}
-              onPress={() => {
-                Linking.openURL("https://www.google.com");
-              }}
-            >
-              Forgot Passkey?
-            </Text>
+        <Text style={styles.textstyle}>
+          <Text
+            style={styles.link}
+            onPress={() => {
+              Linking.openURL("https://www.google.com");
+            }}
+          >
+            Forgot Passkey?
           </Text>
+        </Text>
 
-          <Button
-            title="Login"
-            buttonStyle={{
-              backgroundColor: "#474C55",
-              borderWidth: 2,
-              borderColor: "#474C55",
-              borderRadius: 30,
-              marginBottom: 20
-            }}
-            containerStyle={{
-              width: 100,
-              marginHorizontal: "60%",
-              marginVertical: 10,
-              
-            }}
-            titleStyle={{ fontSize: 16 }}
-            onPress={userLogin}
-          />
+        <Button
+          title="Login"
+          buttonStyle={{
+            backgroundColor: "#474C55",
+            borderWidth: 2,
+            borderColor: "#474C55",
+            borderRadius: 30,
+            marginBottom: 20,
+          }}
+          containerStyle={{
+            width: 100,
+            marginHorizontal: "60%",
+            marginVertical: 10,
+          }}
+          titleStyle={{ fontSize: 16 }}
+          onPress={userLogin}
+        />
 
-          <RegistrationModal/>
-            
-          
-        </View>
+        <RegistrationModal />
+      </View>
     </SafeAreaView>
   );
 }
