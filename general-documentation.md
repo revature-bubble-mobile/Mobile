@@ -289,16 +289,51 @@ const profileArray:Profile= await axios.patch(url,body)
 
 Currently, there is no implementation for JWTs which the Web version received from the original backend. This was not included because of time constraints. However, in the profile data model, 'passkey' does exist and that would be the JWT that the original backend would send.
 
-## Feature Breakdown
+## Feature General Breakdown
 
 ---
 
 Bubbl(e) Mobile includes the following features:
+| Feature | Description |
+| ------------ | ----------- |
+| Login | A user can log in with a username and password
+| Default Feed | A list of posts from users that the primary user follows, with comments for each |
+| Registration | The page where visitors can create a user profile if needed |
+| Profile | A user can view their profile and update it
+| Create a post | A user can create a post talking about stuff no one cares about | 
+| Comments | A user can tell other users how lame their posts are |
 
-- placeholder
-- placeholder
-- placeholder
-- placeholder
-- placeholder
-- placeholder
-- placeholder
+## App Implementation (Developer Notes)
+
+- Session Management
+    - Implemented a Redux store using the redux-toolkit.
+    - The Store houses a User object with a Profile as its only property.
+    - The store is initialized using AsyncStorageLib upon the first rendering of App.tsx.
+    - The profile information that will go into the store should be under the key ‘profile’ set and stored using AsyncStorageLib.
+    - The reducer to update the store is called ‘setUser’.
+    - Use ‘actions’ exported from the store to create the appropriate action for setUser.
+    - Use ‘useDispatch’ to create the dispatch that will dispatch the action to the store.
+    - To clear the current user from the store, pass the setUser reducer a profile object with all properties as defaults/blank.
+
+
+- Profile
+    - this is where the magic happens
+    - you can pretty much ignore the other features because this feature puts the others to shame
+    - Allows a user to view their picture, name, email, posts, and followers
+    - Users can update their profile Information (email, name, picture)
+    - User can add posts (see post feature) and click on followers to view their feeds (see followers feature)
+    - updates the backend and redux store when the profile is updated
+    - the post feed will use the default feed instead, because of time constraints and we lazy
+
+- Login
+    - Forgot password default directed to google.com using Linking(react-native)
+    - UseState username/passkey inputs
+    - AsyncStorage updated on login
+    - updates redux on successfull login
+    - Verification boolean used for navigation
+
+- Registration
+    - Visitors can create a new user profile
+    - Inputs are checked to make sure they are valid (valid email, name, password)
+    - Displays terms and services for the user
+    - Checks if an account already exists and redirects accordingly
