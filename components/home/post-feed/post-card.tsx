@@ -5,6 +5,7 @@ import { Card } from "react-native-elements/dist/card/Card";
 import { Divider } from "react-native-elements/dist/divider/Divider";
 import Post from "../../../dtos/post";
 import Profile from "../../../dtos/profile";
+import CommentView from "../../comment/comment-view";
 
 
 export default function PostCard(props:{post:Post, profiles:Profile[]}){
@@ -20,14 +21,6 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
 
         setOverlayVisible(!overlayVisible);
         
-        if (userComment) {
-            setUserCommented(false)
-            setNumComments(1);
-        }
-        else {
-            setUserCommented(true);
-            setNumComments(2);
-        }
     }
 
     const postDate = new Date(post.datePosted)
@@ -52,7 +45,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
             </View>
 
             <View style={styles.iconArea}>
-                <Pressable onPress={()=>{ commentPressed() } } 
+                <Pressable onPress={()=>{ setOverlayVisible(!overlayVisible) } } 
                     style={styles.pressableIcon}>
                     {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                     : 
@@ -90,7 +83,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
                     </Text>
                 </View>
                 <View style={styles.iconArea}>
-                    <Pressable onPress={()=>{ commentPressed() }} 
+                    <Pressable onPress={()=>{ setOverlayVisible(!overlayVisible) }} 
                         style={styles.pressableIcon}>
                         {userComment ? <Icon name={"commenting"} type={"font-awesome"} color={"#f36a26"}/>
                         : 
@@ -103,7 +96,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[]}){
                 </View>
                 <Divider style={{borderWidth: 2, borderColor:"lightgray", marginTop:5,}} />
 
-                {/* ADD COMMENT FUNCTIONALITY HERE */}
+                <CommentView postId={post.psid} setNumComments={setNumComments} setUserCommented={setUserCommented} />
 
             </View>
         </Overlay>

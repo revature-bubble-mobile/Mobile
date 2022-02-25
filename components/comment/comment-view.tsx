@@ -16,13 +16,27 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 
     useEffect(()=>{
         (async ()=>{
-            const response = await fetch(`${endpoint}/${props.postId}.json`)
-            const data: Comment[] = await response.json();
-            if(data){
-                setComments(data.filter(d => !d.previous));
-                setReplies(data.filter(d => d.previous));
-                props.setNumComments(comments.length);
+            try {
+                const response = await fetch(`${endpoint}/${props.postId}.json`)
+                const data = await response.json();
+
+                if(data){
+
+                    let result:Comment[] = [];
+                    for (let i in data["comment"]){
+                        result.push(data["comment"][i])
+                    }
+                    
+                    setComments(result.filter(d => !d.previous));
+                    setReplies(result.filter(d => d.previous));
+                    console.log(comments);
+                    console.log(replies);
+                    props.setNumComments(comments.length + replies.length);
+                }
+            } catch (error) {
+                console.log(error);
             }
+            
         })()
     },[])
 
@@ -32,7 +46,7 @@ export default function CommentView(props: {postId: string, setNumComments: Func
         } else {
             const comment = {
                 cid: "",
-                writer: useSelector((state: User) => state.profile.pid),
+                writer: "-MwDDfSFxbE7KDt9aWY4", //useSelector((state: User) => state.profile.pid),
                 post: props.postId,
                 message: newComment,
                 dateCreated: new Date()

@@ -33,7 +33,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         } else {
             const reply = {
                 cid: "",
-                writer: useSelector((state: User) => state.profile.pid),
+                writer: "-MwDDfSFxbE7KDt9aWY4", //useSelector((state: User) => state.profile.pid),
                 post: props.post,
                 message: newReply,
                 dateCreated: new Date(),
@@ -79,7 +79,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                 </View>
                 <View>
                     <Text style={styles.date}>{item.dateCreated.toLocaleString()}</Text>
-                    <Text style={styles.username}>{`${()=>getReplyProfile(item.writer)} says: `}</Text>
+                    <Text style={styles.username}>{`${() => getReplyProfile(item.writer)} says: `}</Text>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
