@@ -4,7 +4,7 @@ import { TextInput } from "react-native";
 import { useSelector } from "react-redux";
 import Comment from "../../dtos/comment"
 import Profile from "../../dtos/profile"
-import endpoint, { azureEndpoint } from "../../endpoints";
+import firebaseEndpoint, { azureEndpoint } from "../../endpoints";
 import { User } from "../../store";
 
 export default function CommentItem(props: Comment & {replies: Comment[], setReplies: Function}){
@@ -12,19 +12,31 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     const [userProfile, setUserProfile] = useState<Profile>();
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [newReply, setReply] = useState("");
+    const [replyProfiles, setReplyProfiles] = useState<Profile[]>([]);
 
     useEffect(()=>{
         (async ()=>{
-            const response = await fetch(`${endpoint}/profile/${props.writer}.json`);
+            const response = await fetch(`${firebaseEndpoint}/profile/${props.writer}.json`);
             const commentProfile: Profile = await response.json();
             setUserProfile(commentProfile);
         })()
+        let tempArr: Profile[] = [];
+        (()=>{
+            props.replies.forEach(async (r)=>{
+                const response = await fetch(`${firebaseEndpoint}/profile/${r.writer}.json`);
+                const profile: Profile = await response.json();
+                tempArr.push(profile);
+            })
+            console.log(tempArr);
+            setReplyProfiles(tempArr);
+        })()
+        console.log(replyProfiles);
     },[])
 
-    async function getReplyProfile(pid: string){        
-        const response = await fetch(`${endpoint}/profile/${pid}.json`)
+    async function getReplyProfile(pid: string){
+        const response = await fetch(`${firebaseEndpoint}/profile/${pid}.json`);
         const replyProfile: Profile = await response.json();
-        
+        console.log(replyProfile);
         return replyProfile.username;
     }
 
