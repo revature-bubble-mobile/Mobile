@@ -15,22 +15,27 @@ export default function UpdateProfileInputs(props: {
 
   const currentUser: User = useSelector((state: User) => state);
 
-  const [fName, setFName] = useState<string>('');
-  const [lName, setLName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [fName, setFName] = useState<string>(currentUser.profile.firstName);
+  const [lName, setLName] = useState<string>(currentUser.profile.lastName);
+  const [email, setEmail] = useState<string>(currentUser.profile.email);
 
   const dispatch = useDispatch();
 
   async function updateProfile() {
-    try {
-      const response: AxiosResponse = await axios.patch(
-        `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
-        { firstname: fName, lastname: lName, email: email }
-      );
-      const profile: Profile = response.data;
-      dispatch({ type: 'user', payload: profile });
-    } catch (error) {
-      Alert.alert(`Error: ${error}`);
+    if(!fName || !lName || !email) {
+      Alert.alert('Make sure all fields are filled out!');
+      return;
+    } else {
+      try {
+        const response: AxiosResponse = await axios.patch(
+          `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
+          { firstname: fName, lastname: lName, email: email }
+        );
+        const profile: Profile = response.data;
+        dispatch({ type: 'user', payload: profile });
+      } catch (error) {
+        Alert.alert(`Error: ${error}`);
+      }
     }
   }
 
