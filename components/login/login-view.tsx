@@ -14,10 +14,11 @@ import Profile from "../../dtos/profile";
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { azureEndpoint } from "../../endpoints";
-import { useDispatch } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import RegistrationModal from "./registration-modal";
+import { store } from "../../store";
 
-export default function LoginView(props: any) {
+export default function LoginView(props: {setVerification: (verification: boolean) => void}) {
   const [username, setUsername] = useState("");
   const [passkey, setPasskey] = useState("");
 
@@ -34,7 +35,7 @@ export default function LoginView(props: any) {
 
     let profile: Profile = response.data;
 
-    if (username && passkey) {
+    if (profile) {
         await AsyncStorageLib.setItem("profile", JSON.stringify(profile));
         Alert.alert("Welcome Associate!");
         props.setVerification(true);
@@ -42,13 +43,10 @@ export default function LoginView(props: any) {
     } else {
       Alert.alert("Enter valid credentials please.");
     }
-    
     } catch (error) {
       Alert.alert("Enter valid credentials please.");
+      console.log(error);
     }
-
-
-
   }
 
   return (
