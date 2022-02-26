@@ -32,7 +32,6 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 
                     setTimeout(() => {
                         props.setNumComments(comments.length + replies.length);
-                        console.log(comments.length + replies.length);
                     }, 1000);
                 }
             } catch (error) {
