@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Post from "../../dtos/post";
-import endpoint, { azureEndpoint } from "../../endpoints";
+import firebaseEndpoint, { azureEndpoint } from "../../endpoints";
 import CommentItem from "./comment-item";
 import Comment from "../../dtos/comment";
 import { Pressable, Text } from "react-native";
@@ -17,24 +17,27 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     useEffect(()=>{
         (async ()=>{
             try {
-                const response = await fetch(`${endpoint}/${props.postId}.json`)
+                const response = await fetch(`${firebaseEndpoint}/${props.postId}.json`)
                 const data = await response.json();
 
                 if(data){
-
                     let result:Comment[] = [];
                     for (let i in data["comment"]){
                         result.push(data["comment"][i])
                     }
-                    
-                    setComments(result.filter(d => !d.previous));
-                    setReplies(result.filter(d => d.previous));
-                    // props.setNumComments(comments.length + replies.length);
+                    const comments = result.filter(r => !r.previous);
+                    const replies = result.filter(r => r.previous);
+                    setComments(comments);
+                    setReplies(replies);
+
+                    setTimeout(() => {
+                        props.setNumComments(comments.length + replies.length);
+                        console.log(comments.length + replies.length);
+                    }, 1000);
                 }
             } catch (error) {
                 console.log(error);
             }
-            
         })()
     },[])
 

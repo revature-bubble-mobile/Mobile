@@ -12,33 +12,27 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     const [userProfile, setUserProfile] = useState<Profile>();
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [newReply, setReply] = useState("");
-    const [replyProfiles, setReplyProfiles] = useState<Profile[]>([]);
+    const [allProfiles, setReplyProfiles] = useState<Profile[]>([]);
 
     useEffect(()=>{
         (async ()=>{
-            const response = await fetch(`${firebaseEndpoint}/profile/${props.writer}.json`);
-            const commentProfile: Profile = await response.json();
-            setUserProfile(commentProfile);
+            try {
+                const response = await fetch(`${firebaseEndpoint}/profile/${props.writer}.json`);
+                const commentProfile: Profile = await response.json();
+                setUserProfile(commentProfile);
+                const replyResponse = await fetch(`${firebaseEndpoint}/profile.json`);
+                const profiles = await replyResponse.json();
+                let result = [];
+                for (const id in profiles){
+                    profiles[id].uniqueId = id;
+                    result.push(profiles[id]);
+                }
+                setReplyProfiles(result);
+            } catch (error) {
+                console.log(error);
+            }
         })()
-        let tempArr: Profile[] = [];
-        (()=>{
-            props.replies.forEach(async (r)=>{
-                const response = await fetch(`${firebaseEndpoint}/profile/${r.writer}.json`);
-                const profile: Profile = await response.json();
-                tempArr.push(profile);
-            })
-            console.log(tempArr);
-            setReplyProfiles(tempArr);
-        })()
-        console.log(replyProfiles);
     },[])
-
-    async function getReplyProfile(pid: string){
-        const response = await fetch(`${firebaseEndpoint}/profile/${pid}.json`);
-        const replyProfile: Profile = await response.json();
-        console.log(replyProfile);
-        return replyProfile.username;
-    }
 
     async function postReply(){
         if(!newReply) {
@@ -99,7 +93,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                 </View>
                 <View>
                     <Text style={styles.date}>{formatDate(item.dateCreated)}</Text>
-                    <Text style={styles.username}>{`${getReplyProfile(item.writer)} says: `}</Text>
+                    <Text style={styles.username}>{allProfiles.find(p => p.pid === item.writer)?.username}</Text>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
