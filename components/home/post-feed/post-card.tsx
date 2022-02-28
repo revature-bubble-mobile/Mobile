@@ -1,4 +1,6 @@
 
+import { DrawerNavigationHelpers } from "@react-navigation/drawer/lib/typescript/src/types";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
@@ -21,6 +23,7 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
     const [numOfComments, setNumComments] = useState<number>(0);
     const [overlayVisible, setOverlayVisible] = useState(false);
     const currentUserPid = useSelector((state: User) => state.profile.pid)
+    const navigation = useNavigation<DrawerNavigationHelpers>();
 
     const authorProfile = profiles.find(p => post.creator === p.pid);
 
@@ -64,7 +67,9 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
                     source={require('../../../assets/favicon.png')}
                     style={styles.profileIcon}
                 />
-                <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
+                <Pressable onPress={() => navigation.navigate('Profile', {pid: authorProfile?.pid})}>
+                    <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
+                </Pressable>
             </View>
             <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
             <View style={styles.postBody}>
@@ -103,7 +108,9 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
                         source={require('../../../assets/favicon.png')}
                         style={styles.profileIcon}
                     />
-                    <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
+                    <Pressable onPress={() => navigation.navigate('Profile', {pid: authorProfile?.pid})}>
+                        <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
+                    </Pressable>
                 </View>
                 <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
                 <View style={styles.postBody}>
