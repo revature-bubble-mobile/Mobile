@@ -1,3 +1,5 @@
+import { DrawerNavigationHelpers } from "@react-navigation/drawer/lib/typescript/src/types";
+import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { FlatList, Text, Pressable, StyleSheet,View, Image } from "react-native";
 import { TextInput } from "react-native";
@@ -13,6 +15,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [newReply, setReply] = useState("");
     const [allProfiles, setReplyProfiles] = useState<Profile[]>([]);
+    const navigation = useNavigation<DrawerNavigationHelpers>();
     
     const currentUserPid = useSelector((state: User) => state.profile.pid)
 
@@ -76,7 +79,9 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         </View>
         <View>
             <Text style={styles.date}>{formatDate(props.dateCreated)}</Text>
-            <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
+            <Pressable onPress={()=>{navigation.navigate('Profile', {pid: userProfile?.pid})}}>
+                <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
+            </Pressable>
             <Text style={styles.comment}>{props.message}</Text>
             <Pressable onPress={() => setIsReplyPressed(!isReplyPressed)}><Text style={styles.replyButton}>Reply</Text></Pressable>
             {isReplyPressed &&
@@ -95,7 +100,9 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                 </View>
                 <View>
                     <Text style={styles.date}>{formatDate(item.dateCreated)}</Text>
-                    <Text style={styles.username}>{allProfiles.find(p => p.pid === item.writer)?.username}</Text>
+                    <Pressable onPress={()=>{navigation.navigate('Profile', {pid: allProfiles.find(p => p.pid === item.writer)?.pid})}}>
+                        <Text style={styles.username}>{allProfiles.find(p => p.pid === item.writer)?.username}</Text>
+                    </Pressable>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
