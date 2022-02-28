@@ -1,10 +1,12 @@
+import { DrawerNavigationHelpers } from "@react-navigation/drawer/lib/typescript/src/types";
+import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { FlatList, Text, Pressable, StyleSheet,View, Image } from "react-native";
 import { TextInput } from "react-native";
 import { useSelector } from "react-redux";
 import Comment from "../../dtos/comment"
 import Profile from "../../dtos/profile"
-import endpoint, { azureEndpoint } from "../../endpoints";
+import firebaseEndpoint, { azureEndpoint } from "../../endpoints";
 import { User } from "../../store";
 
 export default function CommentItem(props: Comment & {replies: Comment[], setReplies: Function}){
@@ -12,20 +14,30 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     const [userProfile, setUserProfile] = useState<Profile>();
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [newReply, setReply] = useState("");
+    const [allProfiles, setReplyProfiles] = useState<Profile[]>([]);
+    const navigation = useNavigation<DrawerNavigationHelpers>();
+    
+    const currentUserPid = useSelector((state: User) => state.profile.pid)
 
     useEffect(()=>{
         (async ()=>{
-            const response = await fetch(`${endpoint}/profile/${props.writer}.json`);
-            const commentProfile: Profile = await response.json();
-            setUserProfile(commentProfile);
+            try {
+                const response = await fetch(`${firebaseEndpoint}/profile/${props.writer}.json`);
+                const commentProfile: Profile = await response.json();
+                setUserProfile(commentProfile);
+                const replyResponse = await fetch(`${firebaseEndpoint}/profile.json`);
+                const profiles = await replyResponse.json();
+                let result = [];
+                for (const id in profiles){
+                    profiles[id].uniqueId = id;
+                    result.push(profiles[id]);
+                }
+                setReplyProfiles(result);
+            } catch (error) {
+                console.log(error);
+            }
         })()
     },[])
-
-    async function getReplyProfile(pid: string){
-        const response = await fetch(`${endpoint}/profile/${pid}.json`);
-        const replyProfile: Profile = await response.json();
-        return replyProfile.username;
-    }
 
     async function postReply(){
         if(!newReply) {
@@ -33,7 +45,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         } else {
             const reply = {
                 cid: "",
-                writer: useSelector((state: User) => state.profile.pid),
+                writer: currentUserPid,
                 post: props.post,
                 message: newReply,
                 dateCreated: new Date(),
@@ -53,14 +65,23 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         }
     }
 
+    function formatDate(oldDate: Date): string{
+        const newDate = new Date(oldDate);
+        const amPm = (newDate.getHours() / 12 >= 1) ? "PM" : "AM"; 
+        const date = `${newDate.toLocaleDateString()} ${newDate.getHours() > 12 ? newDate.getHours() - 12 : newDate.getHours()}:${newDate.getMinutes()} ${amPm}`;
+        return date;
+    }
+
 
     return(<View style={styles.container}>
         <View>
             <Image style={styles.image} source={require("../../assets/favicon.png")} />
         </View>
         <View>
-            <Text style={styles.date}>{props.dateCreated.toLocaleString()}</Text>
-            <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
+            <Text style={styles.date}>{formatDate(props.dateCreated)}</Text>
+            <Pressable onPress={()=>{navigation.navigate('Profile', {pid: userProfile?.pid})}}>
+                <Text style={styles.username}>{`${userProfile?.username} says:`}</Text>
+            </Pressable>
             <Text style={styles.comment}>{props.message}</Text>
             <Pressable onPress={() => setIsReplyPressed(!isReplyPressed)}><Text style={styles.replyButton}>Reply</Text></Pressable>
             {isReplyPressed &&
@@ -78,8 +99,10 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                     <Image style={styles.repliesImage} source={require("../../assets/favicon.png")} />
                 </View>
                 <View>
-                    <Text style={styles.date}>{item.dateCreated.toLocaleString()}</Text>
-                    <Text style={styles.username}>{`${()=>getReplyProfile(item.writer)} says: `}</Text>
+                    <Text style={styles.date}>{formatDate(item.dateCreated)}</Text>
+                    <Pressable onPress={()=>{navigation.navigate('Profile', {pid: allProfiles.find(p => p.pid === item.writer)?.pid})}}>
+                        <Text style={styles.username}>{allProfiles.find(p => p.pid === item.writer)?.username}</Text>
+                    </Pressable>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
@@ -124,7 +147,7 @@ const styles = StyleSheet.create({
     },
     repliesListContainer: {
         flex:1,
-        flexDirection:"row"
+        flexDirection:"row",
     },
     repliesImage: {
         height:40,
@@ -139,7 +162,7 @@ const styles = StyleSheet.create({
         borderRadius:2,
         borderBottomWidth:1,
         borderColor:"#B9B9BA",
-        width:280
+        width:240
     },
     postReplyButton: {
        marginLeft:200,
