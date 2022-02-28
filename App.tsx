@@ -21,7 +21,7 @@ import DrawerFooter from './components/drawer/drawer-footer';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  const [verification, setVerification] = useState<boolean>(true);
+  const [verification, setVerification] = useState<boolean>(false);
 
     useEffect(() => {
     (async () => {

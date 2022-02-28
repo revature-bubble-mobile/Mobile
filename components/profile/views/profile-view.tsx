@@ -10,17 +10,19 @@ import Profile from '../../../dtos/profile'
 
 /** This is the primary component for the profile page. All other profile components will be nested in this component. */
 export default function ProfileView(props: { route: any }) {
-  const {pid} = props.route.params;
   const tempUser: User = useSelector((state: User) => state);
+  const {pid}  = props?.route?.params ?? tempUser.profile;
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
   
   function checkUser(): boolean {
+    console.log('tempuser ID:',  tempUser.profile.pid);
+    console.log('route id', pid);
     return tempUser?.profile?.pid === pid; 
   }
   
   useEffect(() => {
     httpSetUser()
-  }, []);
+  }, [pid]);
 
   async function httpSetUser() {  
 
