@@ -21,10 +21,9 @@ import DrawerFooter from './components/drawer/drawer-footer';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-
   const [verification, setVerification] = useState<boolean>(false);
 
-  useEffect(() => {
+    useEffect(() => {
     (async () => {
       const storedProfile = await AsyncStorageLib.getItem("profile");
       if (storedProfile) {
@@ -34,11 +33,11 @@ export default function App() {
         setVerification(profile.verification ?? false);
       }
     })();
-  }, [verification]);
+  }, [verification]);  
 
 return (<Provider store={store}>
   <ThemeProvider>
-    {verification ? <LoginView /> :
+    {!verification ? <LoginView setVerification={setVerification}/> :
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator screenOptions={{drawerItemStyle:{flex:1, justifyContent:"center"}}} initialRouteName='Home' drawerContent={props => {return(
