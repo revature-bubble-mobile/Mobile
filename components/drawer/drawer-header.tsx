@@ -26,6 +26,8 @@ const styles = StyleSheet.create({
   image:{
     flex:0.8,
     borderRadius:10000,
+    width:"100%",
+    height:undefined,
     aspectRatio:1
   },
   pressable:{
