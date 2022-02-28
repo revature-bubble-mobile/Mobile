@@ -100,7 +100,9 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
                 </View>
                 <View>
                     <Text style={styles.date}>{formatDate(item.dateCreated)}</Text>
-                    <Text style={styles.username}>{allProfiles.find(p => p.pid === item.writer)?.username}</Text>
+                    <Pressable onPress={()=>{navigation.navigate('Profile', {pid: allProfiles.find(p => p.pid === item.writer)?.pid})}}>
+                        <Text style={styles.username}>{allProfiles.find(p => p.pid === item.writer)?.username}</Text>
+                    </Pressable>
                     <Text style={styles.comment}>{item.message}</Text>
                 </View>
             </View>
