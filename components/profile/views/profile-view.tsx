@@ -11,7 +11,7 @@ import Profile from '../../../dtos/profile'
 /** This is the primary component for the profile page. All other profile components will be nested in this component. */
 export default function ProfileView(props: { route: any }) {
   const tempUser: User = useSelector((state: User) => state);
-  const {pid}  = props?.route?.params ?? tempUser.profile;
+  const pid = props?.route?.params?.pid ?? tempUser.profile.pid;
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
   
   function checkUser(): boolean {
@@ -100,7 +100,6 @@ export default function ProfileView(props: { route: any }) {
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
             }}>
-            <Text style={{ margin: 10 }}>SEARCH</Text>
           </View>
         </View>
 
