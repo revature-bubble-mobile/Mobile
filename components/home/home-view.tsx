@@ -7,7 +7,7 @@ export default function HomeView() {
 
     return (<View style={{ height: '99%', width: '100%' }}>
         <CreatePost />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, padding: 3 }}>
             <PostFeedView />
         </View>
     </View>)
