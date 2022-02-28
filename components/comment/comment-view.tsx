@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, Image, StyleSheet, TextInput, View, Keyboard, Animated } from "react-native";
-import Post from "../../dtos/post";
 import firebaseEndpoint, { azureEndpoint } from "../../endpoints";
 import CommentItem from "./comment-item";
 import Comment from "../../dtos/comment";
@@ -16,8 +15,9 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     const [comments, setComments] = useState<Comment[]>([]);
     const [replies, setReplies] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState<string>("");
-    const [keyboardStatus, setKeyboardStatus] = useState<boolean>(false);
     const paddingAnim = useRef(new Animated.Value(0)).current;
+    
+    const currentUserPid = useSelector((state: User) => state.profile.pid)
 
     function increasePadding(){
         Animated.timing(paddingAnim, {
@@ -66,7 +66,7 @@ export default function CommentView(props: {postId: string, setNumComments: Func
         } else {
             const comment = {
                 cid: "",
-                writer: "-MwDDfSFxbE7KDt9aWY4", //useSelector((state: User) => state.profile.pid),
+                writer: currentUserPid,
                 post: props.postId,
                 message: newComment,
                 dateCreated: new Date()

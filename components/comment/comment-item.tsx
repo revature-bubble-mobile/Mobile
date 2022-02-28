@@ -13,6 +13,8 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     const [isReplyPressed, setIsReplyPressed] = useState(false);
     const [newReply, setReply] = useState("");
     const [allProfiles, setReplyProfiles] = useState<Profile[]>([]);
+    
+    const currentUserPid = useSelector((state: User) => state.profile.pid)
 
     useEffect(()=>{
         (async ()=>{
@@ -40,7 +42,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         } else {
             const reply = {
                 cid: "",
-                writer: "-MwDDfSFxbE7KDt9aWY4", //useSelector((state: User) => state.profile.pid),
+                writer: currentUserPid,
                 post: props.post,
                 message: newReply,
                 dateCreated: new Date(),

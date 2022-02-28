@@ -61,19 +61,6 @@ return (<Provider store={store}>
   </ThemeProvider>
 </Provider>)}
 
-export function AppWrapper(){
-
-  return(<>
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Home" component={HomeView} />
-        <Drawer.Screen name="Profile" component={ProfileView} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-    <StatusBar style="auto" />
-  </>)
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

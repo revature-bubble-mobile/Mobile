@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Icon, Overlay } from "react-native-elements";
 import { Card } from "react-native-elements/dist/card/Card";
 import { Divider } from "react-native-elements/dist/divider/Divider";
@@ -20,6 +20,7 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
     const [userComment, setUserCommented] = useState<boolean>(false);
     const [numOfComments, setNumComments] = useState<number>(0);
     const [overlayVisible, setOverlayVisible] = useState(false);
+    const currentUserPid = useSelector((state: User) => state.profile.pid)
 
     const authorProfile = profiles.find(p => post.creator === p.pid);
 
@@ -37,7 +38,7 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
 
                 let commented = false;
                 comments.forEach(c => {
-                    if (c.writer === "-MwDDfSFxbE7KDt9aWY4") {   //useSelector((state: User) => state.profile.pid)
+                    if (c.writer === currentUserPid) {
                         setUserCommented(true);
                         commented = true;
                     }
