@@ -37,7 +37,7 @@ export default function PostCard(props:{post:Post, profiles:Profile[], refresh: 
 
                 let commented = false;
                 comments.forEach( c => {
-                    if (c.writer === "-MwdkbjuGoGXs8O247z_"){   //useSelector((state: User) => state.profile.pid)
+                    if (c.writer === "-MwDDfSFxbE7KDt9aWY4"){   //useSelector((state: User) => state.profile.pid)
                         setUserCommented(true);
                         commented = true;
                     }

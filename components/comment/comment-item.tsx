@@ -40,7 +40,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
         } else {
             const reply = {
                 cid: "",
-                writer: "-MwdkbjuGoGXs8O247z_", //useSelector((state: User) => state.profile.pid),
+                writer: "-MwDDfSFxbE7KDt9aWY4", //useSelector((state: User) => state.profile.pid),
                 post: props.post,
                 message: newReply,
                 dateCreated: new Date(),
