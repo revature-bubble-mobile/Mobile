@@ -9,12 +9,13 @@ import ViewPostsOrFollowers from './ViewPostsOrFollowers';
 import Profile from '../../../dtos/profile'
 
 /** This is the primary component for the profile page. All other profile components will be nested in this component. */
-export default function ProfileView(props: {pid: string}) {
+export default function ProfileView(props: { route: any }) {
+  const {pid} = props.route.params;
   const tempUser: User = useSelector((state: User) => state);
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
   
   function checkUser(): boolean {
-    return tempUser?.profile?.pid === props?.pid; 
+    return tempUser?.profile?.pid === pid; 
   }
   
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function ProfileView(props: {pid: string}) {
 
         //otherwise, get the other user's profile
         try {
-            const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${props.pid}.json`);
+            const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${pid}.json`);
             const profile: Profile = response.data;
             const user: User = {
             profile
