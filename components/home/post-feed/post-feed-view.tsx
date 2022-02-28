@@ -79,7 +79,9 @@ export default function PostFeedView(){
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:"#F0F2F5"
+        height:"100%",
+        width:"100%",
+        backgroundColor:"#F0F2F5",
     },
     
 });
