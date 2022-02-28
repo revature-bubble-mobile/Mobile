@@ -10,10 +10,11 @@ export default function DrawerFooter() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, alignItems:"center", justifyContent:"flex-end", paddingBottom:10, paddingHorizontal:10
+        flex: 1, alignItems:"center", justifyContent:"flex-end", marginBottom:10, marginHorizontal:10
     },
     image: {
         width:"100%",
-        height:"43%"
+        height: undefined,
+        aspectRatio: 445/200
     }
 })
