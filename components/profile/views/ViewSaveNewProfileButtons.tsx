@@ -12,7 +12,7 @@ export default function ViewSaveNewProfileButtons(props: {
       <Pressable
         testID='cancel-btn'
         style={{
-          backgroundColor: 'dimgrey',
+          backgroundColor: '#474C55',
           borderRadius: 10,
           marginRight: 10,
         }}
@@ -25,7 +25,7 @@ export default function ViewSaveNewProfileButtons(props: {
       <Pressable
         testID='update-btn'
         style={{
-          backgroundColor: 'dimgrey',
+          backgroundColor: '#474C55',
           borderRadius: 10,
           marginLeft: 10,
         }}

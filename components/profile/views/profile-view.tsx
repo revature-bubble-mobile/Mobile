@@ -84,14 +84,14 @@ export default function ProfileView(props: {pid: string}) {
         <View
           style={{
             flex: 0.5,
-            backgroundColor: 'lightgrey',
+            backgroundColor: '#B9B9BA',
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
           }}>
           <View
             style={{
               flex: 0.5,
-              backgroundColor: 'lightgrey',
+              backgroundColor: '#B9B9BA',
               flexDirection: 'row',
               justifyContent: 'flex-end',
               borderTopLeftRadius: 10,
@@ -104,7 +104,7 @@ export default function ProfileView(props: {pid: string}) {
         <View
           style={{
             flex: 0.5,
-            backgroundColor: 'dimgrey',
+            backgroundColor: '#474C55',
             justifyContent: 'flex-end',
             alignItems: 'center',
             borderBottomLeftRadius: 10,

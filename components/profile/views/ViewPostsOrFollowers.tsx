@@ -11,7 +11,7 @@ export default function ViewPostsOrFollowers(){
 
     return(
         <>
-            <View style={{flex:0.10, backgroundColor:'dimgrey', flexDirection:'row', justifyContent:'space-around', alignItems:'center', borderTopLeftRadius:10, borderTopRightRadius:10}}>
+            <View style={{flex:0.10, backgroundColor:'#474C55', flexDirection:'row', justifyContent:'space-around', alignItems:'center', borderTopLeftRadius:10, borderTopRightRadius:10}}>
                 <PostFollowButtons setter={setPostOrFollow}/>
             </View>
     

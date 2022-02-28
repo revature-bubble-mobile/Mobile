@@ -4,7 +4,7 @@ export default function ViewFollowers(){
 
     return(<>
            
-            <View style={{flex:0.9,backgroundColor:'lightgrey', alignItems:'center', justifyContent:'space-around'}}>
+            <View style={{flex:0.9,backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'space-around', borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
                 <FlatList
                     data={[]}
                     renderItem= { ({item}) => (<View style={{margin:Dimensions.get("window").width/16}}>{item}</View>)}    
