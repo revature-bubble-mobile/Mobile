@@ -44,10 +44,10 @@ return (<Provider store={store}>
               <DrawerItem label="Logout" icon={()=>{return(<Icon name='logout' size={30}/>)}} onPress={()=>{
                 store.dispatch(actions.setUser({
                   pid: "",
-                  firstName: "",
-                  lastName: "",
+                  firstName: "fnameTest",
+                  lastName: "lNameTest",
                   passkey: "",
-                  email: "",
+                  email: "emailTest",
                   username: "",
                   following: [],
                   followers: [] }));
@@ -58,7 +58,7 @@ return (<Provider store={store}>
             </DrawerContentScrollView>
           )}}>
             <Drawer.Screen options={{drawerIcon:()=>{return(<FontAwesome name="home" size={30}/>)}}} name="Home" component={HomeView} />
-            <Drawer.Screen options={{drawerIcon:()=>{return(<FontAwesome name="drivers-license-o" size={30}/>)}}} name="Profile" component={ProfileView} />
+            <Drawer.Screen options={{drawerIcon:()=>{return(<FontAwesome name="drivers-license-o" size={30}/>)}}} name="Profile" component={ ()=> <ProfileView pid = {store.getState().profile.pid} />} />
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />

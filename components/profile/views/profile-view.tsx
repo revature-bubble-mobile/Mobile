@@ -12,34 +12,37 @@ import Profile from '../../../dtos/profile'
 export default function ProfileView(props: {pid: string}) {
   const tempUser: User = useSelector((state: User) => state);
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
+  
   function checkUser(): boolean {
     return tempUser?.profile?.pid === props?.pid; 
   }
+  
   useEffect(() => {
     httpSetUser()
   }, []);
 
-
-  
-  
   async function httpSetUser() {  
+
+    //if user is the logged in user
     if(checkUser()) {
       
       setCurrentUser(tempUser);
       return;
     } else {
-      try {
-        const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${props.pid}.json`);
-        const profile: Profile = response.data;
-        const user: User = {
-          profile
-        };
-        setCurrentUser(user);
-      } catch(error) {
-        
-        setCurrentUser(tempUser);
-        return;
-      }
+
+        //otherwise, get the other user's profile
+        try {
+            const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${props.pid}.json`);
+            const profile: Profile = response.data;
+            const user: User = {
+            profile
+            };
+            setCurrentUser(user);
+        } catch(error) {
+            
+            setCurrentUser(tempUser);
+            return;
+        }
     }
   }
 

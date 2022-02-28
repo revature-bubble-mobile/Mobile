@@ -37,12 +37,12 @@ export function CreatePost() {
 
     const [inputTextClicked, setInputTextClicked] = useState(false);
 
-    return (<Card containerStyle={styles.container} wrapperStyle={styles.wrapperContainer}>
-        <View style={{ alignItems: 'center' }}>
+    return (<Card containerStyle={styles.container} wrapperStyle={styles.wrapperContainer}  >
+        {/* <View style={{ alignItems: 'center' }}> */}
             <View style={[styles.inputContainer, { borderWidth: inputTextClicked ? 1 : 0 }]}>
                 <GetTextInput inputTxt={inputTxt} setInputTxt={setInputTxt} setInputTextClicked={setInputTextClicked} inputTextClicked={inputTextClicked} pan={pan} />
             </View>
-        </View>
+        {/* </View> */}
         <View style={{ alignItems: 'flex-end', marginRight: "2%", marginTop: '2%' }}>
             <Button buttonStyle={styles.postBtn} onPress={post} title="Post" titleStyle={styles.postTxt} />
         </View>
@@ -88,9 +88,9 @@ export function GetTextInput(props: { inputTxt: string, setInputTxt: Function, s
     return (<>
         <TextInput
             numberOfLines={noLines}
-            multiline
+            multiline={true}
             value={inputTxt === '' ? undefined : inputTxt}
-            style={{ textAlignVertical: 'top', padding: 2 }}
+            style={{ textAlignVertical: 'top', padding: 2, minHeight: 50 }}
             onPressIn={_ => setInputTextClicked(true)}
             onEndEditing={_ => setInputTextClicked(false)}
             onChangeText={t => setInputTxt(t)}
@@ -103,28 +103,36 @@ export function GetTextInput(props: { inputTxt: string, setInputTxt: Function, s
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
-        backgroundColor: '#fff',
+        flex: 1,
+        flexBasis: '111%',
+        // borderWidth: 1,
+        backgroundColor: 'white',
         borderRadius: 10,
         borderColor: "rgba(100,100,100,0.1)",
         elevation: 4,
+        // alignSelf:'stretch',
+        // justifyContent:'center',
+        width: '100%',
+        // height: '100%'
     },
     wrapperContainer: {
-        width: '100%',
+        flex: 1,
+        // width: '100%',
         justifyContent: 'center',
     },
     inputContainer: {
-        width: '98%',
-        flexDirection: 'column',
-        padding: 10,
-        borderWidth: 1,
+        // width: '98%',
+        // flexDirection: 'column',
+        padding: 5,
+        // borderWidth: 1,
         borderColor: 'rgba(191,222,255,1)',
         borderRadius: 10,
         backgroundColor: '#fff',
+        alignSelf:"stretch",
 
     },
     inputTxt: {
-        width: '100%',
+        // width: '100%',
         borderWidth: 0,
     },
     resizeInput: {
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
     },
     postTxt: {
         fontSize: 15,
-        color: '#fff',
+        color: 'black',
         fontWeight: 'bold',
     }
 });
