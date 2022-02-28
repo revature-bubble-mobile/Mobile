@@ -24,12 +24,12 @@ export default function ViewPosts(){
     }
     
     return(
-        <>
-            <View style={{flex:0.45, backgroundColor:'white', alignItems:'center', justifyContent:'center', borderLeftWidth: 5, borderRightWidth:5, borderColor: '#B9B9BA'}}>
+        <View style={{height:'70%'}}>
+            <View style={{width:'100%', paddingBottom:4}}>
                 <CreatePost/>
             </View>
-    
-            <View style={{flex:0.45, backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'center', borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
+            <View style={{height:'88%'}}>
+            <View style={{backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'center', borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
                 <FlatList
                     data={postArray}
                     renderItem= { ({item}) => (<View style={{margin:Dimensions.get("window").width/16}}><Text style={{textAlign:'center'}}>{item}</Text></View>)}    
@@ -37,7 +37,8 @@ export default function ViewPosts(){
                     keyExtractor = {(item, index)=>{return `${item}.${index}`}}     
                 ></FlatList>
             </View>
-        </>
+            </View>
+        </View>
     )
 }
 

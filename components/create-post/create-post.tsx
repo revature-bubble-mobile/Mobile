@@ -103,36 +103,28 @@ export function GetTextInput(props: { inputTxt: string, setInputTxt: Function, s
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexBasis: '111%',
-        // borderWidth: 1,
-        backgroundColor: 'white',
+        borderWidth: 1,
+        backgroundColor: '#fff',
         borderRadius: 10,
         borderColor: "rgba(100,100,100,0.1)",
         elevation: 4,
-        // alignSelf:'stretch',
-        // justifyContent:'center',
-        width: '100%',
-        // height: '100%'
     },
     wrapperContainer: {
-        flex: 1,
-        // width: '100%',
+        width: '100%',
         justifyContent: 'center',
     },
     inputContainer: {
-        // width: '98%',
-        // flexDirection: 'column',
-        padding: 5,
-        // borderWidth: 1,
+        width: '98%',
+        flexDirection: 'column',
+        padding: 10,
+        borderWidth: 1,
         borderColor: 'rgba(191,222,255,1)',
         borderRadius: 10,
         backgroundColor: '#fff',
-        alignSelf:"stretch",
 
     },
     inputTxt: {
-        // width: '100%',
+        width: '100%',
         borderWidth: 0,
     },
     resizeInput: {
@@ -148,7 +140,7 @@ const styles = StyleSheet.create({
     },
     postTxt: {
         fontSize: 15,
-        color: 'black',
+        color: '#fff',
         fontWeight: 'bold',
     }
 });

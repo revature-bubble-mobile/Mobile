@@ -51,9 +51,7 @@ export default function ProfileView(props: {pid: string}) {
       return (
         <View
           style={{
-            flex: 0.33,
             backgroundColor: 'white',
-            alignSelf: 'flex-end',
             justifyContent: 'center',
             margin: 10,
             padding: 3,
@@ -66,7 +64,6 @@ export default function ProfileView(props: {pid: string}) {
       return (
         <View
           style={{
-            flex: 0.33,
             backgroundColor: 'white',
             alignSelf: 'flex-start',
             justifyContent: 'center',
@@ -81,9 +78,9 @@ export default function ProfileView(props: {pid: string}) {
 
   }
   return (
-    <>
+    <View style={{height:'100%', width:'100%'}}>
       {/* TOP HALF */}
-      <View style={{ flex: 0.5, backgroundColor: 'white', padding: 10 }}>
+      <View style={{ flex: 0.3, backgroundColor: 'white', padding: 10 }}>
         <View
           style={{
             flex: 0.5,
@@ -142,9 +139,9 @@ export default function ProfileView(props: {pid: string}) {
       </View>
 
       {/* BOTTOM HALF */}
-      <View style={{ flex: 0.5, backgroundColor: 'white', padding: 10 }}>
+      <View style={{ flex: 0.7, backgroundColor: 'white', padding: 10 }}>
         <ViewPostsOrFollowers />
       </View>
-    </>
+    </View>
   );
 }
