@@ -92,7 +92,7 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
             isVisible={overlayVisible}
             overlayStyle={styles.overlay}>
 
-            <View >
+            <View style={{height:'100%'}}>
                 <Pressable onPress={() => setOverlayVisible(!overlayVisible)}
                     style={styles.closeButton}>
                     <Text style={styles.closeText}> X </Text>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     commentsView: {
-        height: 320,
+        height: '85%',
     },
     overlay: {
         height: "90%",
