@@ -1,15 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { View } from "react-native";
 import { CreatePost } from "../create-post/create-post";
 import PostFeedView from "./post-feed/post-feed-view";
 
 export default function HomeView() {
 
-    return(<View style={styles.container}>
-        <View style={{flex:0.2}}>
-            <CreatePost/>
-        </View>
-        <View style={{flex:0.8, marginBottom:5}}>
-            <PostFeedView/>
+    return (<View style={{ height: '99%', width: '100%' }}>
+        <CreatePost />
+        <View style={{ flex: 1 }}>
+            <PostFeedView />
         </View>
     </View>)
 }

@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         borderRadius:2,
         borderBottomWidth:1,
         borderColor:"#B9B9BA",
-        width:280
+        width:240
     },
     postReplyButton: {
        marginLeft:200,
