@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, Dimensions } from "react-native";
-import Post from "../../../dtos/post";
 import firebaseEndpoint from "../../../endpoints";
 import { CreatePost } from "../../create-post/create-post";
 
@@ -26,7 +25,7 @@ export default function ViewPosts(){
     return(
         <View style={{height:'65%'}}>
             <View style={{width:'100%', paddingBottom:4}}>
-                <CreatePost/>
+                <CreatePost getter={GetPosts}/>
             </View>
             <View style={{height:'88%'}}>
             <View style={{backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'center', borderRadius:10}}>

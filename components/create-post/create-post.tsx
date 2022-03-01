@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Post from "../../dtos/post";
 import { azureEndpoint } from "../../endpoints";
 
-export function CreatePost() {
+export function CreatePost(props:{getter?: Function}) {
     const [inputTxt, setInputTxt] = useState('');
     const pan = useRef(new Animated.ValueXY()).current;
 
@@ -29,6 +29,7 @@ export function CreatePost() {
             });
             if (response.status === 201) {
                 AlertORToast("Successfully uploaded post");
+                props.getter? props.getter() : null
             } else {
                 AlertORToast('Failed to send Post to Server');
             }
