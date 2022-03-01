@@ -5,7 +5,7 @@ export default function ViewSaveNewProfileButtons(props: {
   setShowModal: Function;
   setShowParent: Function;
 }) {
-  const { setShowModal, setShowParent, updateProfile } = props;
+  const { setShowModal, setShowParent, updateProfile } = props; 
 
   return (
     <View style={{ flexDirection: 'row' }}>

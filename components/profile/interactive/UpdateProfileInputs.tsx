@@ -27,12 +27,14 @@ export default function UpdateProfileInputs(props: {
       return;
     } else {
       try {
-        const response: AxiosResponse = await axios.patch(
+        let response: AxiosResponse = await axios.patch(
           `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
-          { firstname: fName, lastname: lName, email: email }
+          { firstName: fName, lastName: lName, email: email }
         );
+        response = await axios.get(`${firebaseEndpoint}profile/${currentUser.profile.pid}.json`)
         const profile: Profile = response.data;
         dispatch({ type: 'user', payload: profile });
+        console.log(profile)
       } catch (error) {
         Alert.alert(`Error: ${error}`);
       }

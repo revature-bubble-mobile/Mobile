@@ -56,6 +56,7 @@ export default function ProfileView(props: { route: any }) {
           style={{
             backgroundColor: 'white',
             justifyContent: 'center',
+            alignSelf:'flex-end',
             margin: 10,
             padding: 3,
             borderRadius: 10,
