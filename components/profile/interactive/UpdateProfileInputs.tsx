@@ -62,7 +62,7 @@ export default function UpdateProfileInputs(props: {
       <ViewSaveNewProfileButtons
         updateProfile={updateProfile}
         setShowModal={setShowModal}
-        setShowParent={setShowParent}
+        setShowParent={ setShowParent}
       />
     </>
   );

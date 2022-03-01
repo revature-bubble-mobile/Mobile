@@ -12,11 +12,7 @@ import Profile from '../../../dtos/profile'
 export default function ProfileView(props: { route: any }) {
   const tempUser: User = useSelector((state: User) => state);
   const pid = props?.route?.params?.pid ?? tempUser.profile.pid;
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
- 
   
   function checkUser(): boolean {
     return tempUser?.profile?.pid === pid; 
@@ -24,37 +20,32 @@ export default function ProfileView(props: { route: any }) {
   
   useEffect(() => {
     httpSetUser()
-  }, [tempUser]);
+  }, [pid ,tempUser]);
+
 
   async function httpSetUser() {  
-
     //if user is the logged in user
     if(checkUser()) {
-      const updateUser: User = useSelector((state: User) => state);
-      setCurrentUser(updateUser);
+      //const updateUser: User = useSelector((state: User) => state);
+      setCurrentUser(tempUser);
       console.log("found user")
-    } else {
-
-        //otherwise, get the other user's profile
-        try {
-            const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${pid}.json`);
-            const profile: Profile = response.data;
-            const user: User = {
-            profile
-            };
-            setCurrentUser(user);
-        } catch(error) {
-            setCurrentUser(tempUser);
-        }
-        console.log("http user")
+      return
     }
-    console.log("end of function")
-    const tempFirst = currentUser?.profile?.firstName ?? '';
-    const tempLast = currentUser?.profile?.lastName ?? '' ;
-    const tempEmail = currentUser?.profile?.email ?? 'Profile Deleted';
-    setFirstName(tempFirst);
-    setLastName(tempLast);
-    setEmail( tempEmail);
+    else{
+       //otherwise, get the other user's profile
+       try {
+        const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${pid}.json`);
+        const profile: Profile = response.data;
+        const user: User = {
+        profile
+        };
+        setCurrentUser(user);
+        } catch(error) {
+        setCurrentUser(tempUser);
+    }
+    console.log("http user")
+    }
+    console.log("end function")
 
   }
 
@@ -92,12 +83,13 @@ export default function ProfileView(props: { route: any }) {
   }
 
   function getDisplayName():string{
-    const result = `${firstName} ${lastName}`
-    return result
+    const tempFirst = currentUser?.profile?.firstName ?? '';
+    const tempLast = currentUser?.profile?.lastName ?? '' ;
+    return `${tempFirst} ${tempLast }`
   }
 
   function getDisplayEmail():string{
-    return email
+    return currentUser?.profile?.email ?? 'Profile Deleted';
   }
 
   return (
