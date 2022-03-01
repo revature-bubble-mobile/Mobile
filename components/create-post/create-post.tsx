@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, TextInput, PanResponder, Animated, ToastAndroid, Platform } from "react-native";
 import { Card, Button } from "react-native-elements";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector } from "react-redux";
 import Post from "../../dtos/post";
 import { azureEndpoint } from "../../endpoints";
+import { User } from "../../store";
 
 export function CreatePost() {
     const [inputTxt, setInputTxt] = useState('');
+    const user = useSelector((state: User) => state.profile.pid);
     const pan = useRef(new Animated.ValueXY()).current;
 
     async function post() {
@@ -16,7 +19,7 @@ export function CreatePost() {
         else {
             let post: Post = {
                 psid: "",
-                creator: "-MwDDfSFxbE7KDt9aWY4",
+                creator: user,
                 body: inputTxt,
                 datePosted: new Date(),
             }
