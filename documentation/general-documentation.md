@@ -25,12 +25,13 @@ The following is a list of node modules that were added that are _not included_ 
 7. redux
 8. react-redux
 
-**The package _'react-native-reanimated'_ does not work on web. If a static browser webpage is desired, this package will need to be uninstalled and any component dependencies will need to be re-worked.
+\*\*The package _'react-native-reanimated'_ does not work on web. If a static browser webpage is desired, this package will need to be uninstalled and any component dependencies will need to be re-worked.
 
 ## Differences Between The Mobile And Web Version
+
 ---
 
-**Warnings For Future Teams:** 
+**Warnings For Future Teams:**
 Firebase and Azure Functions will not be provided long term because of cost. Any future utilization of the front end will need to have a new backend created for communication.The easiest way to have no changes made to the frontend and have it stay compatible with a different backend would be the following:
 
 1. All HTTP calls reference one of these endpoints within the _endpoints.ts_ file. Simple change these endpoints as desired to the endpoint of another backend.
@@ -129,7 +130,7 @@ const objectReturned = {pid:string, username, password, followers[],likes[]}.
 
 \*\*Note: none of the data under profiles is consistent with all same the properties.
 Ideally, the same data would be saved for all entries. However, checking on the front end may be useful to avoid unexpected errors.
-Currently, to interact with all data within Firebase, no matter the type, the crud operations all work the same. *Note: All routes must have _.json_ appended to the end for Firebase to work properly!*
+Currently, to interact with all data within Firebase, no matter the type, the crud operations all work the same. _Note: All routes must have *.json* appended to the end for Firebase to work properly!_
 
 #### **get request:**
 
@@ -158,7 +159,6 @@ All updates to the database communicate directly with the Firebase Database.
 - any Patch will add, and or replace, only properties specified within the body of the request.
   -If the properties exist, they will be replaced.
   -if they do not exist, they will be added
-
 
 Both verbs will send back the object in the database as a JSON with the updated changes.
 
@@ -296,44 +296,47 @@ Currently, there is no implementation for JWTs which the Web version received fr
 Bubbl(e) Mobile includes the following features:
 | Feature | Description |
 | ------------ | ----------- |
-| Login | A user can log in with a username and password
-| Default Feed | A list of posts from users that the primary user follows, with comments for each |
-| Registration | The page where visitors can create a user profile if needed |
-| Profile | A user can view their profile and update it
-| Create a post | A user can create a post talking about stuff no one cares about | 
-| Comments | A user can tell other users how lame their posts are |
+| Login | A user can log in with a username and password. New users can also register a new account. |
+| Profile | Users can update their profile information. |
+| Profile Viewing | Users can view the profile of other users who have created a post.|
+| Post Feed | Users can view a feed of all post created from the most recent to the oldest|
+| Create a post | Users can create new post that contributes to the main feed all users will see. |
+| Comments | Users can comment on post made by previous users.|
 
 ## App Implementation (Developer Notes)
 
-- Session Management
-    - Implemented a Redux store using the redux-toolkit.
-    - The Store houses a User object with a Profile as its only property.
-    - The store is initialized using AsyncStorageLib upon the first rendering of App.tsx.
-    - The profile information that will go into the store should be under the key ‘profile’ set and stored using AsyncStorageLib.
-    - The reducer to update the store is called ‘setUser’.
-    - Use ‘actions’ exported from the store to create the appropriate action for setUser.
-    - Use ‘useDispatch’ to create the dispatch that will dispatch the action to the store.
-    - To clear the current user from the store, pass the setUser reducer a profile object with all properties as defaults/blank.
+Each head under this section describes how particular features and system interact together.
 
+### **Session Management**
 
-- Profile
-    - this is where the magic happens
-    - you can pretty much ignore the other features because this feature puts the others to shame
-    - Allows a user to view their picture, name, email, posts, and followers
-    - Users can update their profile Information (email, name, picture)
-    - User can add posts (see post feature) and click on followers to view their feeds (see followers feature)
-    - updates the backend and redux store when the profile is updated
-    - the post feed will use the default feed instead, because of time constraints and we lazy
+All session management is handled by using Redux toolkit. All profile information is stored within an entity called _user_ which contains a _profile_ that is defined within the _dtos_ folder. This user-profile should be available to all components from the redux store globally. It is set by the login screen when first trying to login open the app or by the registration component when creating an account. The main reducer used is _setProfile._ The action to use can be exported directly from the _store.ts_.
+
+### **Login, logout and registration Page**
+
+#### _Login_
+
+The login page is the first screen that will be
 
 - Login
-    - Forgot password default directed to google.com using Linking(react-native)
-    - UseState username/passkey inputs
-    - AsyncStorage updated on login
-    - updates redux on successfull login
-    - Verification boolean used for navigation
 
-- Registration
-    - Visitors can create a new user profile
-    - Inputs are checked to make sure they are valid (valid email, name, password)
-    - Displays terms and services for the user
-    - Checks if an account already exists and redirects accordingly
+  - Forgot password default directed to google.com using Linking(react-native)
+  - UseState username/passkey inputs
+  - AsyncStorage updated on login
+  - updates redux on successfully login
+  - Verification boolean used for navigation
+
+  - Registration
+  - Visitors can create a new user profile
+  - Inputs are checked to make sure they are valid (valid email, name, password)
+  - Displays terms and services for the user
+  - Checks if an account already exists and redirects accordingly
+
+- Profile
+
+  - this is where the magic happens
+  - you can pretty much ignore the other features because this feature puts the others to shame
+  - Allows a user to view their picture, name, email, posts, and followers
+  - Users can update their profile Information (email, name, picture)
+  - User can add posts (see post feature) and click on followers to view their feeds (see followers feature)
+  - updates the backend and redux store when the profile is updated
+  - the post feed will use the default feed instead, because of time constraints and we lazy
