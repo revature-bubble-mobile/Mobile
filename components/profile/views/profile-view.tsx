@@ -139,7 +139,7 @@ export default function ProfileView(props: { route: any }) {
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
           }}>
-          <Text
+          {/* <Text
             testID='name-textbox'
             style={{
               color: 'white',
@@ -148,7 +148,7 @@ export default function ProfileView(props: { route: any }) {
             testID='email-textbox'
             style={{
               color: 'white',
-            }}>{getDisplayEmail()}</Text>
+            }}>{getDisplayEmail()}</Text> */}
           <Image
             resizeMode='center'
             style={{
@@ -172,6 +172,6 @@ export default function ProfileView(props: { route: any }) {
         <ViewPostsOrFollowers />
     </View>
     
-
-  </>);
+    </>
+  );
 }
