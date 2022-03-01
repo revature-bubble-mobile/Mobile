@@ -12,7 +12,11 @@ import Profile from '../../../dtos/profile'
 export default function ProfileView(props: { route: any }) {
   const tempUser: User = useSelector((state: User) => state);
   const pid = props?.route?.params?.pid ?? tempUser.profile.pid;
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
+ 
   
   function checkUser(): boolean {
     return tempUser?.profile?.pid === pid; 
@@ -20,15 +24,15 @@ export default function ProfileView(props: { route: any }) {
   
   useEffect(() => {
     httpSetUser()
-  }, [pid]);
+  }, [tempUser]);
 
   async function httpSetUser() {  
 
     //if user is the logged in user
     if(checkUser()) {
-      
-      setCurrentUser(tempUser);
-      return;
+      const updateUser: User = useSelector((state: User) => state);
+      setCurrentUser(updateUser);
+      console.log("found user")
     } else {
 
         //otherwise, get the other user's profile
@@ -40,11 +44,18 @@ export default function ProfileView(props: { route: any }) {
             };
             setCurrentUser(user);
         } catch(error) {
-            
             setCurrentUser(tempUser);
-            return;
         }
+        console.log("http user")
     }
+    console.log("end of function")
+    const tempFirst = currentUser?.profile?.firstName ?? '';
+    const tempLast = currentUser?.profile?.lastName ?? '' ;
+    const tempEmail = currentUser?.profile?.email ?? 'Profile Deleted';
+    setFirstName(tempFirst);
+    setLastName(tempLast);
+    setEmail( tempEmail);
+
   }
 
   function SelectComponent() {
@@ -79,6 +90,16 @@ export default function ProfileView(props: { route: any }) {
     }
 
   }
+
+  function getDisplayName():string{
+    const result = `${firstName} ${lastName}`
+    return result
+  }
+
+  function getDisplayEmail():string{
+    return email
+  }
+
   return (
     <View style={{height:'100%', width:'100%'}}>
       {/* TOP HALF */}
@@ -115,12 +136,12 @@ export default function ProfileView(props: { route: any }) {
             testID='name-textbox'
             style={{
               color: 'white',
-            }}>{`${currentUser?.profile?.firstName ?? ''} ${currentUser?.profile?.lastName ?? ''}`}</Text>
+            }}>{getDisplayName()}</Text>
           <Text
             testID='email-textbox'
             style={{
               color: 'white',
-            }}>{`${currentUser?.profile?.email ?? 'Profile Deleted'}`}</Text>
+            }}>{getDisplayEmail()}</Text>
           <Image
             resizeMode='center'
             style={{
