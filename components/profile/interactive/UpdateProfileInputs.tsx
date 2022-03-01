@@ -42,16 +42,19 @@ export default function UpdateProfileInputs(props: {
   return (
     <>
       <TextInput
+        style={{borderColor:'grey', borderWidth:1, alignItems:'center', width:'100%', height:'25%', textAlign:'center', borderRadius:10}}
         testID='fname-textinput'
         value={fName}
         onChangeText={setFName}
         placeholder={'First Name'}></TextInput>
       <TextInput
+      style={{borderColor:'grey', borderWidth:1, alignItems:'center', width:'100%', height:'25%', textAlign:'center', borderRadius:10}}
         testID='lname-textinput'
         value={lName}
         onChangeText={setLName}
         placeholder={'Last Name'}></TextInput>
       <TextInput
+      style={{borderColor:'grey', borderWidth:1, alignItems:'center', width:'100%', height:'25%', textAlign:'center', borderRadius:10}}
         testID='email-textinput'
         value={email}
         onChangeText={setEmail}

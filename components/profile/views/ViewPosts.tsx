@@ -24,15 +24,15 @@ export default function ViewPosts(){
     }
     
     return(
-        <View style={{height:'70%'}}>
+        <View style={{height:'65%'}}>
             <View style={{width:'100%', paddingBottom:4}}>
                 <CreatePost/>
             </View>
             <View style={{height:'88%'}}>
-            <View style={{backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'center', borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
+            <View style={{backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'center', borderRadius:10}}>
                 <FlatList
                     data={postArray}
-                    renderItem= { ({item}) => (<View style={{margin:Dimensions.get("window").width/16}}><Text style={{textAlign:'center'}}>{item}</Text></View>)}    
+                    renderItem= { ({item}) => (<View style={{margin:Dimensions.get("window").width/24}}><Text style={{textAlign:'center'}}>{item}</Text></View>)}    
                     numColumns = {1}
                     keyExtractor = {(item, index)=>{return `${item}.${index}`}}     
                 ></FlatList>

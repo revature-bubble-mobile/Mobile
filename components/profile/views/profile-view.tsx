@@ -54,6 +54,7 @@ export default function ProfileView(props: { route: any }) {
       return (
         <View
           style={{
+            alignSelf: 'flex-end',
             backgroundColor: 'white',
             justifyContent: 'center',
             margin: 10,
@@ -80,48 +81,57 @@ export default function ProfileView(props: { route: any }) {
     }
 
   }
-  return (
-    <View style={{height:'100%', width:'100%'}}>
-      {/* TOP HALF */}
-      <View style={{ flex: 0.3, backgroundColor: 'white', padding: 10 }}>
+  return (<>
+      
+    {/* TOP HALF */}
+    <View style={{ flex: 0.3, backgroundColor: 'white', padding: 10 }}>
+
+        {/* TOP UPPER QUARTER */}
         <View
-          style={{
-            flex: 0.5,
+            style={{
+            flex: 0.6,
+            alignItems:'center',
             backgroundColor: '#B9B9BA',
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-          }}>
-          <View
-            style={{
-              flex: 0.5,
-              backgroundColor: '#B9B9BA',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
             }}>
-          </View>
+
+            {/* #B9B9BA */}
+            <View
+                style={{
+                    flex: 0.5,
+                    width: '100%',
+                    padding: 5,
+                    backgroundColor: '#B9B9BA',
+                    // flexDirection: 'row',
+                    // justifyContent: 'space-between',
+                    alignItems:'center',
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                }}>
+                    
+                <Text style={{color:'black'}}>{`${currentUser.profile.firstName} ${currentUser.profile.lastName}`}</Text>
+                <Text testID='email-textbox' style={{ color: 'white',}}>
+                    {`${currentUser?.profile?.email ?? 'Profile Deleted'}`}
+                </Text>
+                
+                
+            </View>
+        
+          
         </View>
 
+        {/* TOP LOWER QUARTER */}
         <View
-          style={{
-            flex: 0.5,
+            style={{
+            flex: 0.4,
             backgroundColor: '#474C55',
             justifyContent: 'flex-end',
             alignItems: 'center',
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
-          }}>
-          <Text
-            testID='name-textbox'
-            style={{
-              color: 'white',
-            }}>{`${currentUser?.profile?.firstName ?? ''} ${currentUser?.profile?.lastName ?? ''}`}</Text>
-          <Text
-            testID='email-textbox'
-            style={{
-              color: 'white',
-            }}>{`${currentUser?.profile?.email ?? 'Profile Deleted'}`}</Text>
+            }}>
+          
           <Image
             resizeMode='center'
             style={{
@@ -138,12 +148,13 @@ export default function ProfileView(props: { route: any }) {
             <SelectComponent/>
         </View>
         
-      </View>
-
-      {/* BOTTOM HALF */}
-      <View style={{ flex: 0.7, backgroundColor: 'white', padding: 10 }}>
-        <ViewPostsOrFollowers />
-      </View>
     </View>
+
+    {/* BOTTOM HALF */}
+    <View style={{ flex: 0.7, backgroundColor: 'white', padding: 10 }}>
+        <ViewPostsOrFollowers />
+    </View>
+    
+    </>
   );
 }
