@@ -7,7 +7,7 @@ import Post from "../../dtos/post";
 import { azureEndpoint } from "../../endpoints";
 import { User } from "../../store";
 
-export function CreatePost() {
+export function CreatePost(props:{getter?: Function}) {
     const [inputTxt, setInputTxt] = useState('');
     const user = useSelector((state: User) => state.profile.pid);
     const pan = useRef(new Animated.ValueXY()).current;
@@ -32,6 +32,7 @@ export function CreatePost() {
             });
             if (response.status === 201) {
                 AlertORToast("Successfully uploaded post");
+                props.getter? props.getter() : null
             } else {
                 AlertORToast('Failed to send Post to Server');
             }
@@ -40,7 +41,7 @@ export function CreatePost() {
 
     const [inputTextClicked, setInputTextClicked] = useState(false);
 
-    return (<Card containerStyle={styles.container} wrapperStyle={styles.wrapperContainer}>
+    return (<Card containerStyle={styles.container} wrapperStyle={styles.wrapperContainer}  >
         <View style={{ alignItems: 'center' }}>
             <View style={[styles.inputContainer, { borderWidth: inputTextClicked ? 1 : 0 }]}>
                 <GetTextInput inputTxt={inputTxt} setInputTxt={setInputTxt} setInputTextClicked={setInputTextClicked} inputTextClicked={inputTextClicked} pan={pan} />

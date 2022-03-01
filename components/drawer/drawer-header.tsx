@@ -12,7 +12,7 @@ export default function DrawerHeader() {
     const userPic = user.profile.imgurl;
 
     return(
-    <Pressable style={styles.pressable} onPress={() => {navigation.navigate('Profile')}}>
+    <Pressable style={styles.pressable} onPress={() => {navigation.navigate('Profile', {pid:null})}}>
         <Image style={styles.image} source={userPic?{uri:userPic}:require("../../assets/favicon.png")}/>
         <Text style={styles.text}>{user.profile.firstName + " " + user.profile.lastName}</Text>
   </Pressable>)

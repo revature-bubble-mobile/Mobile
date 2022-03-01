@@ -7,9 +7,9 @@ export default function ViewUpdateProfile(props:{setShowModal: Function, setShow
 
 
     return(
-        <View style={{flex:0.5,backgroundColor:'white', flexDirection:'row', padding:10, borderRadius:10, marginTop:Dimensions.get('window').height/15}}>
+        <View style={{flex:1,backgroundColor:'white', flexDirection:'row', padding:10, borderRadius:10, marginTop:Dimensions.get('window').height/15}}>
                     
-            <View style={{flex:0.3,backgroundColor:'lightblue',justifyContent:'center', borderBottomLeftRadius:10, borderTopLeftRadius:10}}>
+            <View style={{flex:0.3,backgroundColor:'#72A4C2',justifyContent:'center', borderBottomLeftRadius:10, borderTopLeftRadius:10}}>
                 <Text style={{textAlign:'center'}}>Profile Pic</Text>
                 <Text style={{textAlign:'center'}}>Change</Text>
             </View> 

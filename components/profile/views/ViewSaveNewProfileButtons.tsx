@@ -5,14 +5,14 @@ export default function ViewSaveNewProfileButtons(props: {
   setShowModal: Function;
   setShowParent: Function;
 }) {
-  const { setShowModal, setShowParent, updateProfile } = props;
+  const { setShowModal, setShowParent, updateProfile } = props; 
 
   return (
     <View style={{ flexDirection: 'row' }}>
       <Pressable
         testID='cancel-btn'
         style={{
-          backgroundColor: 'dimgrey',
+          backgroundColor: '#474C55',
           borderRadius: 10,
           marginRight: 10,
         }}
@@ -25,7 +25,7 @@ export default function ViewSaveNewProfileButtons(props: {
       <Pressable
         testID='update-btn'
         style={{
-          backgroundColor: 'dimgrey',
+          backgroundColor: '#474C55',
           borderRadius: 10,
           marginLeft: 10,
         }}
