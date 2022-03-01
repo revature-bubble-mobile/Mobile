@@ -15,8 +15,6 @@ export default function ProfileView(props: { route: any }) {
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
   
   function checkUser(): boolean {
-    console.log('tempuser ID:',  tempUser.profile.pid);
-    console.log('route id', pid);
     return tempUser?.profile?.pid === pid; 
   }
   

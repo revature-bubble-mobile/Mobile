@@ -4,7 +4,7 @@ import { TextInput,  Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Profile from '../../../dtos/profile';
 import firebaseEndpoint from '../../../endpoints';
-import { User } from '../../../store';
+import { actions, User } from '../../../store';
 import ViewSaveNewProfileButtons from '../views/ViewSaveNewProfileButtons';
 
 export default function UpdateProfileInputs(props: {
@@ -33,8 +33,8 @@ export default function UpdateProfileInputs(props: {
         );
         response = await axios.get(`${firebaseEndpoint}profile/${currentUser.profile.pid}.json`)
         const profile: Profile = response.data;
-        dispatch({ type: 'user', payload: profile });
-        console.log(profile)
+        const action = actions.setUser(profile);
+        dispatch(action);
       } catch (error) {
         Alert.alert(`Error: ${error}`);
       }
