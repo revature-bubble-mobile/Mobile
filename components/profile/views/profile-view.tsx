@@ -15,38 +15,38 @@ export default function ProfileView(props: { route: any }) {
   const [currentUser, setCurrentUser] = useState<User>(tempUser);
   
   function checkUser(): boolean {
-    console.log('tempuser ID:',  tempUser.profile.pid);
-    console.log('route id', pid);
     return tempUser?.profile?.pid === pid; 
   }
   
   useEffect(() => {
     httpSetUser()
-  }, [pid]);
+  }, [pid ,tempUser]);
+
 
   async function httpSetUser() {  
-
     //if user is the logged in user
     if(checkUser()) {
-      
+      //const updateUser: User = useSelector((state: User) => state);
       setCurrentUser(tempUser);
-      return;
-    } else {
-
-        //otherwise, get the other user's profile
-        try {
-            const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${pid}.json`);
-            const profile: Profile = response.data;
-            const user: User = {
-            profile
-            };
-            setCurrentUser(user);
-        } catch(error) {
-            
-            setCurrentUser(tempUser);
-            return;
-        }
+      console.log("found user")
+      return
     }
+    else{
+       //otherwise, get the other user's profile
+       try {
+        const response: AxiosResponse = await axios.get(`${firebaseEndpoint}profile/${pid}.json`);
+        const profile: Profile = response.data;
+        const user: User = {
+        profile
+        };
+        setCurrentUser(user);
+        } catch(error) {
+        setCurrentUser(tempUser);
+    }
+    console.log("http user")
+    }
+    console.log("end function")
+
   }
 
   function SelectComponent() {
@@ -81,12 +81,20 @@ export default function ProfileView(props: { route: any }) {
     }
 
   }
-  return (<>
-      
-    {/* TOP HALF */}
-    <View style={{ flex: 0.3, backgroundColor: 'white', padding: 10 }}>
 
-        {/* TOP UPPER QUARTER */}
+  function getDisplayName():string{
+    const tempFirst = currentUser?.profile?.firstName ?? '';
+    const tempLast = currentUser?.profile?.lastName ?? '' ;
+    return `${tempFirst} ${tempLast }`
+  }
+
+  function getDisplayEmail():string{
+    return currentUser?.profile?.email ?? 'Profile Deleted';
+  }
+
+  return (<>
+      {/* TOP HALF */}
+      <View style={{ flex: 0.3, backgroundColor: 'white', padding: 10 }}>
         <View
             style={{
             flex: 0.6,
@@ -130,8 +138,17 @@ export default function ProfileView(props: { route: any }) {
             alignItems: 'center',
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
-            }}>
-          
+          }}>
+          <Text
+            testID='name-textbox'
+            style={{
+              color: 'white',
+            }}>{getDisplayName()}</Text>
+          <Text
+            testID='email-textbox'
+            style={{
+              color: 'white',
+            }}>{getDisplayEmail()}</Text>
           <Image
             resizeMode='center'
             style={{
@@ -155,6 +172,6 @@ export default function ProfileView(props: { route: any }) {
         <ViewPostsOrFollowers />
     </View>
     
-    </>
-  );
+
+  </>);
 }

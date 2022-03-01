@@ -52,7 +52,7 @@ return (<Provider store={store}>
             </DrawerContentScrollView>
           )}}>
             <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="home" size={30}/>}} name="Home" component={HomeView} />
-            <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="drivers-license-o" size={25}/>}} name="Profile" component={ProfileView} />
+            <Drawer.Screen options={{drawerIcon:()=><FontAwesome name="drivers-license-o" size={25}/>}} name="Profile" component={ProfileView}  />
           </Drawer.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />

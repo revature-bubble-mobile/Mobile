@@ -4,7 +4,7 @@ import { TextInput,  Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Profile from '../../../dtos/profile';
 import firebaseEndpoint from '../../../endpoints';
-import { User } from '../../../store';
+import { actions, User } from '../../../store';
 import ViewSaveNewProfileButtons from '../views/ViewSaveNewProfileButtons';
 
 export default function UpdateProfileInputs(props: {
@@ -27,17 +27,20 @@ export default function UpdateProfileInputs(props: {
       return;
     } else {
       try {
-        const response: AxiosResponse = await axios.patch(
+        let response: AxiosResponse = await axios.patch(
           `${firebaseEndpoint}profile/${currentUser.profile.pid}.json`,
-          { firstname: fName, lastname: lName, email: email }
+          { firstName: fName, lastName: lName, email: email }
         );
+        response = await axios.get(`${firebaseEndpoint}profile/${currentUser.profile.pid}.json`)
         const profile: Profile = response.data;
-        dispatch({ type: 'user', payload: profile });
+        const action = actions.setUser(profile);
+        dispatch(action);
       } catch (error) {
         Alert.alert(`Error: ${error}`);
       }
     }
   }
+
 
   return (
     <>
@@ -62,7 +65,7 @@ export default function UpdateProfileInputs(props: {
       <ViewSaveNewProfileButtons
         updateProfile={updateProfile}
         setShowModal={setShowModal}
-        setShowParent={setShowParent}
+        setShowParent={ setShowParent}
       />
     </>
   );
