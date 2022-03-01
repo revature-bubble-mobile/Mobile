@@ -39,11 +39,11 @@ export function CreatePost(props:{getter?: Function}) {
     const [inputTextClicked, setInputTextClicked] = useState(false);
 
     return (<Card containerStyle={styles.container} wrapperStyle={styles.wrapperContainer}  >
-        {/* <View style={{ alignItems: 'center' }}> */}
+        <View style={{ alignItems: 'center' }}>
             <View style={[styles.inputContainer, { borderWidth: inputTextClicked ? 1 : 0 }]}>
                 <GetTextInput inputTxt={inputTxt} setInputTxt={setInputTxt} setInputTextClicked={setInputTextClicked} inputTextClicked={inputTextClicked} pan={pan} />
             </View>
-        {/* </View> */}
+        </View>
         <View style={{ alignItems: 'flex-end', marginRight: "2%", marginTop: '2%' }}>
             <Button buttonStyle={styles.postBtn} onPress={post} title="Post" titleStyle={styles.postTxt} />
         </View>
@@ -89,9 +89,9 @@ export function GetTextInput(props: { inputTxt: string, setInputTxt: Function, s
     return (<>
         <TextInput
             numberOfLines={noLines}
-            multiline={true}
+            multiline
             value={inputTxt === '' ? undefined : inputTxt}
-            style={{ textAlignVertical: 'top', padding: 2, minHeight: 50 }}
+            style={{ textAlignVertical: 'top', padding: 2 }}
             onPressIn={_ => setInputTextClicked(true)}
             onEndEditing={_ => setInputTextClicked(false)}
             onChangeText={t => setInputTxt(t)}
