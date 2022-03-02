@@ -1,16 +1,18 @@
 # Startup Guide for Bubble Mobile
 
 ## A React Native Mobile Application
-
+---
 ## Github Repo
 - [Link to the mobile front end for Bubble App](https://github.com/revature-bubble-mobile/Mobile)
 
 ## Requirements
+---
 1. Node.JS
 2. Expo CLI
 3. Mobile phone with Expo Mobile installed ***OR*** Android Studio Emulator
 
 ## Installations
+---
 1. Install Node Package Manager to your local machine
     ```
     npm install -g npm
@@ -32,6 +34,7 @@
     - Run the downloaded file and follow installation instructions
 
 ## How to use Expo CLI with Expo Mobile App (**Mobile Device and Local machine on same network**)
+---
 1. Open a terminal in either VScode or from the project directory
 2. Start the app with either command:
     ```
@@ -52,6 +55,7 @@
 5. Your camera will open. Scan the QR code in the terminal and wait for the bundling to complete, and the app should open on your mobile device!
 
 ## How to use Expo CLI with Expo Mobile App (**Mobile Device and Local machine on different networks**)
+---
 1. Open a terminal in either VScode or from the project directory
 2. Start the app with either command:
     ```
@@ -82,6 +86,7 @@
     - *This QR code can be scanned by others through a screenshare as well, as the connection is now public through ngrok*
 
 ## How to use Expo CLI with Android Studio Emulator
+---
 1. Open a terminal in either VScode or from the project directory
 2. Start the app with either command:
     ```
