@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FlatList, Image, StyleSheet, TextInput, View, Keyboard, Animated } from "react-native";
 import firebaseEndpoint, { azureEndpoint } from "../../endpoints";
 import CommentItem from "./comment-item";
@@ -21,7 +21,7 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 
     function increasePadding(){
         Animated.timing(paddingAnim, {
-            toValue: 280,
+            toValue: 230,
             duration: 400,
             useNativeDriver: false
         }).start();
@@ -61,13 +61,9 @@ export default function CommentView(props: {postId: string, setNumComments: Func
     },[])
 
     async function postComment(){
-        console.log(comments);
-        console.log(newComment);
         if(!newComment) {
-            console.log("no comment");
             alert("Comment field cannot be empty...")
         } else {
-            console.log("test2");
             const comment = {
                 cid: "",
                 writer: currentUserPid,
@@ -84,7 +80,6 @@ export default function CommentView(props: {postId: string, setNumComments: Func
             })
             comments.push(comment);
             setComments([...comments]);
-            console.log("test3");
             props.setNumComments(comments.length);
             props.setUserCommented(true);
         }
@@ -115,7 +110,7 @@ const styles = StyleSheet.create({
     
     container:{
         width: "100%",
-        height: '82%',
+        height: '90%',
     },
     replyList: {
         marginBottom:25,
