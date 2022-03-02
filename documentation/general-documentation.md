@@ -293,6 +293,7 @@ Currently, there is no implementation for JWTs which the Web version received fr
 ---
 
 Bubbl(e) Mobile includes the following features:
+
 | Feature | Description |
 | ------------ | ----------- |
 | Login | A user can log in with a username and password. New users can also register a new account. |
@@ -316,9 +317,13 @@ Before the login page is displayed within the app.tsx, some logic is implemented
 
 From within the login screen, several options are presented: login, registration, and forgot password. An alert will pop up if the user does not provide valid credentials. If valid credentials are found on the server, this information will be stored within AsyncStorage, the redux store will be updated, and the app will render the home page first. The registration page will pop up as a model for a user to send new credentials to the server. If the user already exists within the database when trying to create a user, they will be redirected in the app. The Registration page will display a _“terms and condition page”_ of what needs to be accepted before proceeding. The terms and conditions are within a component that would need to be changed; Currently, a placeholder text has been inserted for testing purposes.
 
-"Forget password" is not currently implemented. It is intended that the user would be redirected to another website to handle updating user credentials. This was implemented to offload authentication to a third-party system if needed. Otherwise, creating another component with a model would need to be done.
+"Forgot password" is not currently implemented. It is intended that the user would be redirected to another website to handle updating user credentials. This was implemented to offload authentication to a third-party system if needed. Otherwise, creating another component with a model would need to be done.
 
 When logging out, a button was implemented on the Draw Navigation that would clear the AsyncStorage and redirect the user to the login page.
+
+*Not Implemented*
+- terms and conditions page
+- forgot password (change pw)
 
 **Draw Navigation**
 
