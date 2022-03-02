@@ -21,7 +21,7 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 
     function increasePadding(){
         Animated.timing(paddingAnim, {
-            toValue: 230,
+            toValue: 0,
             duration: 400,
             useNativeDriver: false
         }).start();
@@ -96,9 +96,11 @@ export default function CommentView(props: {postId: string, setNumComments: Func
             }
             <View style={styles.commentView}>
             <Text style={styles.enterCommentLabel}>Enter your comment:</Text>
-            <View style={{flexDirection:"row",width:"85%"}}>
-                <Image style={styles.repliesImage} source={require("../../assets/favicon.png")} />
-                <TextInput onPressIn={increasePadding} onEndEditing={decreasePadding} onBlur={decreasePadding} placeholder={"Add comment..."} onChangeText={t => setNewComment(t)}/>
+            <View>
+                <View style={{flexDirection:"row",width:"85%"}}>
+                    <Image style={styles.repliesImage} source={require("../../assets/favicon.png")} />
+                    <TextInput multiline numberOfLines={2} onPressIn={increasePadding} onEndEditing={decreasePadding} onBlur={decreasePadding} placeholder={"Add comment..."} onChangeText={t => setNewComment(t)}/>
+                </View>
             </View>
             <Pressable onPress={postComment} style={styles.postButton}><Text style={styles.postButtonText}>Post</Text></Pressable>
             </View>
@@ -109,8 +111,9 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 const styles = StyleSheet.create({
     
     container:{
+        flex:1,
         width: "100%",
-        height: '90%',
+        alignSelf:"flex-end"
     },
     replyList: {
         marginBottom:25,

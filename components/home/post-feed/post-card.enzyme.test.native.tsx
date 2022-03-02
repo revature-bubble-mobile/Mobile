@@ -6,6 +6,13 @@ import { Gesture } from "react-native-gesture-handler";
 import Post from "../../../dtos/post"
 import Profile from "../../../dtos/profile";
 import PostCard from "./post-card";
+import * as redux from 'react-redux';
+
+const spy = jest.spyOn(redux, 'useSelector');
+spy.mockReturnValue({pid: "test"});
+
+jest.mock('@react-navigation/native');
+global.fetch = jest.fn().mockReturnValue(new Promise(() => ({json:{}})));
 
 
 const profile: Profile = {

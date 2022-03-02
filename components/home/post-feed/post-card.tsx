@@ -55,9 +55,13 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
     }, [props.refresh])
 
 
-    const postDate = new Date(post.datePosted)
-    const amPm = (postDate.getHours() / 12 >= 1) ? "PM" : "AM";
-    const postDateString = `${postDate.toLocaleDateString()} ${postDate.getHours() > 12 ? postDate.getHours() - 12 : postDate.getHours()}:${postDate.getMinutes()}`;
+    function formatDate(oldDate: Date): string{
+        const newDate = new Date(oldDate);
+        const amPm = (newDate.getHours() / 12 >= 1) ? "PM" : "AM"; 
+        const minutes = newDate.getMinutes() < 10 ? "0" + newDate.getMinutes() : newDate.getMinutes();
+        const date = `${newDate.toLocaleDateString()} ${newDate.getHours() > 12 ? newDate.getHours() - 12 : newDate.getHours()}:${minutes} ${amPm}`;
+        return date;
+    }
 
 
     return (<View>
@@ -71,7 +75,7 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
                     <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
                 </Pressable>
             </View>
-            <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
+            <Text style={styles.dateText}>{post.datePosted ? `${formatDate(post.datePosted)}` : "(invalid date)"}</Text>
             <View style={styles.postBody}>
                 <Text
                 >{post.body ? post.body : "<failed to load>"}
@@ -112,7 +116,7 @@ export default function PostCard(props: { post: Post, profiles: Profile[], refre
                         <Text style={styles.profileName}>{authorProfile?.username ?? "not found"}</Text>
                     </Pressable>
                 </View>
-                <Text style={styles.dateText}>{post.datePosted ? `${postDateString} ${amPm}` : "(invalid date)"}</Text>
+                <Text style={styles.dateText}>{post.datePosted ? `${formatDate(post.datePosted)}` : "(invalid date)"}</Text>
                 <View style={styles.postBody}>
                     <Text
                     >{post.body ? post.body : "<failed to load>"}
@@ -187,12 +191,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     commentsView: {
-        height: '85%',
+        flex:1,
     },
     overlay: {
-        height: "90%",
         width: "90%",
         borderRadius: 15,
+        flex: 0.9,
+        flexDirection:"column",
     },
     closeButton: {
         alignSelf: "flex-end",
