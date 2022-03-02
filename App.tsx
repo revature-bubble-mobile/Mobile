@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { LogBox, StyleSheet, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -19,6 +19,8 @@ import DrawerLogout from './components/drawer/drawer-logout';
 import DrawerFooter from './components/drawer/drawer-footer';
 
 const Drawer = createDrawerNavigator();
+
+LogBox.ignoreAllLogs()
 
 export default function App() {
   const [verification, setVerification] = useState<boolean>(false);
