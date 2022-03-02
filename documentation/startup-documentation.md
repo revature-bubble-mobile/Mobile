@@ -114,6 +114,7 @@
 
 9. Run an Android emulator.
     #### *To run an Android Emulator, click the play symbol next to the one you want to use from the AVD Manager window:*
+    #### *If none have been created yet, click create virtual device near the bottom, select hardware and OS version*
 
     ![Emulator Select](doc-screenshots\emulatorselect.webp)
 
