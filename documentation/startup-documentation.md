@@ -5,6 +5,11 @@
 ## Github Repo
 - [Link to the mobile front end for Bubble App](https://github.com/revature-bubble-mobile/Mobile)
 
+## Requirements
+1. Node.JS
+2. Expo CLI
+3. Mobile phone with Expo Mobile installed ***OR*** Android Studio Emulator
+
 ## Installations
 1. Install Node Package Manager to your local machine
     ```
