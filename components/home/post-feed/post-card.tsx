@@ -191,12 +191,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     commentsView: {
-        height: '85%',
+        flex:1,
     },
     overlay: {
-        height: "90%",
         width: "90%",
         borderRadius: 15,
+        flex: 0.9,
+        flexDirection:"column",
     },
     closeButton: {
         alignSelf: "flex-end",
