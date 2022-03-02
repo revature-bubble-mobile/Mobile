@@ -128,8 +128,7 @@ const objectReturned = {pid:string, username, password, followers[],likes[]}.
 
 ```
 
-\*\*Note: none of the data under profiles is consistent with all same the properties.
-Ideally, the same data would be saved for all entries. However, checking on the front end may be useful to avoid unexpected errors.
+\*\*Note: none of the data under profiles has consistent properties. Ideally, the same data would be saved for all entries. However, checking on the front end may be useful to avoid unexpected errors.
 Currently, to interact with all data within Firebase, no matter the type, the crud operations all work the same. _Note: All routes must have *.json* appended to the end for Firebase to work properly!_
 
 #### **get request:**
@@ -303,40 +302,45 @@ Bubbl(e) Mobile includes the following features:
 | Create a post | Users can create a new post that contributes to the main feed all users will see. |
 | Comments | Users can comment on posts made by previous users.|
 
-## App Implementation (Developer Notes)
+## Feature Implementation
 
 Each head under this section describes how particular features and systems interact together.
 
-### **Session Management**
+**Session Management**
 
 All session management is handled by using the Redux toolkit. All profile information is stored within an entity called _user_ which contains a _profile_ that is defined within the _dtos_ folder. This user profile should be available to all components from the redux store globally. It is set by the login screen when first trying to log in open the app or by the registration component when creating an account. The main reducer used is _setProfile._ The action to use can be exported directly from the _store.ts_.
 
-### **Login, logout and registration Page**
+**Login, Logout and Registration Page**
 
-Before the login page is displayed, within the app.ts, some logic is implemented to check if any user data is stored using AsyncStorage. If so, that data will be used and the login screen will be bypassed. If no data is presented the login screen will then be rended.
+Before the login page is displayed within the app.tsx, some logic is implemented to check if any user data is stored using AsyncStorage. If so, that data will be used and the login screen will be bypassed. If no data is presented the login screen will then be rendered.
 
-From within the login screen, several options are presented: login, registration, and forgot password. An alert will pop up if the user does not provide valid credentials. If valid credentials are found on the server, this information will be stored within AsyncStorage, the redux store will be updated and the app will render the home page first. The registration page will pop up as a model for a user to send new credentials to the server. If the user already exists within the database when trying to create a user, they will be redirected in the app. The Registration page will pop up a _“terms and condition page”_ of what needs to be accepted before proceeding. The terms and conditions are within a component that would need to be changed, currently, placeholder text has been inserted for testing purposes.
+From within the login screen, several options are presented: login, registration, and forgot password. An alert will pop up if the user does not provide valid credentials. If valid credentials are found on the server, this information will be stored within AsyncStorage, the redux store will be updated, and the app will render the home page first. The registration page will pop up as a model for a user to send new credentials to the server. If the user already exists within the database when trying to create a user, they will be redirected in the app. The Registration page will display a _“terms and condition page”_ of what needs to be accepted before proceeding. The terms and conditions are within a component that would need to be changed; Currently, a placeholder text has been inserted for testing purposes.
 
-"Forget password" is not currently implemented. It is intended that the user would be redirected to another website to handle updating user credentials. This was implemented to offload authentication to a third-party system if needed. If not, then potentially creating another component with a model would need to be done.
+"Forget password" is not currently implemented. It is intended that the user would be redirected to another website to handle updating user credentials. This was implemented to offload authentication to a third-party system if needed. Otherwise, creating another component with a model would need to be done.
 
 When logging out, a button was implemented on the Draw Navigation that would clear the AsyncStorage and redirect the user to the login page.
 
-### Draw Navigation
+**Draw Navigation**
 
-React Native Drawer Navigation was used for all navigation between pages after the login was successful. There are currently three main navigation options. The first one is the user profile page of the user logged in. When profile image can be clicked on to navigate the profile page directly. The profile option can also be selected to navigate to the last view profile (see profile page section). The home page option will navigate the user to the home page (see home page section). The last option will log out the user, this will clear the session storage which will cause the app.ts to render the login page directly.
+React Native Drawer Navigation was used for all navigation between pages after the login was successful. There are currently three main navigation options. The first one is the user profile page of the logged in user. The profile image can be clicked to navigate to the profile page directly. The profile option can also be selected to navigate to the last viewed profile (see profile page section). The home page option will navigate the user to the home page (see home page section). The last option will log out the user. This will clear the session storage and cause app.tsx to render the login page directly once again.
 
-### home page
+**Home Page**
 
 The home page is an endless feed showing all comments from any user. From here a user can see the contents of any post. They can also click on a post and view the profile of the user who created it, including their own (see Post and Comments Section).
 
-### profile page
+**Profile Page**
 
-The profile page is a component that holds many other components. This component has two different functions that can be switched between. It requires a prop of the pid of the user to display. If this pid is the same as the pid of the user login (the local user), which is stored in the redux store, then options for that user will be displayed. If it is not this user then it will display different options for a different user that is being viewed.
+The profile page is a component that holds many other components. This component has two different functions that can be switched between. It requires a prop of the pid of the user to display. If this pid is the same as the pid of the user login (the local user), which is stored in the redux store, then options for that user will be displayed. If it is not the logged in user, then it will display alternative options.
 
-If the local user's profile, then a component will be displayed to update the user information. They can update their name and password as needed. These changes will be made within the redux store as well as on the backend. If it is not the local user's profile, then the option to follow this user will be displayed. This functionality is not implemented but a placeholder text will be visible.
+For the local user's profile a component will be displayed to update the user information. They can update their name and email as needed. These changes will be made within the redux store as well as on the backend. If it is not the local user's profile, then the option to follow this user will be displayed. This functionality is not implemented, but a placeholder text will be visible.
 
-Below this, the default feed will be displayed. In feature development, the post in the feed should be filtered to only display the post from the user being viewed. Because of time constraints and limitations with the backend, this could not be a compliment.
+Below this, the default feed will be displayed. In feature development, the post in the feed should be filtered to only display the post from the user being viewed. Because of time constraints and limitations with the backend, this could not be implemented.
 
-### Default feed, Post and Comments
+*Not Implemented*
+- followers list
+- posts specific to user (default feed displayed instead)
+- follow user
 
-The default feed is a component that holds all posts. To create a post, a user has to navigate to their profile page. Once there they can create a post. The post component is set up to allow for multiline text to be included with no limit on how long a post can be. The post component can be resized so the user can have more access to see the text as needed. Once a post has been created, any user can make a comment on a single post. the comment component can allow for comments that can only be "two-layer deep"; meaning users can only comment on a post and comment on an initial comment directly, but not continue into a thread. The comment component handles all logic for creating new comments.
+**Default Feed, Post and Comments**
+
+The default feed is a component that holds all posts. To create a post, a user has to navigate to their profile page. Once there they can create a post. The post component is set up to allow for multiline text to be included with no limit on how long a post can be. The post component can be resized so the user can have more access to see the text as needed. Once a post has been created, any user can make a comment on a single post. The comment component can allow for comments that can only be "two-layers deep"; meaning users can only comment on a post and then comment on that initial comment. The comment component handles all logic for creating new comments.
