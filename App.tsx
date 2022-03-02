@@ -20,8 +20,6 @@ import DrawerFooter from './components/drawer/drawer-footer';
 
 const Drawer = createDrawerNavigator();
 
-LogBox.ignoreAllLogs()
-
 export default function App() {
   const [verification, setVerification] = useState<boolean>(false);
 
