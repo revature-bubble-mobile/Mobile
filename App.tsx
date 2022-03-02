@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { LogBox, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
