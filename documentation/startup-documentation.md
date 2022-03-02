@@ -9,7 +9,7 @@
 ---
 1. Node.JS
 2. Expo CLI
-3. Mobile phone with Expo Mobile installed ***OR*** Android Studio Emulator
+3. Mobile device with Expo Mobile installed ***OR*** Android Studio Emulator
 
 ## Installations
 ---
