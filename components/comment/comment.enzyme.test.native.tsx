@@ -8,6 +8,10 @@ import { FlatList, Pressable } from "react-native"
 import * as redux from 'react-redux'
 import Profile from "../../dtos/profile"
 
+jest.mock('@react-navigation/native');
+const spy = jest.spyOn(redux, 'useSelector');
+spy.mockReturnValue("test");
+
 const testPost: Post = {creator: "test-post", psid: "test-profile", body: "Test Message", datePosted: new Date()}
 const testComment: Comment = {cid: "123", writer: "test-profile", post: "test-post", message: "Test Comment 1", dateCreated: new Date()}
 const testComments: Comment[] = [
@@ -64,11 +68,12 @@ describe("Comment tests", ()=>{
 
         jest.spyOn(React, "useEffect").mockImplementation(jest.fn());
 
-        React.useState = jest.fn()
+        jest.spyOn(React, 'useState')
+            //@ts-ignore
             .mockImplementationOnce(()=>[comments, setComments])
             .mockImplementationOnce(()=>[replies, ()=>{}])
-            .mockImplementationOnce(()=>[newComment, ()=>{}])
-
+            .mockImplementationOnce(()=>[newComment, ()=>{}]);
+        
         const spy = jest.spyOn(redux, 'useSelector');
         spy.mockReturnValue({pid: "test"});
 
@@ -97,9 +102,6 @@ describe("Comment tests", ()=>{
             .mockImplementationOnce(()=>[userProfile, ()=>{}])
             .mockImplementationOnce(()=>[isReplyPressed, ()=>{}])
             .mockImplementationOnce(()=>[newReply, ()=>{}])
-
-        const spy = jest.spyOn(redux, 'useSelector');
-        spy.mockReturnValue("test");
 
         const wrapper = shallow(<CommentItem {...testComment} replies={testReplies} setReplies={setReplies}/>);
         const pressable = wrapper.find(Pressable).at(1);

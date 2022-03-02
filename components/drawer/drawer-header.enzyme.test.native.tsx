@@ -12,7 +12,7 @@ jest.mock('@react-navigation/native', () => {
     return {
         ...actualNav,
         useNavigation: () => ({
-        navigate: mockedNavigate,
+            navigate: mockedNavigate,
         }),
     };
 });
@@ -30,6 +30,6 @@ describe("Testing the Drawer Header Component",()=>{
         const onPress = pressable.prop("onPress");
         //@ts-ignore
         onPress();
-        expect(mockedNavigate).toHaveBeenCalledWith('Profile');
+        expect(mockedNavigate).toHaveBeenCalledWith('Profile', {pid:null});
     });
 });
