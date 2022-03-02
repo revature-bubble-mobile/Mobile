@@ -21,7 +21,7 @@ export default function CommentView(props: {postId: string, setNumComments: Func
 
     function increasePadding(){
         Animated.timing(paddingAnim, {
-            toValue: 230,
+            toValue: 280,
             duration: 400,
             useNativeDriver: false
         }).start();
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     
     container:{
         width: "100%",
-        height: '90%',
+        height: '82%',
     },
     replyList: {
         marginBottom:25,
