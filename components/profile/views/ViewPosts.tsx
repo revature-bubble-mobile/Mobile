@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { View, Text, FlatList, Dimensions } from "react-native";
 import firebaseEndpoint from "../../../endpoints";
 import { CreatePost } from "../../create-post/create-post";
+import PostFeedView from "../../home/post-feed/post-feed-view";
 
 export default function ViewPosts(){
 
@@ -29,15 +30,9 @@ export default function ViewPosts(){
             </View>
             <View style={{height:'88%'}}>
             <View style={{backgroundColor:'#B9B9BA', alignItems:'center', justifyContent:'center', borderRadius:10}}>
-                <FlatList
-                    data={postArray}
-                    renderItem= { ({item}) => (<View style={{margin:Dimensions.get("window").width/24}}><Text style={{textAlign:'center'}}>{item}</Text></View>)}    
-                    numColumns = {1}
-                    keyExtractor = {(item, index)=>{return `${item}.${index}`}}     
-                ></FlatList>
+                <PostFeedView/>
             </View>
             </View>
         </View>
     )
 }
-

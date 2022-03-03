@@ -68,8 +68,7 @@ export default function CommentItem(props: Comment & {replies: Comment[], setRep
     function formatDate(oldDate: Date): string{
         const newDate = new Date(oldDate);
         const amPm = (newDate.getHours() / 12 >= 1) ? "PM" : "AM"; 
-        const minutes = newDate.getMinutes() < 10 ? "0" + newDate.getMinutes() : newDate.getMinutes();
-        const date = `${newDate.toLocaleDateString()} ${newDate.getHours() > 12 ? newDate.getHours() - 12 : newDate.getHours()}:${minutes} ${amPm}`;
+        const date = `${newDate.toLocaleDateString()} ${newDate.getHours() > 12 ? newDate.getHours() - 12 : newDate.getHours()}:${newDate.getMinutes()} ${amPm}`;
         return date;
     }
 
